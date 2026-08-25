@@ -1,0 +1,34 @@
+# ShiftFlow reconstruido sobre SDAF.
+# Pack .NET activo; importación de producto desde ShiftFlow-sdaf-extract (fase siguiente).
+
+sdaf:
+  version: "0.2.0"
+
+project:
+  name: ShiftFlow
+  language: es
+
+stack:
+  pack: sdaf-stack-dotnet@0.1.0
+  src_path: src
+  tests_path: tests
+
+agents:
+  active:
+    - specification
+    - architecture
+    - domain-application
+    - frontend
+    - testing-review
+  stubs:
+    - product
+    - domain
+    - application
+    - infrastructure
+    - devops
+    - review
+    - testing
+    - ai
+  fusions:
+    testing-review: [testing, review]
+    domain-application: [domain, application]

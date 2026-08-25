@@ -1,0 +1,6 @@
+[submodule "sdaf-core"]
+	path = sdaf-core
+	url = https://github.com/Cyberdine-Systems-Corporation/sdaf-core.git
+[submodule "sdaf-stack-dotnet"]
+	path = sdaf-stack-dotnet
+	url = https://github.com/Cyberdine-Systems-Corporation/sdaf-stack-dotnet.git
