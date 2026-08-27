@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-ACC-004 |
 | Versión | 0.1.0 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-13 |
 | Fuentes | SPEC-DOM-006 §2.3, SPEC-PRD-002 paso 8, PBI-006 |
 | ADRs relacionados | ADR-003 |
@@ -66,5 +66,6 @@ Gate 0 de implementación: criterios de dominio en SPEC-DOM-006 Approved §2.3; 
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.0 | 2026-08-13 | Approved tras revisión humana (ACC-S2-R01…R03) |

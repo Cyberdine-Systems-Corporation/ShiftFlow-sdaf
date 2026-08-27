@@ -3,7 +3,7 @@
 | Campo | Valor |
 |--------|--------|
 | **Versión** | 0.1.1 |
-| **Estado** | Draft |
+| **Estado** | Approved |
 | **Fecha** | 2026-08-05 |
 | **Parte** | V — Calidad y entrega |
 | **Norma superior** | [08-specification-standard.md](08-specification-standard.md), [09-development-workflow.md](09-development-workflow.md), [03-mvp-definition.md](03-mvp-definition.md) |

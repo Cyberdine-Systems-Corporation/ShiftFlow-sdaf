@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-DOM-006 |
 | Versión | 0.1.2 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-12 |
 | Fuentes | SPEC-PRD-001 §2.2 (C-RUL), SPEC-PRD-002 AC-03/AC-04, ADR-003, SPEC-DOM-005, `handbook/03-mvp-definition.md`, `knowledge/raw/Domain-Specs-V1.docx` (filtrado Out) |
 | ADRs relacionados | ADR-003 |
@@ -83,6 +83,7 @@ Etiqueta **Implementación: diferida (DOCX / Out MVP)**:
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.2 | 2026-08-12 | Cross-ref HR-02 → SPEC-DOM-007 / SPEC-ACC-003 (editorial) |
 | 0.1.1 | 2026-08-10 | Approved tras revisión humana |

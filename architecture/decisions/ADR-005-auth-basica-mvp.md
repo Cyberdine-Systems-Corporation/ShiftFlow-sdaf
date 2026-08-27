@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |--------|--------|
-| Estado | Propuesto |
+| Estado | Aceptado |
 | Fecha | 2026-08-09 |
 | Decisores | Architecture Agent / Director técnico |
 | Relacionado | ADR-001, ADR-004, SPEC-DOM-004, SPEC-APP-002, SPEC-ACC-001, PBI-002 |
@@ -88,5 +88,6 @@ Hasta que PBI-002 se complete, el skeleton puede seguir sin Identity; **no** se 
 
 | Fecha | Cambio |
 |-------|--------|
+| 2026-08-27 | Aprobación batch post-import (alineado sdaf-core@0.2.0 + pack@0.1.0) |
 | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Propuesto; revisar alineación con sdaf-core@0.2.0 y pack@0.1.0 |
 | 2026-08-09 | Aceptado: Identity + cookie + rol Administrator; implementación diferida a PBI-002 |

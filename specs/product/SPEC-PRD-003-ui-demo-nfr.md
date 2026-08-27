@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-PRD-003 |
 | Versión | 0.2.0 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-17 |
 | Fuentes | `handbook/03-mvp-definition.md`, `handbook/04-product-roadmap.md` (UX demo), SPEC-PRD-002 |
 | ADRs relacionados | ADR-002 (Web-only); sin librería UI externa en este alcance |
@@ -133,6 +133,7 @@ Orientación de implementación (puede evolucionar sin enmendar el journey):
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.0 | 2026-08-10 | Draft inicial NFR UI demo |
 | 0.1.1 | 2026-08-10 | Approved tras revisión humana |

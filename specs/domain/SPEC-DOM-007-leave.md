@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-DOM-007 |
 | Versión | 0.1.1 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-12 |
 | Fuentes | SPEC-PRD-001 (C-LEA, C-RUL), SPEC-PRD-002 AC-04 / paso 7, SPEC-DOM-002, SPEC-DOM-005, SPEC-DOM-006 §2.2, `handbook/03-mvp-definition.md` §4.1/§7, `handbook/11-ddd-and-bounded-contexts.md`, `handbook/12-cqrs-vertical-slices.md`, `knowledge/raw/2026-07-ShiftFlow-Plan-consolidado.md` (filtrado Out) |
 | ADRs relacionados | ADR-003, ADR-004 |
@@ -109,6 +109,7 @@ La regla de negocio **HR-02** no se duplica aquí: vive en SPEC-DOM-006 y se eva
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.1 | 2026-08-12 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-12 | Draft PBI-007 (Specification Agent) |
