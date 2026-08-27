@@ -1,0 +1,170 @@
+@page "/organizations"
+@attribute [Authorize(Roles = AuthRoles.Administrator)]
+@using ShiftFlow.Application.Auth
+@using ShiftFlow.Application.Organizations
+@using ShiftFlow.Web.Api
+@inject MastersApiClient Api
+@inject CookieContainerHolder Session
+@inject NavigationManager Navigation
+@inject WorkspaceContext Workspace
+@implements IDisposable
+
+<PageTitle>Organizaciones — ShiftFlow</PageTitle>
+
+<div class="sf-section-head">
+    <div>
+        <h1 class="sf-page-title">Organizaciones</h1>
+        <p class="sf-lede">Abre una organización para gestionar personal, tipos de turno y ajustes.</p>
+    </div>
+    <button type="button"
+            class="sf-btn sf-btn-primary sf-btn-sm"
+            disabled="@_busy"
+            @onclick="() => _showCreate = !_showCreate">
+        @(_showCreate ? "Cerrar" : "Nueva organización")
+    </button>
+</div>
+
+@if (!string.IsNullOrEmpty(_error))
+{
+    <p class="sf-alert" role="alert">@_error</p>
+}
+
+@if (_showCreate || (_items is { Count: 0 }))
+{
+    <section class="sf-panel" aria-label="Nueva organización">
+        <h2>Nueva organización</h2>
+        <div class="sf-field">
+            <label for="org-name">Nombre</label>
+            <InputText id="org-name" @bind-Value="_newName" />
+        </div>
+        <div class="sf-actions">
+            <button type="button" class="sf-btn sf-btn-primary" disabled="@_busy" @onclick="CreateAsync">
+                @(_busy ? "Creando…" : "Crear organización")
+            </button>
+        </div>
+    </section>
+}
+
+<section class="sf-section">
+    <div class="sf-section-head">
+        <h2>Listado</h2>
+        @if (_items is not null)
+        {
+            <span class="sf-badge sf-badge-muted">@_items.Count</span>
+        }
+    </div>
+
+    @if (_items is null)
+    {
+        <p class="sf-hint">Cargando organizaciones…</p>
+    }
+    else if (_items.Count == 0)
+    {
+        <div class="sf-empty">
+            <strong>Aún no hay organizaciones</strong>
+            Crea la primera para empezar a planificar.
+        </div>
+    }
+    else
+    {
+        <table class="sf-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OrganizationDto org in _items)
+                {
+                    <tr class="@(Workspace.SelectedOrganizationId == org.Id ? "sf-row-active" : null)">
+                        <td>@org.Name</td>
+                        <td>
+                            <span class="sf-status-dot @(org.IsActive ? "sf-status-dot-on" : null)">
+                                @(org.IsActive ? "Activa" : "Inactiva")
+                            </span>
+                        </td>
+                        <td>
+                            <a class="sf-btn sf-btn-ghost sf-btn-sm" href="@($"/organizations/{org.Id}")">Abrir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+@code {
+    private IReadOnlyList<OrganizationDto>? _items;
+    private string _newName = string.Empty;
+    private string? _error;
+    private bool _busy;
+    private bool _showCreate;
+    private bool _disposed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Workspace.Changed += OnWorkspaceChanged;
+        await ReloadAsync();
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        Workspace.Changed -= OnWorkspaceChanged;
+    }
+
+    private void OnWorkspaceChanged()
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ReloadAsync()
+    {
+        _error = null;
+        try
+        {
+            _items = await Api.ListOrganizationsAsync();
+            _showCreate = _items.Count == 0;
+        }
+        catch (Exception ex)
+        {
+            string authHint = string.IsNullOrWhiteSpace(Session.AccessToken)
+                ? "sin sesión Bearer"
+                : "con sesión Bearer";
+            _error = $"No se pudo cargar el listado: {ex.Message} ({authHint}).";
+            _items = [];
+            _showCreate = true;
+        }
+    }
+
+    private async Task CreateAsync()
+    {
+        _busy = true;
+        _error = null;
+        try
+        {
+            ApiResult<OrganizationDto> result = await Api.CreateOrganizationAsync(_newName);
+            if (!result.Succeeded)
+            {
+                _error = result.Error;
+                return;
+            }
+
+            _newName = string.Empty;
+            Workspace.SetOrganization(result.Value!.Id);
+            Navigation.NavigateTo($"/organizations/{result.Value.Id}");
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+}

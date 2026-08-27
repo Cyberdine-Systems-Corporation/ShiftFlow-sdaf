@@ -6,7 +6,7 @@
 | Prioridad | Infra transversal (habilita C-LOC sin reset rutinario) |
 | Specs | SPEC-PRD-001 (C-LOC), ADR-001, ADR-004, **ADR-007** (Propuesto) |
 | DoD | Baseline `InitialCreate`; `MigrateAsync` en Postgres; SQLite de tests con `EnsureCreated`; runbook actualizado; tests verdes |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -43,3 +43,9 @@ No cambia capacidades de producto; cierra el diferido de ADR-004 «Migraciones E
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

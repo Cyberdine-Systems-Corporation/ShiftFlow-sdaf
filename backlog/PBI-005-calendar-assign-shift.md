@@ -6,7 +6,7 @@
 | Prioridad | 5 |
 | Specs | [SPEC-DOM-005](../specs/domain/SPEC-DOM-005-shift-assignment-calendar.md), [SPEC-DOM-006](../specs/domain/SPEC-DOM-006-rule-engine-v1.md) (HR-01), [SPEC-APP-003](../specs/application/SPEC-APP-003-calendar-assign-use-cases.md), [SPEC-ACC-002](../specs/acceptance/SPEC-ACC-002-calendar-assign.md) — **Draft**; SPEC-PRD-001/002 (C-CAL, C-ASN), ADR-003 |
 | DoD | Calendario mensual + AssignShift vía Scheduling Engine (+ rechazo solape HR-01) |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -23,3 +23,9 @@ Vista mensual y asignación manual de turnos (sin optimización).
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

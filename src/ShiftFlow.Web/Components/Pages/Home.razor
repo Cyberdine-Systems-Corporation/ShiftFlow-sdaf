@@ -1,0 +1,123 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+@using ShiftFlow.Application.Auth
+@using ShiftFlow.Application.Organizations
+@using ShiftFlow.Web.Api
+@inject IHttpClientFactory HttpClientFactory
+@inject MastersApiClient Api
+@inject WorkspaceContext Workspace
+@implements IDisposable
+
+<PageTitle>ShiftFlow</PageTitle>
+
+<AuthorizeView Roles="@AuthRoles.Administrator">
+    <Authorized>
+        <h1 class="sf-page-title">Planificación</h1>
+        <p class="sf-lede">
+            Configura el personal y los tipos de turno, asigna en el calendario mensual
+            y registra ausencias cuando hagan falta.
+        </p>
+
+        @if (_currentOrgName is not null)
+        {
+            <p class="sf-hint">Organización activa: <strong>@_currentOrgName</strong></p>
+        }
+
+        <div class="sf-status-row" aria-live="polite">
+            @if (_apiStatus is null && _error is null)
+            {
+                <span class="sf-hint">Comprobando API…</span>
+            }
+            else if (_error is not null)
+            {
+                <span class="sf-badge sf-badge-danger">API no disponible</span>
+                <span class="sf-hint">@_error</span>
+            }
+            else
+            {
+                <span class="sf-badge">API lista</span>
+            }
+        </div>
+
+        <div class="sf-cta-row">
+            <a class="sf-btn sf-btn-primary" href="/calendar">Abrir calendario</a>
+            <a class="sf-btn sf-btn-secondary" href="/organizations">Organizaciones</a>
+            <a class="sf-btn sf-btn-secondary" href="/leaves">Ausencias</a>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1 class="sf-page-title">ShiftFlow</h1>
+        <p class="sf-lede">
+            Planificación de turnos con reglas visibles. Entra para administrar el demo local.
+        </p>
+        <div class="sf-cta-row">
+            <a class="sf-btn sf-btn-primary" href="/login">Iniciar sesión</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private string? _apiStatus;
+    private string? _error;
+    private string? _currentOrgName;
+    private IReadOnlyList<OrganizationDto> _orgs = [];
+    private bool _disposed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Workspace.Changed += OnWorkspaceChanged;
+
+        try
+        {
+            HttpClient client = HttpClientFactory.CreateClient("api");
+            using HttpResponseMessage response = await client.GetAsync("/api/status");
+            response.EnsureSuccessStatusCode();
+            _apiStatus = "ok";
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+
+        try
+        {
+            _orgs = await Api.ListOrganizationsAsync();
+            ApplyCurrentOrgName();
+            if (_orgs.Count > 0 && Workspace.SelectedOrganizationId is null)
+            {
+                Workspace.SetOrganization(_orgs[0].Id);
+            }
+        }
+        catch
+        {
+            // Sin sesión o API caída: el briefing autenticado ya muestra el estado de API.
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        Workspace.Changed -= OnWorkspaceChanged;
+    }
+
+    private void OnWorkspaceChanged()
+    {
+        ApplyCurrentOrgName();
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private void ApplyCurrentOrgName()
+    {
+        Guid? selected = Workspace.SelectedOrganizationId;
+        OrganizationDto? current = selected is Guid id
+            ? _orgs.FirstOrDefault(o => o.Id == id)
+            : _orgs.FirstOrDefault();
+        _currentOrgName = current?.Name;
+    }
+}

@@ -5,3 +5,26 @@ Desktop.ini
 .idea/
 *.user
 *.log
+# Visual Studio / VS Code
+.vscode/
+*.suo
+
+# Build
+bin/
+obj/
+artifacts/
+*.dll
+*.pdb
+*.exe
+# .NET
+*.userosscache
+project.lock.json
+TestResults/
+# Secrets / local
+appsettings.*.local.json
+**/secrets.json
+.env
+.env.*
+# OS
+# Local tooling (no publicar)
+tools/VarRewriter/
