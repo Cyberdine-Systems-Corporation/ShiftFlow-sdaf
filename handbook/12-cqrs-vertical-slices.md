@@ -3,7 +3,7 @@
 | Campo | Valor |
 |--------|--------|
 | **Versión** | 0.1.1 |
-| **Estado** | Draft |
+| **Estado** | Approved |
 | **Fecha** | 2026-08-05 |
 | **Parte** | III — Arquitectura |
 | **Norma superior** | [10-solution-architecture.md](10-solution-architecture.md), [11-ddd-and-bounded-contexts.md](11-ddd-and-bounded-contexts.md) |

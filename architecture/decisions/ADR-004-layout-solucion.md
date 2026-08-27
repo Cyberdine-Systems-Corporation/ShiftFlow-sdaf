@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |--------|--------|
-| Estado | Propuesto |
+| Estado | Aceptado |
 | Fecha | 2026-08-07 |
 | Decisores | Architecture Agent / Director técnico |
 | Relacionado | ADR-001, ADR-002, `handbook/10-solution-architecture.md`, PBI-001 |
@@ -102,4 +102,5 @@ AppHost → Api, Web (proyectos ejecutables)
 
 | Versión / fecha | Cambio |
 |-----------------|--------|
+| 2026-08-27 | Aprobación batch post-import (alineado sdaf-core@0.2.0 + pack@0.1.0) |
 | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Propuesto; revisar alineación con sdaf-core@0.2.0 y pack@0.1.0 |

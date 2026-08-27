@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |--------|--------|
-| Estado | Propuesto |
+| Estado | Aceptado |
 | Fecha | 2026-08-13 |
 | Decisores | Director técnico / Architecture Agent |
 | Relacionado | ADR-001, ADR-004 (diferido «Migraciones EF»), ADR-005, ADR-006, `handbook/10-solution-architecture.md`, `handbook/18-devops.md`, PBI-014, SPEC-PRD-001 (C-LOC) |
@@ -88,6 +88,7 @@ Adoptar **migraciones de EF Core** como única fuente de esquema en PostgreSQL.
 
 | Versión / fecha | Cambio |
 |-----------------|--------|
+| 2026-08-27 | Aprobación batch post-import (alineado sdaf-core@0.2.0 + pack@0.1.0) |
 | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Propuesto; revisar alineación con sdaf-core@0.2.0 y pack@0.1.0 |
 | 2026-08-13 | Propuesto: migraciones EF Core + `MigrateAsync` en Npgsql; `EnsureCreated` solo en SQLite de tests |
 | 2026-08-13 | Aceptado por Director técnico (encargo «Aprovar drafts»). |

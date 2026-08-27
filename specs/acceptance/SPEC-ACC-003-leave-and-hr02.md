@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-ACC-003 |
 | Versión | 0.1.1 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-12 |
 | Fuentes | SPEC-PRD-002 AC-04, SPEC-DOM-007, SPEC-DOM-006 (HR-02), SPEC-APP-004, SPEC-APP-003 |
 | ADRs relacionados | ADR-003, ADR-004 |
@@ -111,6 +111,7 @@ Entonces el rechazo expone códigos/tipos distintos (HR-01 vs HR-02)
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.1 | 2026-08-12 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-12 | Draft PBI-007 (Specification Agent) |

@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-DOM-001 |
 | Versión | 0.1.3 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-12 |
 | Fuentes | `handbook/11-ddd-and-bounded-contexts.md`, `handbook/03-mvp-definition.md`, SPEC-PRD-001, `knowledge/raw/Domain-Specs-V1.docx` (semántica sectorial filtrada) |
 | ADRs relacionados | ADR-001, ADR-002, ADR-004 |
@@ -59,6 +59,7 @@ User *──* Role   (asignación de roles a usuarios)
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.3 | 2026-08-12 | Cross-ref Leave → SPEC-DOM-007 (editorial) |
 | 0.1.2 | 2026-08-10 | Cross-ref glossary Sprint 2 → SPEC-DOM-005/006 (editorial) |

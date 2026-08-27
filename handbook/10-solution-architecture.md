@@ -3,7 +3,7 @@
 | Campo | Valor |
 |--------|--------|
 | **Versión** | 0.1.1 |
-| **Estado** | Draft |
+| **Estado** | Approved |
 | **Fecha** | 2026-08-05 |
 | **Parte** | III — Arquitectura |
 | **Norma superior** | Parte I (MVP), Parte II (SDAF), [01-product-charter.md](01-product-charter.md) |

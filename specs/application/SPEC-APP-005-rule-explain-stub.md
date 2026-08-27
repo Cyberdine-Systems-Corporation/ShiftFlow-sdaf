@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-APP-005 |
 | Versión | 0.1.1 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-14 |
 | Fuentes | SPEC-PRD-001 (C-RUL), SPEC-PRD-002 pasos 6–8, SPEC-DOM-006, `handbook/03-mvp-definition.md` §3 (IA stub), `handbook/10-solution-architecture.md` §5, `sdaf-core/handbook/06-ai-agent-framework.md` §2, `skills/product-ia-prompt` |
 | ADRs relacionados | ADR-003 (AI Recommendation: stub de explicación; no escribe cuadrante) |
@@ -129,6 +129,7 @@ La UI de calendario (Frontend, PBI-011) muestra esa explicación al usuario cuan
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.1 | 2026-08-14 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-14 | Draft PBI-011 (Specification Agent) |

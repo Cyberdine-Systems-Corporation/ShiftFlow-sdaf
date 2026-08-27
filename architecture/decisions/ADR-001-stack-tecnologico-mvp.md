@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |--------|--------|
-| Estado | Propuesto |
+| Estado | Aceptado |
 | Fecha | 2026-08-05 |
 | Decisores | Director técnico / Architecture Agent |
 | Relacionado | `handbook/03-mvp-definition.md`, `handbook/10-solution-architecture.md`, `handbook/18-devops.md` |
@@ -109,6 +109,7 @@ Si .NET 10 bloquea el avance de tooling de forma material, se emitirá enmienda 
 
 | Versión / fecha | Cambio |
 |-----------------|--------|
+| 2026-08-27 | Aprobación batch post-import (alineado sdaf-core@0.2.0 + pack@0.1.0) |
 | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Propuesto; revisar alineación con sdaf-core@0.2.0 y pack@0.1.0 |
 | 2026-08-05 | Aceptado: stack MVP con .NET 10 como TFM preferido |
 | 2026-08-07 | Contingencia activada: TFM **net9.0** (SDK .NET 9 LTS; .NET 10 no disponible entonces). |

@@ -3,7 +3,7 @@
 | Campo | Valor |
 |--------|--------|
 | **Versión** | 0.3.0 |
-| **Estado** | Draft |
+| **Estado** | Approved |
 | **Fecha** | 2026-08-05 |
 | **Parte** | I — Constitución de producto |
 | **Norma superior** | [01-product-charter.md](01-product-charter.md), [02-product-vision.md](02-product-vision.md) |

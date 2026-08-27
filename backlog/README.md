@@ -1,8 +1,8 @@
 # Backlog MVP (`mvp-0.1`)
 
-Priorizado según [`handbook/04-product-roadmap.md`](../handbook/04-product-roadmap.md) (Draft).
+Priorizado según [`handbook/04-product-roadmap.md`](../handbook/04-product-roadmap.md) (Approved).
 
-Importado desde `ShiftFlow-sdaf-extract` (2026-08-25). Todos los PBIs en **Pendiente** — reimplementación en este repo. No iniciar implementación sin Gate 0 (specs **Approved**, acceptance, worklog; ADR **Aceptado** si aplica).
+Importado desde `ShiftFlow-sdaf-extract`. **Pendiente = no trasplantado aún a este repo** (el código ya existe en el extract; no implica reescritura). Gate 0 documental cerrado 2026-08-27 (specs Approved + ADRs Aceptado).
 
 ## Orden de prioridad
 
@@ -31,12 +31,10 @@ PBI-001 → PBI-002…004 → PBI-005 → PBI-006/007 → PBI-008/009 → PBI-01
 PBI-014 (migraciones) habilita evolución de esquema sin wipe rutinario
 ```
 
-## Leyenda Gate 0
+## Leyenda
 
 | Estado PBI | Significado |
 |------------|-------------|
-| Pendiente | No iniciado en este repo |
-| En curso | Worklog abierto + Gate 0 cumplido |
-| Hecho | DoD + Gate 2 documentado |
-
-Hasta aprobar specs y aceptar ADRs, todos permanecen **Pendiente** a efectos de implementación.
+| Pendiente | Código aún no trasplantado a este repo |
+| En curso | Worklog de trasplante abierto |
+| Hecho | DoD + verificación build/test en este repo |

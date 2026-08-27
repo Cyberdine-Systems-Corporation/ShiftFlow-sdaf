@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-APP-003 |
 | Versión | 0.1.2 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-12 |
 | Fuentes | SPEC-DOM-005, SPEC-DOM-006, SPEC-PRD-001 (C-CAL, C-ASN, C-RUL), SPEC-PRD-002 AC-02/AC-03, `handbook/12-cqrs-vertical-slices.md` |
 | ADRs relacionados | ADR-003, ADR-004 |
@@ -91,6 +91,7 @@ Consultas de planificación requieren autenticación (mismo rol MVP).
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.2 | 2026-08-12 | Out → cross-ref SPEC-APP-004 (editorial) |
 | 0.1.1 | 2026-08-10 | Approved tras revisión humana |

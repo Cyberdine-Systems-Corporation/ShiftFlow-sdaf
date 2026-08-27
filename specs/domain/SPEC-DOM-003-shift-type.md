@@ -4,7 +4,7 @@
 |--------|--------|
 | ID | SPEC-DOM-003 |
 | Versión | 0.1.1 |
-| Estado | Draft |
+| Estado | Approved |
 | Fecha | 2026-08-09 |
 | Fuentes | SPEC-PRD-001 (C-STT), SPEC-DOM-001, `handbook/11-ddd-and-bounded-contexts.md`, `knowledge/raw/Domain-Specs-V1.docx` |
 | ADRs relacionados | ADR-001, ADR-003, ADR-004 |
@@ -66,6 +66,7 @@ Catálogo de tipos de turno por Organization, usable en la asignación manual (S
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.1 | 2026-08-09 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-09 | Draft Sprint 1 (Specification Agent) |

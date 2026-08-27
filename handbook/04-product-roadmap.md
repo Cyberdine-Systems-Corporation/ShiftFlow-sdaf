@@ -3,7 +3,7 @@
 | Campo | Valor |
 |--------|--------|
 | **Versión** | 0.2.0 |
-| **Estado** | Draft |
+| **Estado** | Approved |
 | **Fecha** | 2026-08-05 |
 | **Parte** | I — Constitución de producto |
 | **Norma superior** | [03-mvp-definition.md](03-mvp-definition.md) |

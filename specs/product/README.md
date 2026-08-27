@@ -5,6 +5,6 @@ Norma: `sdaf-core/handbook/04-specification-standard.md`.
 
 | ID | Título | Estado |
 |----|--------|--------|
-| [SPEC-PRD-001](SPEC-PRD-001-mvp-capabilities.md) | Capacidades del MVP | Draft |
-| [SPEC-PRD-002](SPEC-PRD-002-demo-journey.md) | Journey de demo del MVP | Draft |
-| [SPEC-PRD-003](SPEC-PRD-003-ui-demo-nfr.md) | NFR de UI demo (Web) | Draft |
+| [SPEC-PRD-001](SPEC-PRD-001-mvp-capabilities.md) | Capacidades del MVP | Approved |
+| [SPEC-PRD-002](SPEC-PRD-002-demo-journey.md) | Journey de demo del MVP | Approved |
+| [SPEC-PRD-003](SPEC-PRD-003-ui-demo-nfr.md) | NFR de UI demo (Web) | Approved |
