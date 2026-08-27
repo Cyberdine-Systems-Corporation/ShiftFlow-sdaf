@@ -6,7 +6,7 @@
 | Prioridad | 10 |
 | Specs | SPEC-PRD-001 (C-LOC), SPEC-PRD-002 (journey), ADR-007 |
 | DoD | Runbook en `docs/`; catálogo de demo opcional; etiqueta `mvp-0.1`; arranque en frío verificado |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -48,3 +48,9 @@ Worker Aspire de migraciones sigue fuera de alcance (ADR-007).
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

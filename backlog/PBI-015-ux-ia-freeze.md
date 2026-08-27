@@ -6,7 +6,7 @@
 | Prioridad | 15 |
 | Specs | [SPEC-PRD-003](../specs/product/SPEC-PRD-003-ui-demo-nfr.md) v0.2.0 Draft (AC-UX-06…10; 01…05 vigentes) |
 | DoD | AC-UX-06…10; worklog ATF; sin kit UI externo; sin cambio de API/Domain ni de SPEC-PRD-002 |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -24,3 +24,9 @@ Reordenar la información en la UI demo: pestañas en detalle de organización, 
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

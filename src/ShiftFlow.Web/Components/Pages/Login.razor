@@ -1,0 +1,145 @@
+@page "/login"
+@using System.Net.Http.Json
+@using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Text.Json
+@using ShiftFlow.Application.Auth
+@using ShiftFlow.Web.Auth
+@inject IHttpClientFactory HttpClientFactory
+@inject ApiAuthenticationStateProvider AuthState
+@inject CookieContainerHolder CookieJar
+@inject NavigationManager Navigation
+
+<PageTitle>Entrar — ShiftFlow</PageTitle>
+
+<div class="sf-auth">
+    <div class="sf-auth-card">
+        <h1 class="sf-auth-brand">ShiftFlow</h1>
+        <p class="sf-lede">Planifica turnos con reglas claras. Entra para administrar el núcleo del demo.</p>
+
+        @if (!string.IsNullOrEmpty(_error))
+        {
+            <p class="sf-alert" role="alert">@_error</p>
+        }
+
+        <EditForm Model="_model" OnSubmit="OnLoginAsync">
+            <div class="sf-field">
+                <label for="login-user">Usuario</label>
+                <InputText id="login-user" @bind-Value="_model.UserName" autocomplete="username" />
+            </div>
+            <div class="sf-field">
+                <label for="login-pass">Contraseña</label>
+                <InputText id="login-pass" type="password" @bind-Value="_model.Password" autocomplete="current-password" />
+            </div>
+            <button type="submit" class="sf-btn sf-btn-primary" disabled="@_busy">
+                @(_busy ? "Entrando…" : "Entrar")
+            </button>
+        </EditForm>
+
+        <p class="sf-hint" style="margin-top:1.25rem;margin-bottom:0">
+            Usuario demo prellenado. Contraseña en el runbook local.
+        </p>
+    </div>
+</div>
+
+@code {
+    private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
+
+    private readonly LoginModel _model = new()
+    {
+        UserName = DemoCredentials.UserName,
+        Password = DemoCredentials.DefaultDevelopmentPassword
+    };
+    private string? _error;
+    private bool _busy;
+
+    private async Task OnLoginAsync()
+    {
+        _busy = true;
+        _error = null;
+        try
+        {
+            CookieJar.Clear();
+            HttpClient client = HttpClientFactory.CreateClient("api");
+            using HttpResponseMessage response = await client.PostAsJsonAsync("/api/auth/login", new
+            {
+                userName = _model.UserName,
+                password = _model.Password
+            });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _error = $"No se pudo iniciar sesión (HTTP {(int)response.StatusCode}). Revisa usuario y contraseña.";
+                return;
+            }
+
+            LoginResponse? payload = await response.Content.ReadFromJsonAsync<LoginResponse>(JsonOptions);
+            if (payload is null)
+            {
+                _error = "La Api respondió vacía tras el login.";
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(payload.AccessToken))
+            {
+                CookieJar.SetAccessToken(payload.AccessToken);
+            }
+
+            if (payload.SessionCookies is { Length: > 0 })
+            {
+                CookieJar.AbsorbNameValuePairs(payload.SessionCookies);
+            }
+            else if (response.Headers.NonValidated.TryGetValues("Set-Cookie", out HeaderStringValues setCookies))
+            {
+                CookieJar.AbsorbSetCookieHeaders(setCookies, response.RequestMessage?.RequestUri);
+            }
+
+            if (string.IsNullOrWhiteSpace(CookieJar.AccessToken) && CookieJar.Count == 0)
+            {
+                _error = "Login correcto, pero no hay credencial de sesión para el Web.";
+                return;
+            }
+
+            CookieJar.SetSession(
+                payload.UserName,
+                payload.Roles ?? [],
+                CookieJar.AccessToken);
+
+            AuthState.NotifyChanged();
+            AuthenticationState state = await AuthState.GetAuthenticationStateAsync();
+            if (state.User.Identity?.IsAuthenticated != true)
+            {
+                _error = "Sesión guardada, pero /api/auth/me sigue anónimo.";
+                return;
+            }
+
+            if (!state.User.IsInRole(AuthRoles.Administrator))
+            {
+                _error = "Sesión OK, pero falta el rol Administrator.";
+                return;
+            }
+
+            Navigation.NavigateTo("/organizations", forceLoad: true);
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+
+    private sealed class LoginModel
+    {
+        public string UserName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    private sealed record LoginResponse(
+        string UserName,
+        string[] Roles,
+        string? AccessToken,
+        string[]? SessionCookies);
+}

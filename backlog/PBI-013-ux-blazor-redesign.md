@@ -6,7 +6,7 @@
 | Prioridad | 13 |
 | Specs | [SPEC-PRD-003](../specs/product/SPEC-PRD-003-ui-demo-nfr.md) Draft |
 | DoD | AC-UX-01…05; worklog ATF; sin kit UI externo |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -22,3 +22,9 @@ Sustituir el shell visual mínimo de PBI-008 por un design system CSS propio (lo
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

@@ -6,7 +6,7 @@
 | Prioridad | 3 |
 | Specs | SPEC-PRD-001 (C-ORG, C-DEP, C-EMP), SPEC-DOM-001/002, SPEC-APP-001, SPEC-ACC-001 (**Draft**) |
 | DoD | Persistencia + API + tests de aggregates críticos |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -22,3 +22,9 @@ Maestros de estructura organizativa y empleados asignables.
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

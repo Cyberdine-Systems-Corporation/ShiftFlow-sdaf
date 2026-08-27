@@ -6,7 +6,7 @@
 | Prioridad | 8 |
 | Specs | SPEC-PRD-002 (AC-01), SPEC-APP-001 |
 | DoD | Nav + pantallas para org/dept/employee/shift type/calendario |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -22,3 +22,9 @@ UI Web demostrable sobre las capacidades de maestros y planificación.
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

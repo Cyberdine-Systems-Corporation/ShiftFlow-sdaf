@@ -6,7 +6,7 @@
 | Prioridad | 12 |
 | Specs | SPEC-PRD-001 (C-PRE), handbook §4.5 |
 | DoD | Deck en `docs/presentation/mvp-0.1/` + vídeo referenciado (8–10 min) |
-| Estado | Pendiente |
+| Estado | Hecho |
 | Audiencia vídeo | Evaluador de máster en desarrollo asistido por IA |
 
 ## Descripción
@@ -31,3 +31,9 @@ No enmendar `handbook/03` §4.5: el conjunto + slide puente cumple los tres bloq
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

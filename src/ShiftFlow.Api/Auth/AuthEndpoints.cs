@@ -1,0 +1,136 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using ShiftFlow.Application.Auth;
+using ShiftFlow.Infrastructure.Identity;
+
+namespace ShiftFlow.Api.Auth;
+
+/// <summary>
+/// Endpoints mínimos de autenticación cookie (login, logout y sesión actual).
+/// </summary>
+public static class AuthEndpoints
+{
+    /// <summary>
+    /// Registra el grupo <c>/api/auth</c>.
+    /// </summary>
+    /// <param name="endpoints">Builder de rutas de la aplicación.</param>
+    /// <returns>El mismo <paramref name="endpoints"/> para encadenar.</returns>
+    public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder endpoints)
+    {
+        RouteGroupBuilder? group = endpoints.MapGroup("/api/auth").WithTags("Auth");
+
+        group.MapPost("/login", LoginAsync)
+            .AllowAnonymous()
+            .WithName("Login");
+
+        group.MapPost("/logout", LogoutAsync)
+            .RequireAuthorization()
+            .WithName("Logout");
+
+        group.MapGet("/me", Me)
+            .RequireAuthorization()
+            .WithName("Me");
+
+        return endpoints;
+    }
+
+    private static async Task<IResult> LoginAsync(
+        [FromBody] LoginRequest request,
+        SignInManager<ApplicationUser> signInManager,
+        UserManager<ApplicationUser> userManager,
+        AccessTokenService accessTokens,
+        HttpContext httpContext)
+    {
+        if (string.IsNullOrWhiteSpace(request.UserName) || string.IsNullOrWhiteSpace(request.Password))
+        {
+            return Results.BadRequest(new { error = "UserName y Password son obligatorios." });
+        }
+
+        ApplicationUser? user = await userManager.FindByNameAsync(request.UserName);
+        if (user is null)
+        {
+            return Results.Unauthorized();
+        }
+
+        Microsoft.AspNetCore.Identity.SignInResult? result = await signInManager.PasswordSignInAsync(
+            user,
+            request.Password,
+            isPersistent: true,
+            lockoutOnFailure: false);
+
+        if (!result.Succeeded)
+        {
+            return Results.Unauthorized();
+        }
+
+        IList<string>? roles = await userManager.GetRolesAsync(user);
+        string accessToken = accessTokens.Issue(user.UserName!, roles.ToArray());
+        // sessionCookies: compat BFF / diagnóstico; el Web usa accessToken (Bearer).
+        string[] sessionCookies = ExtractSessionCookiePairs(httpContext.Response.Headers.SetCookie);
+        return Results.Ok(new AuthUserResponse(user.UserName!, roles.ToArray(), accessToken, sessionCookies));
+    }
+
+    private static string[] ExtractSessionCookiePairs(Microsoft.Extensions.Primitives.StringValues setCookieHeaders)
+    {
+        if (setCookieHeaders.Count == 0)
+        {
+            return [];
+        }
+
+        List<string> pairs = new List<string>(setCookieHeaders.Count);
+        foreach (string? header in setCookieHeaders)
+        {
+            if (string.IsNullOrWhiteSpace(header))
+            {
+                continue;
+            }
+
+            string firstSegment = header.Split(';', 2)[0].Trim();
+            if (firstSegment.Contains('=', StringComparison.Ordinal))
+            {
+                pairs.Add(firstSegment);
+            }
+        }
+
+        return pairs.ToArray();
+    }
+
+    private static async Task<IResult> LogoutAsync(SignInManager<ApplicationUser> signInManager)
+    {
+        await signInManager.SignOutAsync();
+        return Results.Ok(new { status = "logged_out" });
+    }
+
+    private static IResult Me(ClaimsPrincipal principal)
+    {
+        string? userName = principal.Identity?.Name;
+        if (string.IsNullOrEmpty(userName))
+        {
+            return Results.Unauthorized();
+        }
+
+        string[] roles = principal.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
+        return Results.Ok(new AuthUserResponse(userName, roles));
+    }
+
+    /// <summary>
+    /// Cuerpo de solicitud de inicio de sesión.
+    /// </summary>
+    /// <param name="UserName">Nombre de usuario Identity.</param>
+    /// <param name="Password">Contraseña en claro (solo transporte HTTPS).</param>
+    public sealed record LoginRequest(string UserName, string Password);
+
+    /// <summary>
+    /// Usuario autenticado expuesto a clientes (nombre, roles y credenciales de sesión BFF).
+    /// </summary>
+    /// <param name="UserName">Nombre de usuario.</param>
+    /// <param name="Roles">Roles asignados al usuario.</param>
+    /// <param name="AccessToken">Token Bearer para HttpClient BFF (Blazor Web).</param>
+    /// <param name="SessionCookies">Pares name=value de cookie Identity (opcional / diagnóstico).</param>
+    public sealed record AuthUserResponse(
+        string UserName,
+        string[] Roles,
+        string? AccessToken = null,
+        string[]? SessionCookies = null);
+}

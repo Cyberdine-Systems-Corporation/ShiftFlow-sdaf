@@ -6,7 +6,7 @@
 | Prioridad | 4 |
 | Specs | SPEC-PRD-001 (C-STT), SPEC-DOM-003, SPEC-APP-001, SPEC-ACC-001 (**Draft**) |
 | DoD | Catálogo de tipos de turno usable en asignación |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -22,3 +22,9 @@ Gestionar tipos de turno del catálogo.
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.

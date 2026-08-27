@@ -10,10 +10,19 @@ Reconstrucción de **ShiftFlow** como consumidor SDAF (paridad funcional con el 
 
 ## Estado actual
 
-- Bootstrap SDAF + pack materializado (`agents/`, `skills/` de extensión).
-- Handbook de producto en Draft (charter/MVP orientados a reconstrucción).
-- **Sin** código/specs de producto aún → Gate 0 = STOP hasta importar y aprobar specs.
-- Plan de importación: [docs/IMPORT-FROM-EXTRACT.md](docs/IMPORT-FROM-EXTRACT.md).
+- Gobernanza de producto: specs / handbook / ADRs **Approved** / **Aceptado**.
+- Código MVP trasplantado desde el extract (`src/`, `tests/`) — build y tests verdes.
+- Runbook: [`docs/runbook-local.md`](docs/runbook-local.md)
+- Paridad: [`docs/PARITY-EXTRACT.md`](docs/PARITY-EXTRACT.md)
+- Plan de importación: [`docs/IMPORT-FROM-EXTRACT.md`](docs/IMPORT-FROM-EXTRACT.md)
+
+## Arranque local
+
+```powershell
+dotnet run --project src/ShiftFlow.AppHost --launch-profile https
+```
+
+Ver runbook para Compose, usuario demo y freeze.
 
 ## Clonar
 
@@ -26,5 +35,5 @@ git submodule update --init --recursive
 ## Norma
 
 - Método: `sdaf-core/handbook/` (no contradecir).
-- Stack concreto: ADRs en `architecture/decisions/` + playbooks del pack.
-- Gate 0 antes de implementar (`sdaf-core/skills/sdaf-gate0`).
+- Stack: ADRs en `architecture/decisions/` + playbooks del pack.
+- Gate 0 antes de implementar features nuevas.

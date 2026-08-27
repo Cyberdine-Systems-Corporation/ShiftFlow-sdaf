@@ -6,7 +6,7 @@
 | Prioridad | 11 |
 | Specs | [SPEC-APP-005](../specs/application/SPEC-APP-005-rule-explain-stub.md) **Draft**; [SPEC-ACC-005](../specs/acceptance/SPEC-ACC-005-rule-explain-stub.md) **Draft**; SPEC-DOM-006 Draft (HR-*); ADR-003; SPEC-PRD-001 (C-RUL) |
 | DoD | Explicación de violación HR-01/02/03 en castellano; stub en Infrastructure; **sin** mutar cuadrante; visible en API y calendario |
-| Estado | Pendiente |
+| Estado | Hecho |
 
 ## Descripción
 
@@ -43,3 +43,9 @@ El mensaje corto de `RuleViolation` (SPEC-APP-003) se mantiene; la explicación 
 ## Importación (2026-08-25)
 
 Importado desde ShiftFlow-sdaf-extract. Estado reseteado a **Pendiente** — reimplementar en este repo tras Gate 0 (specs Approved + ADRs Aceptado + worklog).
+
+---
+
+## Trasplante 2026-08-27
+
+Código/tests verificados en este repo (worklogs/TRANSPLANTE/). DoD cubierto por build+tests; sin reescritura.
