@@ -1,0 +1,15 @@
+# Specs de dominio
+
+Norma: `sdaf-core/handbook/04-specification-standard.md`, `handbook/11-ddd-and-bounded-contexts.md`.
+
+| ID | Título | Estado |
+|----|--------|--------|
+| [SPEC-DOM-001](SPEC-DOM-001-glossary-workforce-scheduling.md) | Glossary WorkforceScheduling (Sprint 1) | Draft |
+| [SPEC-DOM-002](SPEC-DOM-002-organization-department-employee.md) | Organization, Department, Employee | Draft |
+| [SPEC-DOM-003](SPEC-DOM-003-shift-type.md) | ShiftType | Draft |
+| [SPEC-DOM-004](SPEC-DOM-004-auth-roles.md) | Auth y roles básicos | Draft |
+| [SPEC-DOM-005](SPEC-DOM-005-shift-assignment-calendar.md) | ShiftAssignment y calendario mensual | Draft |
+| [SPEC-DOM-006](SPEC-DOM-006-rule-engine-v1.md) | Rule Engine v1 (hard rules) | Draft |
+| [SPEC-DOM-007](SPEC-DOM-007-leave.md) | Leave (ausencias / vacaciones) | Draft |
+
+Solo specs **Approved** autorizan implementación de producto (Gate 0).
