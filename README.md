@@ -30,7 +30,11 @@ Ver runbook para Compose, usuario demo y freeze.
 git clone --recurse-submodules https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf.git
 cd ShiftFlow-sdaf
 git submodule update --init --recursive
+git config core.symlinks true
+.\scripts\materialize-submodules.ps1 -Force
 ```
+
+Ver [`docs/materializacion-submodules.md`](docs/materializacion-submodules.md) para prerequisitos (symlinks en Windows).
 
 ## Norma
 

@@ -51,9 +51,9 @@ En un repo reciÃ©n bootstrapado, Gate 0 â†’ **STOP** hasta specs Approved
 
 Esta plantilla **no** incluye pack. Para .NET:
 
-1. AÃ±adir submodule `sdaf-stack-dotnet` @ `v0.2.0`.
+1. Añadir submodule `sdaf-stack-dotnet` @ `v0.1.0`.
 2. `stack.pack: sdaf-stack-dotnet@0.1.0` en `sdaf.config.yaml`.
-3. Seguir `sdaf-stack-dotnet/ADOPT.md` (materializar agentes/skills).
+3. Ejecutar [`scripts/materialize-submodules.ps1`](scripts/materialize-submodules.ps1) (ver [`docs/materializacion-submodules.md`](docs/materializacion-submodules.md)) o seguir `sdaf-stack-dotnet/ADOPT.md`.
 
 Referencia: [sdaf-smoke-core-pack](https://github.com/Cyberdine-Systems-Corporation/sdaf-smoke-core-pack).
 
