@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 |--------|--------|
-| Fecha | 2026-08-27 |
+| Fecha | 2026-09-13 |
 | Fuente | ShiftFlow-sdaf-extract |
-| Destino | ShiftFlow-sdaf (`sdaf-core@v0.2.0` + `sdaf-stack-dotnet@0.1.0`) |
+| Destino | ShiftFlow-sdaf (`sdaf-core@v0.2.0` + `sdaf-stack-dotnet@v0.1.0`) |
 
 ## Checklist
 
@@ -16,7 +16,7 @@
 | 4 | Journey SPEC-PRD-002 cubierto por tests API | OK (suite integración) |
 | 5 | `GET /api/status` en tests | OK |
 | 6 | Runbook presente (`docs/runbook-local.md`) | OK |
-| 7 | Arranque en frío Aspire/Compose en esta máquina | Pendiente humano |
+| 7 | Arranque en frío Aspire/Compose en esta máquina | OK (2026-09-13) |
 | 8 | Presentación C-PRE en `docs/presentation/` | OK (artefactos copiados; vídeo vía release histórico extract/ShiftFlow) |
 
 ## Diferencias explícitas vs extract
@@ -30,4 +30,4 @@
 
 ## Firma de paridad
 
-Tras completar el ítem 7 (arranque local), se puede archivar el extract.
+Checklist **completo** (ítems 1–8). El destino es la base operativa; el extract puede archivarse (repo read-only / archivo histórico, sin usarlo como fuente de desarrollo).
