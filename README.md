@@ -4,8 +4,8 @@ Reconstrucción de **ShiftFlow** como consumidor SDAF (paridad funcional con el 
 
 | Componente | Pin |
 |------------|-----|
-| Método | `sdaf-core` @ **v0.2.0** |
-| Pack | `sdaf-stack-dotnet` @ **v0.1.0** |
+| Método | `sdaf-core` @ **v0.2.1** |
+| Pack | `sdaf-stack-dotnet` @ **v0.1.1** |
 | Extract (fuente) | [`ShiftFlow-sdaf-extract`](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf-extract) — solo importación, no base git |
 
 ## Estado actual

@@ -4,7 +4,7 @@
 |--------|--------|
 | Fecha | 2026-09-13 |
 | Fuente | ShiftFlow-sdaf-extract |
-| Destino | ShiftFlow-sdaf (`sdaf-core@v0.2.0` + `sdaf-stack-dotnet@v0.1.0`) |
+| Destino | ShiftFlow-sdaf (`sdaf-core@v0.2.1` + `sdaf-stack-dotnet@v0.1.1`) |
 
 ## Checklist
 

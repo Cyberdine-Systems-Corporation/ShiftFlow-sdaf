@@ -7,8 +7,8 @@
 | Fecha | 2026-09-13 |
 | Norma | `sdaf-core/handbook/06`, `07`, `08`; pack `sdaf-stack-dotnet` |
 | Config | `sdaf.config.yaml` |
-| Core | `sdaf-core` @ v0.2.0 (parche ATF 0.2.1 al pin `v0.2.1`) |
-| Pack | `sdaf-stack-dotnet` @ v0.1.0 |
+| Core | `sdaf-core` @ v0.2.1 |
+| Pack | `sdaf-stack-dotnet` @ v0.1.1 |
 
 ---
 
