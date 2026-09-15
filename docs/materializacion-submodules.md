@@ -77,6 +77,7 @@ Abrir una skill por `skills/<id>/SKILL.md` y por `.cursor/skills/<id>/SKILL.md`;
 | `New-Item : Se necesitan privilegios de administrador` | Activar Modo desarrollador en Windows o ejecutar PowerShell como admin |
 | Enlaces aparecen como archivos de texto tras clone | `git config core.symlinks true` y volver a checkout |
 | `Destino inexistente` | Submodule no inicializado o tag incorrecto |
+| `git status` sucio tras materializar | El script alinea el índice con target `/` (sin `git add` Windows). Si ya hay ruido local: `git restore -- agents prompts skills .cursor` |
 | Junctions | **No** usar `mklink /J`; no son portables en Git cross-platform |
 
 ## Fuera de alcance

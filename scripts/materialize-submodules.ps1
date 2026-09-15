@@ -7,6 +7,7 @@
   Fuente de verdad de los enlaces pack (sdaf-stack-dotnet) + core (sdaf-core) + superficie Cursor.
   Idempotente: no falla si el enlace ya apunta al destino correcto.
   No crea junctions (mklink /J); solo symlinks portables (Git mode 120000).
+  No hace git add del enlace Windows: el índice usa target relativo con '/' para no ensuciar status.
 
 .PARAMETER WhatIf
   Lista enlaces que se crearían o reemplazarían sin modificar el disco.
@@ -43,19 +44,104 @@ function Test-SubmodulePresent {
     }
 }
 
-function Get-LinkTargetRelative {
+function Get-NormalizedTarget {
+    param([string]$TargetRelative)
+    return (($TargetRelative -replace '\\', '/').Trim().TrimEnd('/'))
+}
+
+function Test-IsWindowsPathRooted {
+    # Path.IsPathRooted lanza ArgumentException con caracteres inválidos; no usarla.
+    param([string]$Path)
+    if ([string]::IsNullOrWhiteSpace($Path)) { return $false }
+    $p = ($Path.Trim().Trim('"') -replace '/', '\')
+    if ($p.Length -ge 3 -and $p[1] -eq [char]':') { return $true }
+    if ($p.StartsWith('\\')) { return $true }
+    return $false
+}
+
+function Get-LinkTargetRaw {
     param([string]$LinkPath)
-    if (-not (Test-Path $LinkPath)) { return $null }
+    if (-not (Test-Path -LiteralPath $LinkPath)) { return $null }
     $item = Get-Item -LiteralPath $LinkPath -Force
     if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) {
-        return $item.Target
+        $t = $item.Target
+        if ($null -eq $t) { return $null }
+        if ($t -is [System.Array]) {
+            if ($t.Length -eq 0) { return $null }
+            return ([string]$t[0]).Trim()
+        }
+        return ([string]$t).Trim()
+    }
+    # Placeholder Git sin symlink OS: archivo de texto con el target relativo
+    if (-not $item.PSIsContainer -and $item.Length -gt 0 -and $item.Length -lt 1024) {
+        $content = $null
+        try {
+            $content = (Get-Content -LiteralPath $LinkPath -Raw -Encoding utf8 -ErrorAction Stop)
+        }
+        catch {
+            return $null
+        }
+        if ($null -eq $content) { return $null }
+        $line = ($content -split "`r?`n", 2)[0].Trim()
+        if ($line -match '^\.\./' -or $line -match '^\./') {
+            return $line
+        }
     }
     return $null
 }
 
+function Test-LinkPointsToExpected {
+    param(
+        [string]$LinkPath,
+        [string]$LinkDir,
+        [string]$ExpectedRelative
+    )
+    $raw = Get-LinkTargetRaw -LinkPath $LinkPath
+    if ([string]::IsNullOrWhiteSpace($raw)) { return $false }
+
+    $normalizedRaw = Get-NormalizedTarget -TargetRelative $raw
+    $normalizedExpected = Get-NormalizedTarget -TargetRelative $ExpectedRelative
+    if ($normalizedRaw -eq $normalizedExpected) { return $true }
+
+    try {
+        $expectedFull = [System.IO.Path]::GetFullPath((Join-Path $LinkDir ($ExpectedRelative -replace '/', '\')))
+    }
+    catch {
+        return $false
+    }
+
+    $candidate = if (Test-IsWindowsPathRooted -Path $raw) {
+        ($raw -replace '/', '\')
+    }
+    else {
+        Join-Path $LinkDir ($raw -replace '/', '\')
+    }
+    try {
+        $actualFull = [System.IO.Path]::GetFullPath($candidate)
+    }
+    catch {
+        return $false
+    }
+    return $actualFull -eq $expectedFull
+}
+
+function Get-IndexSymlinkTarget {
+    param([string]$LinkRelative)
+    $line = (git -C $RepoRoot ls-files -s -- $LinkRelative 2>$null | Select-Object -First 1)
+    if (-not $line) { return $null }
+    # mode SP hash SP stage TAB path  (p.ej. 120000 <hash> 0<TAB>path)
+    if ($line -notmatch '^120000\s+([0-9a-f]{40,64})\s+') {
+        return $null
+    }
+    $hash = $Matches[1]
+    $blob = (git -C $RepoRoot cat-file -p $hash 2>$null)
+    if (-not $blob) { return $null }
+    return Get-NormalizedTarget -TargetRelative ([string]$blob).Trim()
+}
+
 function Remove-LinkOrCopy {
     param([string]$LinkPath)
-    if (-not (Test-Path $LinkPath)) { return }
+    if (-not (Test-Path -LiteralPath $LinkPath)) { return }
     $item = Get-Item -LiteralPath $LinkPath -Force
     if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) {
         Remove-Item -LiteralPath $LinkPath -Force
@@ -68,32 +154,27 @@ function Remove-LinkOrCopy {
     }
 }
 
-function Remove-GitTracked {
-    param([string]$LinkRelative)
-    $tracked = git -C $RepoRoot ls-files -- $LinkRelative 2>$null
-    if ($tracked) {
-        git -C $RepoRoot rm -r -f -- $LinkRelative 2>$null | Out-Null
-    }
-}
-
-function Add-GitSymlinkIndex {
+function Set-GitSymlinkIndex {
+    <#
+      Asegura mode 120000 con target relativo en '/'.
+      No hace git add (evita capturar '\' de Windows) ni checkout-index
+      (el caller decide si materializa el working tree).
+    #>
     param(
         [string]$LinkRelative,
         [string]$TargetRelative
     )
-    $normalizedTarget = ($TargetRelative -replace '\\', '/').TrimEnd('/')
+    $normalizedTarget = Get-NormalizedTarget -TargetRelative $TargetRelative
+    $current = Get-IndexSymlinkTarget -LinkRelative $LinkRelative
+    if ($current -eq $normalizedTarget) {
+        return $false
+    }
     $hash = ($normalizedTarget | git -C $RepoRoot hash-object -w --stdin).Trim()
     if (-not $hash) {
         throw "git hash-object falló para '$LinkRelative'"
     }
     git -C $RepoRoot update-index --add --cacheinfo "120000,$hash,$LinkRelative" | Out-Null
-    $prevEap = $ErrorActionPreference
-    $ErrorActionPreference = 'Continue'
-    git -C $RepoRoot checkout-index -f -- $LinkRelative 2>&1 | Out-Null
-    $ErrorActionPreference = $prevEap
-    if ($LASTEXITCODE -ne 0) {
-        Write-Warning "Índice Git actualizado; working tree sin symlink OS para '$LinkRelative'. Activa Modo desarrollador o reclona con core.symlinks."
-    }
+    return $true
 }
 
 function New-RelativeSymlink {
@@ -104,53 +185,86 @@ function New-RelativeSymlink {
 
     $linkPath = Join-Path $RepoRoot $LinkRelative
     $linkDir = Split-Path $linkPath -Parent
-    $targetPath = [System.IO.Path]::GetFullPath((Join-Path $linkDir $TargetRelative))
+    $normalizedExpected = Get-NormalizedTarget -TargetRelative $TargetRelative
+    try {
+        $targetPath = [System.IO.Path]::GetFullPath((Join-Path $linkDir ($TargetRelative -replace '/', '\')))
+    }
+    catch {
+        throw "Destino inválido para '$LinkRelative': $TargetRelative ($($_.Exception.Message))"
+    }
 
-    if (-not (Test-Path $targetPath)) {
+    if (-not (Test-Path -LiteralPath $targetPath)) {
         throw "Destino inexistente para '$LinkRelative': $TargetRelative"
     }
 
-    $existing = Get-LinkTargetRelative -LinkPath $linkPath
-    if ($null -ne $existing) {
-        $normalizedExisting = ($existing -replace '\\', '/').TrimEnd('/')
-        $normalizedExpected = ($TargetRelative -replace '\\', '/').TrimEnd('/')
-        if ($normalizedExisting -eq $normalizedExpected) {
-            Write-Verbose "OK: $LinkRelative"
-            return 'skipped'
-        }
-        if (-not $Force) {
-            throw "Enlace incorrecto en '$LinkRelative' (actual: $existing). Usa -Force."
-        }
-    }
-    elseif (Test-Path $linkPath) {
-        if (-not $Force) {
-            throw "Existe copia en '$LinkRelative'. Usa -Force para reemplazar por symlink."
-        }
+    $osOk = Test-LinkPointsToExpected -LinkPath $linkPath -LinkDir $linkDir -ExpectedRelative $TargetRelative
+    $indexTarget = Get-IndexSymlinkTarget -LinkRelative $LinkRelative
+    $indexOk = ($indexTarget -eq $normalizedExpected)
+
+    if ($osOk -and $indexOk) {
+        Write-Verbose "OK: $LinkRelative"
+        return 'skipped'
     }
 
-    if ($PSCmdlet.ShouldProcess($LinkRelative, "symlink -> $TargetRelative")) {
-        if (-not (Test-Path $linkDir)) {
+    if ($osOk -and -not $indexOk) {
+        # Disco correcto; solo alinear índice a '/' sin tocar el working tree.
+        if ($PSCmdlet.ShouldProcess($LinkRelative, "alinear índice Git 120000 -> $normalizedExpected")) {
+            [void](Set-GitSymlinkIndex -LinkRelative $LinkRelative -TargetRelative $TargetRelative)
+            return 'created'
+        }
+        return 'whatif'
+    }
+
+    if ((Test-Path -LiteralPath $linkPath) -and -not $Force) {
+        $raw = Get-LinkTargetRaw -LinkPath $linkPath
+        if ($null -ne $raw) {
+            throw "Enlace incorrecto en '$LinkRelative' (actual: $raw). Usa -Force."
+        }
+        throw "Existe copia en '$LinkRelative'. Usa -Force para reemplazar por symlink."
+    }
+
+    if ($PSCmdlet.ShouldProcess($LinkRelative, "symlink -> $normalizedExpected")) {
+        if (-not (Test-Path -LiteralPath $linkDir)) {
             New-Item -ItemType Directory -Path $linkDir -Force | Out-Null
         }
-        Remove-GitTracked -LinkRelative $LinkRelative
+        # Solo filesystem: no git rm (ensucia el índice sin necesidad).
         Remove-LinkOrCopy -LinkPath $linkPath
+        # Índice primero con '/' (blob canónico); evita git add de targets '\'.
+        [void](Set-GitSymlinkIndex -LinkRelative $LinkRelative -TargetRelative $TargetRelative)
+
+        $prevEap = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        git -C $RepoRoot checkout-index -f -- $LinkRelative 2>&1 | Out-Null
+        $checkoutOk = ($LASTEXITCODE -eq 0)
+        $ErrorActionPreference = $prevEap
+
+        if ($checkoutOk -and (Test-LinkPointsToExpected -LinkPath $linkPath -LinkDir $linkDir -ExpectedRelative $TargetRelative)) {
+            return 'created'
+        }
+
+        # Fallback OS: crear desde $linkDir (New-Item resuelve -Target contra el CWD).
         try {
-            # New-Item resuelve -Target relativo contra el CWD, no contra el padre del enlace.
-            # Crear desde $linkDir con el relativo del manifesto (portátil en Git 120000).
+            Remove-LinkOrCopy -LinkPath $linkPath
             $linkName = Split-Path $linkPath -Leaf
-            $targetForLink = ($TargetRelative -replace '/', '\')
             Push-Location -LiteralPath $linkDir
             try {
-                New-Item -ItemType SymbolicLink -Path $linkName -Target $targetForLink -ErrorAction Stop | Out-Null
+                try {
+                    New-Item -ItemType SymbolicLink -Path $linkName -Target $normalizedExpected -ErrorAction Stop | Out-Null
+                }
+                catch {
+                    $targetBackslash = ($normalizedExpected -replace '/', '\')
+                    New-Item -ItemType SymbolicLink -Path $linkName -Target $targetBackslash -ErrorAction Stop | Out-Null
+                }
             }
             finally {
                 Pop-Location
             }
-            git -C $RepoRoot add -- $LinkRelative 2>$null | Out-Null
+            if (-not (Test-LinkPointsToExpected -LinkPath $linkPath -LinkDir $linkDir -ExpectedRelative $TargetRelative)) {
+                throw "El symlink OS no apunta al destino esperado"
+            }
         }
         catch {
-            Write-Warning "Symlink OS no disponible para '$LinkRelative' ($($_.Exception.Message)). Usando índice Git (120000)."
-            Add-GitSymlinkIndex -LinkRelative $LinkRelative -TargetRelative $TargetRelative
+            Write-Warning "Symlink OS no disponible para '$LinkRelative' ($($_.Exception.Message)). Índice Git 120000 alineado; activa Modo desarrollador si el contenido no se abre."
         }
         return 'created'
     }
@@ -235,7 +349,7 @@ try {
 
     Write-Host ''
     Write-Host "Resumen: creados=$($stats.created) omitidos=$($stats.skipped) whatif=$($stats.whatif)"
-    Write-Host 'Siguiente: git status  (enlaces deben aparecer como mode 120000 tras git add)'
+    Write-Host 'Siguiente: git status (debe quedar limpio si solo rematerializaste enlaces ya correctos).'
     Write-Host 'Editar contenido en sdaf-core/ o sdaf-stack-dotnet/, no en la ruta enlazada del consumidor.'
     exit 0
 }
