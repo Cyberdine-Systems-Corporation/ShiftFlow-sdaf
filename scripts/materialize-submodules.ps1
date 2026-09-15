@@ -46,23 +46,48 @@ function Test-SubmodulePresent {
 
 function Get-NormalizedTarget {
     param([string]$TargetRelative)
-    return ($TargetRelative -replace '\\', '/').TrimEnd('/')
+    return (($TargetRelative -replace '\\', '/').Trim().TrimEnd('/'))
+}
+
+function Test-IsWindowsPathRooted {
+    # Path.IsPathRooted lanza ArgumentException con caracteres inválidos; no usarla.
+    param([string]$Path)
+    if ([string]::IsNullOrWhiteSpace($Path)) { return $false }
+    $p = ($Path.Trim().Trim('"') -replace '/', '\')
+    if ($p.Length -ge 3 -and $p[1] -eq [char]':') { return $true }
+    if ($p.StartsWith('\\')) { return $true }
+    return $false
 }
 
 function Get-LinkTargetRaw {
     param([string]$LinkPath)
     if (-not (Test-Path -LiteralPath $LinkPath)) { return $null }
     $item = Get-Item -LiteralPath $LinkPath -Force
-    if (-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
-        return $null
+    if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+        $t = $item.Target
+        if ($null -eq $t) { return $null }
+        if ($t -is [System.Array]) {
+            if ($t.Length -eq 0) { return $null }
+            return ([string]$t[0]).Trim()
+        }
+        return ([string]$t).Trim()
     }
-    $t = $item.Target
-    if ($null -eq $t) { return $null }
-    if ($t -is [System.Array]) {
-        if ($t.Length -eq 0) { return $null }
-        return [string]$t[0]
+    # Placeholder Git sin symlink OS: archivo de texto con el target relativo
+    if (-not $item.PSIsContainer -and $item.Length -gt 0 -and $item.Length -lt 1024) {
+        $content = $null
+        try {
+            $content = (Get-Content -LiteralPath $LinkPath -Raw -Encoding utf8 -ErrorAction Stop)
+        }
+        catch {
+            return $null
+        }
+        if ($null -eq $content) { return $null }
+        $line = ($content -split "`r?`n", 2)[0].Trim()
+        if ($line -match '^\.\./' -or $line -match '^\./') {
+            return $line
+        }
     }
-    return [string]$t
+    return $null
 }
 
 function Test-LinkPointsToExpected {
@@ -72,16 +97,24 @@ function Test-LinkPointsToExpected {
         [string]$ExpectedRelative
     )
     $raw = Get-LinkTargetRaw -LinkPath $LinkPath
-    if ($null -eq $raw) { return $false }
+    if ([string]::IsNullOrWhiteSpace($raw)) { return $false }
 
-    $expectedFull = [System.IO.Path]::GetFullPath((Join-Path $LinkDir $ExpectedRelative))
     $normalizedRaw = Get-NormalizedTarget -TargetRelative $raw
     $normalizedExpected = Get-NormalizedTarget -TargetRelative $ExpectedRelative
     if ($normalizedRaw -eq $normalizedExpected) { return $true }
 
-    $candidate = $raw
-    if (-not [System.IO.Path]::IsPathRooted(($raw -replace '/', '\'))) {
-        $candidate = Join-Path $LinkDir ($raw -replace '/', '\')
+    try {
+        $expectedFull = [System.IO.Path]::GetFullPath((Join-Path $LinkDir ($ExpectedRelative -replace '/', '\')))
+    }
+    catch {
+        return $false
+    }
+
+    $candidate = if (Test-IsWindowsPathRooted -Path $raw) {
+        ($raw -replace '/', '\')
+    }
+    else {
+        Join-Path $LinkDir ($raw -replace '/', '\')
     }
     try {
         $actualFull = [System.IO.Path]::GetFullPath($candidate)
@@ -153,7 +186,12 @@ function New-RelativeSymlink {
     $linkPath = Join-Path $RepoRoot $LinkRelative
     $linkDir = Split-Path $linkPath -Parent
     $normalizedExpected = Get-NormalizedTarget -TargetRelative $TargetRelative
-    $targetPath = [System.IO.Path]::GetFullPath((Join-Path $linkDir $TargetRelative))
+    try {
+        $targetPath = [System.IO.Path]::GetFullPath((Join-Path $linkDir ($TargetRelative -replace '/', '\')))
+    }
+    catch {
+        throw "Destino inválido para '$LinkRelative': $TargetRelative ($($_.Exception.Message))"
+    }
 
     if (-not (Test-Path -LiteralPath $targetPath)) {
         throw "Destino inexistente para '$LinkRelative': $TargetRelative"
