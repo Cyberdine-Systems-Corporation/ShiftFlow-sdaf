@@ -135,10 +135,17 @@ function New-RelativeSymlink {
         Remove-GitTracked -LinkRelative $LinkRelative
         Remove-LinkOrCopy -LinkPath $linkPath
         try {
-            $uriBase = New-Object System.Uri (($linkDir.TrimEnd('\') + '\'))
-            $uriTarget = New-Object System.Uri $targetPath
-            $targetForLink = [System.Uri]::UnescapeDataString($uriBase.MakeRelativeUri($uriTarget).ToString()) -replace '/', '\'
-            New-Item -ItemType SymbolicLink -Path $linkPath -Target $targetForLink -ErrorAction Stop | Out-Null
+            # New-Item resuelve -Target relativo contra el CWD, no contra el padre del enlace.
+            # Crear desde $linkDir con el relativo del manifesto (portátil en Git 120000).
+            $linkName = Split-Path $linkPath -Leaf
+            $targetForLink = ($TargetRelative -replace '/', '\')
+            Push-Location -LiteralPath $linkDir
+            try {
+                New-Item -ItemType SymbolicLink -Path $linkName -Target $targetForLink -ErrorAction Stop | Out-Null
+            }
+            finally {
+                Pop-Location
+            }
             git -C $RepoRoot add -- $LinkRelative 2>$null | Out-Null
         }
         catch {
