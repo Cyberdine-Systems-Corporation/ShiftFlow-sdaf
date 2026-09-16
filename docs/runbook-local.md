@@ -1,15 +1,15 @@
-# Runbook local — ShiftFlow MVP
+# 📖 Runbook local — ShiftFlow MVP
 
 | Campo | Valor |
 |--------|--------|
 | Versión | 0.7.0-transplant |
 | Fecha | 2026-08-27 |
 | Repo | ShiftFlow-sdaf (trasplante desde extract; sdaf-core@0.2 + pack@0.1) |
-| Relacionado | PBI-001…015, ADR-001, ADR-002, ADR-004, ADR-005, ADR-007, C-LOC, C-AUTH, C-ORG, C-PRE, SPEC-PRD-002, SPEC-PRD-003 0.2.0 |
+| Relacionado | [PBI-001](../backlog/PBI-001-skeleton-solucion.md)…[PBI-015](../backlog/PBI-015-ux-ia-freeze.md), [ADR-001](../architecture/decisions/ADR-001-stack-tecnologico-mvp.md), [ADR-002](../architecture/decisions/ADR-002-cliente-web-only-mvp.md), [ADR-004](../architecture/decisions/ADR-004-layout-solucion.md), [ADR-005](../architecture/decisions/ADR-005-auth-basica-mvp.md), [ADR-007](../architecture/decisions/ADR-007-ef-migrations.md), [C-LOC/C-AUTH/C-ORG/C-PRE](../specs/product/SPEC-PRD-001-mvp-capabilities.md), [SPEC-PRD-002](../specs/product/SPEC-PRD-002-demo-journey.md), [SPEC-PRD-003](../specs/product/SPEC-PRD-003-ui-demo-nfr.md) 0.2.0 |
 
 ---
 
-## 1. Prerrequisitos
+## 📋 1. Prerrequisitos
 
 | Herramienta | Notas |
 |-------------|--------|
@@ -21,7 +21,7 @@ Opcional: Visual Studio 2022 / VS Code / Cursor con workload ASP.NET.
 
 ---
 
-## 2. Clonar y restaurar
+## 📥 2. Clonar y restaurar
 
 ```powershell
 git clone <url-del-repo> ShiftFlow
@@ -64,7 +64,7 @@ Comprobación rápida:
 - Web: Home de planificación (tras login) y selector de organización en la barra
 - Health Aspire (Development): `/health`, `/alive`
 
-### Usuario demo (PBI-002 / ADR-005)
+### 👤 Usuario demo ([PBI-002](../backlog/PBI-002-auth-roles.md) / [ADR-005](../architecture/decisions/ADR-005-auth-basica-mvp.md))
 
 | Campo | Valor |
 |-------|--------|
@@ -90,7 +90,7 @@ Login Web: `/login` (prefill demo). Tras login:
 
 Endpoints Api de auth: `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`.
 
-### Maestros (PBI-003 / PBI-004)
+### 🏢 Maestros ([PBI-003](../backlog/PBI-003-organization-department-employee.md) / [PBI-004](../backlog/PBI-004-shift-types.md))
 
 API (rol `Administrator`):
 
@@ -100,25 +100,25 @@ API (rol `Administrator`):
 - `POST/GET /api/organizations/{id}/employees`, `GET /api/departments/{id}/employees`, `PUT /api/employees/{id}`, `PUT .../active`
 - `POST/GET /api/organizations/{id}/shift-types`, `PUT /api/shift-types/{id}`, `PUT .../active`
 
-### Calendario / asignación (PBI-005)
+### 📅 Calendario / asignación ([PBI-005](../backlog/PBI-005-calendar-assign-shift.md))
 
 - `GET /api/organizations/{id}/calendar?year=&month=`
 - `POST /api/organizations/{id}/assignments`
 - `POST /api/assignments/{id}/cancel`
 
-### Ausencias (PBI-007)
+### 🌴 Ausencias ([PBI-007](../backlog/PBI-007-leaves.md))
 
 - `GET/POST /api/organizations/{id}/leaves`
 - `POST /api/leaves/{id}/cancel`
 
-### Explicación de reglas (PBI-011)
+### ⚖️ Explicación de reglas ([PBI-011](../backlog/PBI-011-ai-explain-stub.md))
 
 - `GET /api/rules/explain?code=HR-01` (también HR-02 / HR-03; otro código → no soportado)
 - El `400` de `AssignShift` incluye `title` / `body`; el calendario los muestra. La UI no reimplementa las hard rules.
 
-Colección Postman: `postman/ShiftFlow-PBI-003-auth-masters.postman_collection.json` (auth + maestros + calendario + leaves + explain; ver `postman/README.md`).
+Referencia completa de contratos (bodies, queries, respuestas): [`docs/api.md`](api.md).
 
-### 3.1. Migraciones EF Core (ADR-007 / PBI-014)
+### 3.1. Migraciones EF Core ([ADR-007](../architecture/decisions/ADR-007-ef-migrations.md) / [PBI-014](../backlog/PBI-014-ef-migrations.md))
 
 Tras `dotnet tool restore` en la raíz:
 
@@ -128,9 +128,9 @@ dotnet ef migrations add <Nombre> --project src/ShiftFlow.Infrastructure --start
 
 Commitear los archivos generados en `src/ShiftFlow.Infrastructure/Persistence/Migrations/`. Al arrancar la Api se aplica `MigrateAsync` (PostgreSQL). Los tests de integración siguen usando SQLite + `EnsureCreated`.
 
-Si el volumen se creó con `EnsureCreated` (antes de PBI-014), **resetea el volumen una vez** (§6) y vuelve a arrancar. Mezclar `EnsureCreated` y `Migrate` en la misma base no es compatible. Los cambios de modelo posteriores no exigen wipe si la migración es aditiva.
+Si el volumen se creó con `EnsureCreated` (antes de [PBI-014](../backlog/PBI-014-ef-migrations.md)), **resetea el volumen una vez** ([§6](#6-parar-y-resetear-datos)) y vuelve a arrancar. Mezclar `EnsureCreated` y `Migrate` en la misma base no es compatible. Los cambios de modelo posteriores no exigen wipe si la migración es aditiva.
 
-### 3.2. Catálogo de demo (PBI-010)
+### 🎭 3.2. Catálogo de demo ([PBI-010](../backlog/PBI-010-runbook-demo-freeze.md))
 
 Con `Demo:SeedCatalog=true` (default en Development) y PostgreSQL, el arranque siembra dos organizaciones de vitrina **si no existen**. No corre en SQLite (tests). Desactivar: `"Demo": { "SeedCatalog": false }` o `Demo__SeedCatalog=false`.
 
@@ -141,28 +141,28 @@ Con `Demo:SeedCatalog=true` (default en Development) y PostgreSQL, el arranque s
 
 Los instantes de turno se guardan con offset 0 (UTC): Npgsql no acepta `DateTimeOffset` local en `timestamptz`. La UI de calendario ya usa el mismo convenio.
 
-El journey SPEC-PRD-002 (crear maestros a mano) sigue válido; el catálogo **complementa** para ver casuísticas sin partir de cero. Reset de datos: §6.
+El journey [SPEC-PRD-002](../specs/product/SPEC-PRD-002-demo-journey.md) (crear maestros a mano) sigue válido; el catálogo **complementa** para ver casuísticas sin partir de cero. Reset de datos: [§6](#6-parar-y-resetear-datos).
 
 Dos caminos de demo (menos de 15 min):
 
 1. **Catálogo:** login → elegir `Demo — Operación` o `Demo — Descanso` en la barra → calendario / ausencias → provocar HR-01/02/03.
-2. **Journey a mano (SPEC-PRD-002):** crear org, depto, empleado, tipo → asignar OK → solape → leave que bloquea.
+2. **Journey a mano ([SPEC-PRD-002](../specs/product/SPEC-PRD-002-demo-journey.md)):** crear org, depto, empleado, tipo → asignar OK → solape → leave que bloquea.
 
-### 3.3. Verificación de arranque en frío (freeze)
+### 🧊 3.3. Verificación de arranque en frío (freeze)
 
-Checklist de evaluador (PBI-010). Humano verificado 2026-08-17 (post-merge #36).
+Checklist de evaluador ([PBI-010](../backlog/PBI-010-runbook-demo-freeze.md)). Humano verificado 2026-08-17 (post-merge #36).
 
 1. Parar AppHost (`Ctrl+C`).
-2. Borrar el volumen Docker de Postgres creado por Aspire (§6).
-3. Arrancar con el comando canónico de §3 (`--launch-profile https`, Debug/Development).
+2. Borrar el volumen Docker de Postgres creado por Aspire ([§6](#6-parar-y-resetear-datos)).
+3. Arrancar con el comando canónico de [§3](#3-arranque-canónico-aspire-apphost) (`--launch-profile https`, Debug/Development).
 4. `GET /api/status` → `"status":"ok"` y base reachable.
 5. Login `demo.admin` → aparecen `Demo — Operación` y `Demo — Descanso`.
-6. Recorrer el journey (menos de 15 min; catálogo o SPEC-PRD-002): asignación válida, rechazo con explicación, ausencia que bloquea.
-7. Smoke UX (PBI-015): cambiar org en la barra desde Calendario y desde el detalle.
+6. Recorrer el journey (menos de 15 min; catálogo o [SPEC-PRD-002](../specs/product/SPEC-PRD-002-demo-journey.md)): asignación válida, rechazo con explicación, ausencia que bloquea.
+7. Smoke UX ([PBI-015](../backlog/PBI-015-ux-ia-freeze.md)): cambiar org en la barra desde Calendario y desde el detalle.
 
 ---
 
-## 4. Contingencia: solo PostgreSQL con Compose
+## 🐳 4. Contingencia: solo PostgreSQL con Compose
 
 Si AppHost no puede orquestar contenedores:
 
@@ -182,7 +182,7 @@ Host=localhost;Port=5433;Database=shiftflow;Username=shiftflow;Password=shiftflo
 
 ---
 
-## 5. Compilar y tests
+## 🧪 5. Compilar y tests
 
 ```powershell
 dotnet build ShiftFlow.sln
@@ -202,7 +202,7 @@ dotnet test ShiftFlow.sln
 
 ---
 
-## 7. Troubleshooting
+## 🛠️ 7. Troubleshooting
 
 | Síntoma | Qué revisar |
 |---------|-------------|
@@ -215,17 +215,17 @@ dotnet test ShiftFlow.sln
 | Web no ve la Api | Arrancar vía AppHost (inyecta service discovery) o configurar base address manualmente |
 | SDK incorrecto | Este skeleton usa **net10.0**. Instala .NET 10 SDK (`dotnet --list-sdks`) |
 | Dashboard Aspire: `UntrustedRoot` / gRPC SSL | `dotnet dev-certs https --trust` (aceptar el diálogo de Windows). Cerrar navegadores y reiniciar el AppHost. |
-| Api falla al arrancar: tablas ya existen / historial de migraciones vacío | Volumen creado con `EnsureCreated` (pre PBI-014). Resetear volumen (§6) una vez. |
+| Api falla al arrancar: tablas ya existen / historial de migraciones vacío | Volumen creado con `EnsureCreated` (pre [PBI-014](../backlog/PBI-014-ef-migrations.md)). Resetear volumen ([§6](#6-parar-y-resetear-datos)) una vez. |
 | Catálogo vacío en Production / `-c Release` sin Development | `Demo:SeedCatalog` es false fuera de Development. Usa el perfil `https` del AppHost. |
 
 ---
 
 ## 8. Usuario demo
 
-Ver §3 (usuario `demo.admin`, rol `Administrator`, contraseña vía user-secrets/env o default de desarrollo).
+Ver [§3](#3-arranque-canónico-aspire-apphost) (usuario `demo.admin`, rol `Administrator`, contraseña vía user-secrets/env o default de desarrollo).
 
 ---
 
-## 9. Presentación del MVP (C-PRE)
+## 🎬 9. Presentación del MVP ([C-PRE](../specs/product/SPEC-PRD-001-mvp-capabilities.md))
 
 Vídeo de arquitectura/gobernanza (10:01) y deck de producto: release [`mvp-0.1`](https://github.com/mortiz-iadev/ShiftFlow/releases/tag/mvp-0.1). El MP4 hay que **descargarlo** (GitHub no hace streaming). SHA-256 y detalle: [docs/presentation/mvp-0.1/README.md](presentation/mvp-0.1/README.md).
