@@ -42,6 +42,12 @@ Aprobado en batch 2026-08-27 (contenido validado en extract; Gate 0 documental).
 | 19 | Sprint Planning and Metrics |
 | 20 | Security Standards (MVP) |
 
+## Enmiendas (post-MVP)
+
+| Archivo | Tema | Estado |
+|---------|------|--------|
+| [amendments/2026-09-18-post-mvp-rules-v2.md](amendments/2026-09-18-post-mvp-rules-v2.md) | Rule Engine hard configurable | Draft |
+
 ## Método SDAF (submodule, no copiar aquí)
 
 Ver [`sdaf-core/handbook/`](../sdaf-core/handbook/README.md).

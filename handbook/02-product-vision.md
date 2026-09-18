@@ -54,7 +54,7 @@ Un responsable de planificación debería poder:
 
 Sin compromiso de fecha en este capítulo; dirección de evolución:
 
-- Reglas avanzadas configurables (hard/soft) derivadas de knowledge real.
+- Reglas avanzadas configurables (hard/soft) derivadas de knowledge real. Primer corte post-MVP (`post-mvp-rules-v2`): **solo hard** configurables; soft diferido — ver [`amendments/2026-09-18-post-mvp-rules-v2.md`](amendments/2026-09-18-post-mvp-rules-v2.md).
 - Generación asistida de cuadrantes con confirmación humana.
 - Optimización bajo restricciones.
 - Colaboración en tiempo real entre roles.
@@ -88,6 +88,7 @@ La visión se considera en buen camino si, a lo largo de las versiones:
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| 0.1.2-draft | 2026-09-18 | Horizonte: primer corte hard-only `post-mvp-rules-v2` (enmienda Draft) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft |
 | 0.1.1 | 2026-08-05 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-05 | Borrador inicial (sesión H3) |

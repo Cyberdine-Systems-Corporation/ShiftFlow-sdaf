@@ -8,9 +8,9 @@ Solo specs **Approved** autorizan implementación (Gate 0).
 
 | Carpeta | Uso | Specs |
 |---------|-----|-------|
-| `product/` | Capabilities / journeys | 3 Approved |
-| `domain/` | Modelo y reglas | 7 Approved |
-| `application/` | Casos de uso | 5 Approved |
-| `acceptance/` | Given/When/Then | 5 Approved |
+| `product/` | Capabilities / journeys | 3 Approved + 1 Draft |
+| `domain/` | Modelo y reglas | 7 Approved + 1 Draft |
+| `application/` | Casos de uso | 5 Approved + 1 Draft |
+| `acceptance/` | Given/When/Then | 5 Approved + 1 Draft |
 
 Ver índices por carpeta en cada `README.md`.
