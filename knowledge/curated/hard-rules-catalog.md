@@ -1,17 +1,17 @@
-# Catálogo curado — hard rules (post-MVP)
+# Catálogo curado — hard y soft rules (post-MVP)
 
 | Campo | Valor |
 |--------|--------|
 | Fuente raw | `knowledge/raw/Domain-Specs-V1.docx`, `2026-07-ShiftFlow-AI-Engineering-Master-Prompt.md`, `handbook/03-mvp-definition.md` §4.3 |
-| Estado | Draft curated — **semántica de HR-04…08 provisional** hasta validación humana contra el DOCX |
+| Estado | Draft curated — semántica HR-04…08 y SR-* **provisional** hasta validación humana contra el DOCX |
 | Fecha | 2026-09-18 |
-| Soft | Out de este catálogo (no fichas soft aquí) |
+| Soft | Piloto SR-01/SR-02 In; fairness scoring avanzado Out |
 
 Extracción append-only. No sustituye specs; alimenta SPEC-DOM-008 y PBIs.
 
 ---
 
-## Ya en MVP (Rule Engine v1)
+## Ya en MVP (Rule Engine v1) — hard
 
 | Código | Nombre | Params | Mandatory |
 |--------|--------|--------|-----------|
@@ -28,56 +28,73 @@ Extracción append-only. No sustituye specs; alimenta SPEC-DOM-008 y PBIs.
 | Campo | Valor provisional |
 |--------|-------------------|
 | Bloquea si | El candidato es turno “noche” y el día calendario de inicio no cumple la paridad requerida del empleado/org |
-| Params | `Parity` = `Even` \| `Odd`; definición de noche: `NightStartHour`/`NightEndHour` org **o** flag en ShiftType (decidir en spec) |
-| Dependencias | Employee u Organization policy; catálogo ShiftType |
-| Riesgo | Definición de “noche” y zona horaria (MVP homogéneo) |
+| Params | `Parity` = `Even` \| `Odd`; definición de noche: `NightStartHour`/`NightEndHour` org **o** flag en ShiftType |
 | PBI | PBI-018 |
 
 ### HR-05 — Bolsa mensual de horas
 
 | Campo | Valor provisional |
 |--------|-------------------|
-| Bloquea si | Horas `Assigned` del empleado en el mes calendario de `StartAt` + duración del candidato &gt; `MaxMonthlyHours` |
-| Params | `MaxMonthlyHours` (decimal/horas) |
-| Dependencias | Suma de intervalos Assigned del mes |
+| Bloquea si | Horas Assigned del mes + candidato &gt; `MaxMonthlyHours` |
+| Params | `MaxMonthlyHours` |
 | PBI | PBI-019 |
 
 ### HR-06 — Racha máxima (“ocho días”)
 
 | Campo | Valor provisional |
 |--------|-------------------|
-| Bloquea si | Tras asignar el candidato, el empleado tendría más de `MaxConsecutiveWorkDays` días calendario consecutivos con ≥1 turno Assigned |
-| Params | `MaxConsecutiveWorkDays` (entero; knowledge “ocho” → default documentado 8) |
-| Dependencias | Assigned del empleado en ventana alrededor del candidato |
+| Bloquea si | Más de `MaxConsecutiveWorkDays` días consecutivos con Assigned |
+| Params | `MaxConsecutiveWorkDays` (default documentado 8) |
 | PBI | PBI-020 |
 
 ### HR-07 — Cuotas nocturnas
 
 | Campo | Valor provisional |
 |--------|-------------------|
-| Bloquea si | Nº de turnos noche Assigned en la ventana (mes o rolling) sale de `[MinNights, MaxNights]` al incluir el candidato |
-| Params | `MinNights`, `MaxNights`, `Window` = `CalendarMonth` \| `RollingDays` (+ `RollingDayCount` si aplica) |
-| Dependencias | Misma definición de noche que HR-04 |
+| Bloquea si | Noches en ventana fuera de `[MinNights, MaxNights]` |
+| Params | `MinNights`, `MaxNights`, `Window` |
 | PBI | PBI-021 |
 
 ### HR-08 — Validación intermensual
 
 | Campo | Valor provisional |
 |--------|-------------------|
-| Bloquea si | La asignación cruza o incumple una restricción que involucra el mes anterior/siguiente (p. ej. descanso mínimo **entre** el último Assigned del mes M−1 y el primero de M, o tope de bolsa que arrastra — **fijar una sola semántica en aprobación de spec**) |
-| Params | Pendiente de ficha DOCX; placeholder `Mode` hasta curación fina |
-| Dependencias | Assigned en frontera de mes; posible interacción HR-03/HR-05 |
+| Bloquea si | Incumple restricción de frontera de mes (semántica a fijar con DOCX) |
 | PBI | PBI-022 |
-| Nota | **No implementar** hasta cerrar semántica con humano + DOCX |
+| Nota | **No implementar** hasta cerrar semántica |
 
 ---
 
-## Out explícito (no curar como hard en v2)
+## Soft piloto (In del corte)
 
-- Preferencias blandas / fairness scoring.
-- Contratos parciales como motor aparte (puede informar params futuros).
-- Alertas no bloqueantes.
+### SR-01 — Preferencia fin de semana
+
+| Campo | Valor provisional |
+|--------|-------------------|
+| Severidad | Soft (aviso; **no** bloquea) |
+| Avisa si | Candidato en sáb/dom y preferencia de libre en fin de semana |
+| Params | `PreferFreeWeekend` (bool) |
+| Default config | Disabled |
+| PBI | PBI-024 |
+
+### SR-02 — Preferencia de tipología de turno
+
+| Campo | Valor provisional |
+|--------|-------------------|
+| Severidad | Soft |
+| Avisa si | Lista preferida no vacía y el ShiftType del candidato no está en ella |
+| Params | `PreferredShiftTypeIds` |
+| Default config | Disabled |
+| PBI | PBI-025 |
+
+---
+
+## Out explícito (no en v2)
+
+- Fairness scoring / ranking global.
+- Soft adicionales del DOCX no listados (entrar por enmienda).
 - Optimization / auto-scheduling.
+- Soft bloqueante.
 
 ---
 
@@ -85,4 +102,5 @@ Extracción append-only. No sustituye specs; alimenta SPEC-DOM-008 y PBIs.
 
 | Fecha | Cambio |
 |--------|--------|
-| 2026-09-18 | Primera curación Draft desde handbook + master prompt (sin parseo DOCX binario) |
+| 2026-09-18 | Soft piloto SR-01/SR-02; fairness avanzado Out |
+| 2026-09-18 | Primera curación Draft hard |

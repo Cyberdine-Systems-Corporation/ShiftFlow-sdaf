@@ -1,71 +1,89 @@
-# SPEC-ACC-006 — Aceptación catálogo hard y configuración
+# SPEC-ACC-006 — Aceptación catálogo hard/soft y configuración
 
 | Campo | Valor |
 |--------|--------|
 | ID | SPEC-ACC-006 |
-| Versión | 0.1.0 |
+| Versión | 0.2.0 |
 | Estado | Draft |
 | Fecha | 2026-09-18 |
 | Fuentes | SPEC-DOM-008, SPEC-APP-006, SPEC-DOM-006 |
 | ADRs relacionados | ADR-009 |
-| Backlog | PBI-016, PBI-017 |
-| Derivados | IntegrationTests API (+ unit Domain catálogo) |
+| Backlog | PBI-016, PBI-017, PBI-023 |
+| Derivados | IntegrationTests API (+ unit Domain) |
 
 ---
 
 ## 1. Contexto
 
-Cubre la **plataforma** Rule Engine v2 (catálogo + config). No sustituye ACC-002/003/004 (regresión MVP) ni los ACC futuros por HR-04…08.
+Plataforma Rule Engine v2 (catálogo hard+soft + config + avisos). No sustituye ACC-002/003/004 ni ACC por HR-04…08 / SR-01/02 detallados.
 
 ---
 
-## 2. Escenarios
+## 2. Escenarios hard / config
 
 ### ACC-R2-01 — Default equivale a v1 (HR-01)
 
-**Dado** una Organization sin filas de `OrganizationRuleConfig`  
-**Y** un empleado con turno Assigned solapado  
-**Cuando** se intenta AssignShift solapado  
+**Dado** Organization sin filas de config  
+**Cuando** AssignShift solapado  
 **Entonces** error `HR-01` y no se persiste
 
 ### ACC-R2-02 — No se puede desactivar HR-01
 
-**Dado** Administrator autenticado  
-**Cuando** Upsert config `HR-01` con `Enabled=false`  
-**Entonces** la API rechaza la operación  
-**Y** Evaluate sigue aplicando HR-01
+**Cuando** Upsert `HR-01` Enabled=false  
+**Entonces** rechazo de la operación y HR-01 sigue activa
 
 ### ACC-R2-03 — Desactivar HR-03
 
-**Dado** Organization con HR-03 enabled y `MinimumRestMinutes=660` (rechazo conocido)  
-**Cuando** se pone HR-03 `Enabled=false`  
-**Y** se asigna un turno con gap &lt; 660  
-**Entonces** la asignación **se persiste**
+**Cuando** HR-03 Enabled=false y AssignShift con gap &lt; umbral previo  
+**Entonces** se persiste
 
 ### ACC-R2-04 — Reactivar HR-03
 
-**Dado** el estado tras ACC-R2-03  
-**Cuando** se reactiva HR-03 con `MinimumRestMinutes=660`  
-**Y** se intenta otro turno con gap insuficiente  
+**Cuando** HR-03 enabled con umbral y gap insuficiente  
 **Entonces** error `HR-03` y no se persiste
 
 ### ACC-R2-05 — Regresión journey MVP
 
 **Dado** config default  
-**Cuando** se ejecuta el journey SPEC-PRD-002 (API)  
-**Entonces** HR-01/02/03 siguen comportándose como en mvp-0.1
+**Cuando** journey SPEC-PRD-002  
+**Entonces** HR-01/02/03 como mvp-0.1 y sin warnings soft obligatorios
 
 ---
 
-## 3. Out
+## 3. Escenarios soft (plataforma)
 
-- Escenarios HR-04…08 (ACC dedicados por PBI).
-- Soft rules.
+### ACC-R2-S01 — Soft no bloquea
+
+**Dado** SR-01 (o soft de prueba) enabled y condición de aviso cumplida  
+**Y** sin violación hard  
+**Cuando** AssignShift  
+**Entonces** HTTP éxito y cuerpo con `warnings` que incluye el código soft  
+**Y** la asignación está persistida
+
+### ACC-R2-S02 — Soft disabled
+
+**Dado** el mismo escenario con soft Enabled=false  
+**Cuando** AssignShift  
+**Entonces** éxito sin ese código en `warnings`
+
+### ACC-R2-S03 — Hard gana a soft
+
+**Dado** soft enabled y hard HR-01 incumplida  
+**Cuando** AssignShift  
+**Entonces** 400 `HR-01` y no se persiste
 
 ---
 
-## 4. Historial
+## 4. Out
+
+- Detalle semántico HR-04…08 / SR-01/02 (ACC por PBI).
+- Fairness avanzado.
+
+---
+
+## 5. Historial
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
-| 0.1.0 | 2026-09-18 | Draft inicial |
+| 0.2.0 | 2026-09-18 | Escenarios soft ACC-R2-S* |
+| 0.1.0 | 2026-09-18 | Draft solo hard |

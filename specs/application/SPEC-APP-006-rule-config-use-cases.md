@@ -1,70 +1,75 @@
-# SPEC-APP-006 — Configuración del catálogo de reglas y AssignShift v2
+# SPEC-APP-006 — Configuración del catálogo y AssignShift v2 (hard + soft)
 
 | Campo | Valor |
 |--------|--------|
 | ID | SPEC-APP-006 |
-| Versión | 0.1.0 |
+| Versión | 0.2.0 |
 | Estado | Draft |
 | Fecha | 2026-09-18 |
 | Fuentes | SPEC-DOM-008, SPEC-APP-003, SPEC-APP-005, enmienda `post-mvp-rules-v2` |
 | ADRs relacionados | ADR-003, ADR-009 |
-| Backlog | PBI-016, PBI-017 (+ explain en PBI-018…) |
-| Derivados | SPEC-ACC-006; endpoints API; UI mínima Blazor |
+| Backlog | PBI-016, PBI-017, PBI-023 (+ reglas 018…025) |
+| Derivados | SPEC-ACC-006; API; UI mínima Blazor |
 
 ---
 
 ## 1. Contexto
 
-Casos de uso para **consultar y actualizar** la configuración hard por Organization, y evolución de `AssignShift` para consumir el catálogo activo.
+Configurar el catálogo **hard y soft** por Organization y evolucionar `AssignShift` para consumir `RuleEvaluationResult`.
 
-Actor: **Administrator** autenticado.
+Actor: **Administrator**.
 
 ---
 
-## 2. Comandos / consultas de configuración
+## 2. Configuración
 
-| Operación | Precondiciones | Postcondiciones | Errores |
-|-----------|----------------|-----------------|---------|
-| `GetOrganizationRuleConfig` | Org existe; Actor Administrator | Lista de reglas del catálogo con Enabled, Mandatory, Params efectivos | 404 org; 401/403 |
-| `UpsertOrganizationRuleConfig` | Org existe; Code conocido; si Mandatory, no permitir Enabled=false | Config persistida; Evaluate posterior respeta cambios | Params inválidos; intento de desactivar Mandatory; Code desconocido |
+| Operación | Postcondiciones | Errores |
+|-----------|-----------------|---------|
+| `GetOrganizationRuleConfig` | Lista hard+soft con Kind, Enabled, Mandatory, Params | 404; 401/403 |
+| `UpsertOrganizationRuleConfig` | Persistido; no desactivar Mandatory; Kind inmutable respecto al catálogo | Params inválidos; Code desconocido; Kind mismatch |
 
-UI mínima (In): una sección/pantalla Blazor bajo maestros/org que invoca estas operaciones (enable + editar params visibles, p. ej. `MinimumRestMinutes` de HR-03).
+UI mínima: enable/params para hard y soft (p. ej. HR-03 minutos; flags SR).
 
 ---
 
 ## 3. AssignShift (evolución)
 
-Respecto a SPEC-APP-003:
+1. Cargar contexto (ventana para reglas enabled).
+2. Resolver hard activas (mandatory ∪ enabled) y soft enabled.
+3. `RuleEngine.Evaluate(ctx)` → `RuleEvaluationResult`.
+4. Si `HardViolations` no vacío: no persistir; 400 + explain del hard (lista o primera).
+5. Si solo soft (o ninguno): **persistir**; respuesta de éxito incluye `warnings: [{ code, message, title?, body? }]` (puede estar vacío).
+6. Soft no usa 400.
 
-1. Cargar Assigned/Leaves/params necesarios en `RuleEvaluationContext` (ventana suficiente para reglas enabled).
-2. Resolver reglas activas (mandatory ∪ enabled).
-3. `RuleEngine.Evaluate(ctx)`.
-4. Si hay violaciones: no persistir; construir `RuleViolationException` (como mínimo la primera; preferible exponer lista/códigos en cuerpo API en el mismo corte de plataforma o en follow-up documentado).
-5. Invocar `IRuleExplanation` para el código rechazado (stub; sin mutar).
-
-Compat: sin filas de config → comportamiento idéntico a SPEC-APP-003 / DOM-006.
-
----
-
-## 4. Criterios de aceptación (aplicación)
-
-1. Get/Upsert solo Administrator.
-2. Upsert no puede desactivar HR-01.
-3. Tras desactivar HR-03, AssignShift con gap corto **persiste** (ACC).
-4. Tras reactivar HR-03 con umbral &gt; gap, **rechaza** con `HR-03`.
+Compat: sin config → hard = SPEC-APP-003; `warnings` vacío.
 
 ---
 
-## 5. Out
+## 4. Calendar (UI mínima — PBI-023)
 
-- UI avanzada (preview masivo, historial de auditoría de config).
-- Soft rules.
-- Explain con LLM.
+Tras AssignShift exitoso con warnings: mostrar alerta no bloqueante (códigos SR-*) en Calendar. Hard sigue en error 400 como hoy.
 
 ---
 
-## 6. Historial
+## 5. Criterios de aceptación (aplicación)
+
+1. Get/Upsert Administrator; no desactivar HR-01.
+2. HR-03 off → gap corto persiste.
+3. Soft enabled + condición → 2xx con `warnings` y asignación persistida.
+4. Soft disabled → sin warnings en el mismo escenario.
+5. Hard + soft a la vez → 400 hard; no persistir (soft no se evalúa o se ignora en respuesta de error; documentar: **no se exige** devolver soft si hay hard).
+
+---
+
+## 6. Out
+
+- UI avanzada; Explain LLM; fairness avanzado; soft bloqueante.
+
+---
+
+## 7. Historial
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
-| 0.1.0 | 2026-09-18 | Draft inicial |
+| 0.2.0 | 2026-09-18 | Soft warnings en éxito; UI avisos |
+| 0.1.0 | 2026-09-18 | Draft solo hard |

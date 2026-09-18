@@ -112,11 +112,12 @@ Enmienda: [`amendments/2026-09-18-post-mvp-rules-v2.md`](amendments/2026-09-18-p
 
 | Oleada | PBIs | Entrega |
 |--------|------|---------|
-| Plataforma | PBI-016, PBI-017 | Catálogo `IHardRule` + config org + UI mínima |
+| Plataforma | PBI-016, PBI-017, PBI-023 | Catálogo hard+soft, config, UI mínima + avisos Calendar |
 | Hard nuevas 1 | PBI-018…020 | HR-04 pares/impares, HR-05 bolsa, HR-06 racha |
 | Hard nuevas 2 | PBI-021, PBI-022 | HR-07 cuotas nocturnas, HR-08 intermensual |
+| Soft piloto | PBI-024, PBI-025 | SR-01 fin de semana, SR-02 tipología |
 
-Soft preferences y Optimization **no** entran en este corte.
+Fairness scoring avanzado y Optimization **no** entran en este corte.
 
 ---
 
@@ -139,7 +140,8 @@ Soft preferences y Optimization **no** entran en este corte.
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
-| 0.2.1-draft | 2026-09-18 | §5.1 corte `post-mvp-rules-v2` (enmienda Draft; pendiente aprobación humana) |
+| 0.2.2-draft | 2026-09-18 | §5.1 incluye soft piloto (PBI-023…025) |
+| 0.2.1-draft | 2026-09-18 | §5.1 corte `post-mvp-rules-v2` hard-only (superseded) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft |
 | 0.2.0 | 2026-08-05 | Enmienda Approved: slides + vídeo como cierre del Sprint 3 / hito 22 ago |
 | 0.1.1 | 2026-08-05 | Approved tras revisión humana |

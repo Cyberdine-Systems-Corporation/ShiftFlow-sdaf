@@ -9,6 +9,6 @@ Norma: `sdaf-core/handbook/04-specification-standard.md`, `handbook/12-cqrs-vert
 | [SPEC-APP-003](SPEC-APP-003-calendar-assign-use-cases.md) | Calendario y asignación manual | Approved |
 | [SPEC-APP-004](SPEC-APP-004-leave-use-cases.md) | Casos de uso de Leave | Approved |
 | [SPEC-APP-005](SPEC-APP-005-rule-explain-stub.md) | Stub de explicación de reglas | Approved |
-| [SPEC-APP-006](SPEC-APP-006-rule-config-use-cases.md) | Config catálogo reglas + AssignShift v2 | Draft |
+| [SPEC-APP-006](SPEC-APP-006-rule-config-use-cases.md) | Config catálogo hard+soft + AssignShift v2 | Draft |
 
 Solo specs **Approved** autorizan implementación de producto (Gate 0).
