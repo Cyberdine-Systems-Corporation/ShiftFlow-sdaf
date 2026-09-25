@@ -90,6 +90,9 @@ MANIFEST=(
   "skills/sdaf-worklog-handoff|../sdaf-core/skills/sdaf-worklog-handoff"
   "skills/adr-propose|../sdaf-core/skills/adr-propose"
   "skills/spec-draft-pbi|../sdaf-core/skills/spec-draft-pbi"
+  "skills/testing-review-pr|../sdaf-core/skills/testing-review-pr"
+  "skills/security-review|../sdaf-core/skills/security-review"
+  "skills/devops-ci-gate|../sdaf-core/skills/devops-ci-gate"
   "agents/specification-agent.md|../sdaf-core/agents/specification-agent.md"
   "agents/architecture-agent.md|../sdaf-core/agents/architecture-agent.md"
   "agents/testing-review-agent.md|../sdaf-core/agents/testing-review-agent.md"
@@ -109,6 +112,7 @@ MANIFEST=(
   "prompts/agents/review-agent.md|../../sdaf-core/prompts/agents/review-agent.md"
   "prompts/agents/testing-agent.md|../../sdaf-core/prompts/agents/testing-agent.md"
   ".cursor/rules/idioma-castellano.mdc|../../sdaf-core/.cursor/rules/idioma-castellano.mdc"
+  ".cursor/rules/git-remoto-encargo.mdc|../../sdaf-core/.cursor/rules/git-remoto-encargo.mdc"
 )
 
 require_submodule sdaf-core

@@ -299,6 +299,9 @@ $Manifest = @(
     @{ Link = 'skills/sdaf-worklog-handoff'; Target = '../sdaf-core/skills/sdaf-worklog-handoff' }
     @{ Link = 'skills/adr-propose'; Target = '../sdaf-core/skills/adr-propose' }
     @{ Link = 'skills/spec-draft-pbi'; Target = '../sdaf-core/skills/spec-draft-pbi' }
+    @{ Link = 'skills/testing-review-pr'; Target = '../sdaf-core/skills/testing-review-pr' }
+    @{ Link = 'skills/security-review'; Target = '../sdaf-core/skills/security-review' }
+    @{ Link = 'skills/devops-ci-gate'; Target = '../sdaf-core/skills/devops-ci-gate' }
 
     # Core — agents
     @{ Link = 'agents/specification-agent.md'; Target = '../sdaf-core/agents/specification-agent.md' }
@@ -324,6 +327,7 @@ $Manifest = @(
 
     # Core — regla Cursor
     @{ Link = '.cursor/rules/idioma-castellano.mdc'; Target = '../../sdaf-core/.cursor/rules/idioma-castellano.mdc' }
+    @{ Link = '.cursor/rules/git-remoto-encargo.mdc'; Target = '../../sdaf-core/.cursor/rules/git-remoto-encargo.mdc' }
 )
 
 Push-Location $RepoRoot

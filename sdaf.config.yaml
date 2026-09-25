@@ -2,14 +2,14 @@
 # Pack .NET activo; importación de producto desde ShiftFlow-sdaf-extract (fase siguiente).
 
 sdaf:
-  version: "0.2.1"
+  version: "0.4.0"
 
 project:
   name: ShiftFlow
   language: es
 
 stack:
-  pack: sdaf-stack-dotnet@0.1.1
+  pack: sdaf-stack-dotnet@0.3.0
   src_path: src
   tests_path: tests
 

@@ -44,7 +44,7 @@ El manifesto de pares `(enlace, destino)` vive **solo** en los scripts; este doc
 | Origen | Rutas en el consumidor |
 |--------|-------------------------|
 | `sdaf-stack-dotnet` | `skills/csharp-*`, `blazor-*`, `aspire-*`; agentes/prompts pack; `.cursor/rules/coding-standards-csharp.mdc` |
-| `sdaf-core` | `skills/sdaf-*`, `adr-propose`, `spec-draft-pbi`; agentes/prompts núcleo; `.cursor/rules/idioma-castellano.mdc` |
+| `sdaf-core` | `skills/sdaf-*`, `adr-propose`, `spec-draft-pbi`, `testing-review-pr`, `security-review`, `devops-ci-gate`; agentes/prompts núcleo; `.cursor/rules/idioma-castellano.mdc`, `.cursor/rules/git-remoto-encargo.mdc` |
 | Cursor | `.cursor/skills/<id>` → submodule (misma fuente que `skills/<id>`) |
 
 Archivos **reales** del consumidor (no symlinks): `skills/README.md`, `AGENTS.md`, handbook de producto, specs, etc.
@@ -62,9 +62,12 @@ Abrir una skill por `skills/<id>/SKILL.md` y por `.cursor/skills/<id>/SKILL.md`;
 
 ## Upgrade de pack o core
 
-1. Actualizar submodule al nuevo tag.
-2. Volver a ejecutar el script (`-Force` / `--force` si cambió la estructura de rutas).
-3. Revisar `AGENTS.md` y worklogs si cambió el inventario de agentes.
+1. Actualizar submodule al nuevo tag (pin vigente: `sdaf-core` `v0.4.0`, `sdaf-stack-dotnet` `v0.3.0`).
+2. Si el core o el pack añaden skills o reglas, añadir el par al manifesto de **ambos** scripts (`.ps1` y `.sh`).
+3. Volver a ejecutar el script (`-Force` / `--force` si cambió la estructura de rutas).
+4. Revisar `AGENTS.md` y worklogs si cambió el inventario de agentes.
+
+Sin Modo desarrollador ni shell elevado, el script alinea el índice (mode `120000`) pero no crea el enlace en disco: `git status` muestra `AD`. El commit es correcto; para ver el contenido en local, repetir `-Force` con permisos de symlink.
 
 ## Edición de contenido
 
@@ -82,5 +85,5 @@ Abrir una skill por `skills/<id>/SKILL.md` y por `.cursor/skills/<id>/SKILL.md`;
 
 ## Fuera de alcance
 
-- CLI empaquetada (`sdaf materialize`) — candidata a sdaf-core 0.3.x.
+- CLI empaquetada (`sdaf materialize`): fuera de la línea 0.3.x/0.4.x del core (las skills playbook bastan).
 - Junctions de Windows.

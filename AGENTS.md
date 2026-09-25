@@ -2,19 +2,22 @@
 
 | Campo | Valor |
 |--------|--------|
-| Versión | 0.2.1 |
+| Versión | 0.4.0 |
 | Estado | Draft |
-| Fecha | 2026-09-13 |
-| Norma | `sdaf-core/handbook/06`, `07`, `08`; pack `sdaf-stack-dotnet` |
+| Fecha | 2026-09-25T11:33+02:00 |
+| Norma | `sdaf-core/handbook/06`, `07`, `08`, `10`, `13`; pack `sdaf-stack-dotnet` |
 | Config | `sdaf.config.yaml` |
-| Core | `sdaf-core` @ v0.2.1 |
-| Pack | `sdaf-stack-dotnet` @ v0.1.1 |
+| Core | `sdaf-core` @ v0.4.0 (línea `0.4.0`) |
+| Pack | `sdaf-stack-dotnet` @ v0.3.0 |
 
 ---
 
 ## Propósito
 
 Ingeniería de la reconstrucción de ShiftFlow. Gate 0 obligatorio antes de código en `src/`.
+
+> [!CAUTION]
+> Antes de cualquier feature: Gate 0 ([sdaf-core/handbook/05](sdaf-core/handbook/05-development-workflow.md)).
 
 ## Modelo
 
@@ -25,10 +28,19 @@ Ingeniería de la reconstrucción de ShiftFlow. Gate 0 obligatorio antes de cód
 
 ## Handoff canónico
 
-```text
-Specification → Architecture → domain-application → frontend
-                                      ↘ testing-review ↗
+```mermaid
+flowchart LR
+  Spec[Specification] --> Arch[Architecture]
+  Arch --> DA[domain-application]
+  DA --> FE[frontend]
+  DA --> TR[testing-review]
+  FE --> TR
+  Arch --> TR
+  classDef ok fill:#d4edda,stroke:#2d6a4f,color:#1a1a1a;
+  class Spec,Arch,DA,FE,TR ok
 ```
+
+El saliente cierra worklog con «siguiente agente». El entrante lee worklog + specs; no depende del chat efímero.
 
 ## Inventario
 
@@ -57,22 +69,45 @@ Contratos en `agents/` y prompts en `prompts/agents/` son **symlinks** al pin de
 
 | Agente | Rol | Flujo típico | IDE |
 |--------|-----|--------------|-----|
-| Specification | `prompts/agents/specification-agent.md` | `spec-draft-pbi`, `sdaf-worklog-handoff` | `idioma-castellano` |
-| Architecture | `prompts/agents/architecture-agent.md` | `adr-propose`, `sdaf-worklog-handoff` | `idioma-castellano` |
-| Testing+Review | `prompts/agents/testing-review-agent.md` | `sdaf-gate0`, `sdaf-worklog-handoff` | `idioma-castellano` |
-| Domain+Application | `prompts/agents/domain-application-agent.md` | `csharp-adr006-slice`, `sdaf-gate0`, `sdaf-worklog-handoff` | `idioma-castellano`, `coding-standards-csharp` |
-| Frontend | `prompts/agents/frontend-agent.md` | `blazor-bff-slice`, `sdaf-gate0`, `sdaf-worklog-handoff` | `idioma-castellano`, `coding-standards-csharp` |
+| Specification | `prompts/agents/specification-agent.md` | `spec-draft-pbi`, `sdaf-worklog-handoff` | `idioma-castellano`, `git-remoto-encargo` |
+| Architecture | `prompts/agents/architecture-agent.md` | `adr-propose`, `sdaf-worklog-handoff` | `idioma-castellano`, `git-remoto-encargo` |
+| Testing+Review | `prompts/agents/testing-review-agent.md` | `sdaf-gate0`, `testing-review-pr`, `security-review` (si aplica), `sdaf-worklog-handoff` | `idioma-castellano`, `git-remoto-encargo` |
+| Domain+Application | `prompts/agents/domain-application-agent.md` | `csharp-adr006-slice`, `sdaf-gate0`, `sdaf-worklog-handoff` | `idioma-castellano`, `git-remoto-encargo`, `coding-standards-csharp` |
+| Frontend | `prompts/agents/frontend-agent.md` | `blazor-bff-slice`, `sdaf-gate0`, `sdaf-worklog-handoff` | `idioma-castellano`, `git-remoto-encargo`, `coding-standards-csharp` |
 
 **Stubs:** solo contrato + prompt base hasta activación humana explícita. `PROMPT-SYS-001` es gobernanza de director; no forma parte del paquete de implementación.
 
-Worklogs **nuevos**: recibo de iteración + línea de decisión (H08 §4.1–4.2). No reescribir `worklogs/TRANSPLANTE/` ni `INIT-REBUILD/`.
+Worklogs **nuevos** (desde la línea 0.4.0): frontmatter de [`sdaf-core/templates/worklog.md`](sdaf-core/templates/worklog.md) (`commit`, `pr`, `rama`, `sha` o `null`), línea de decisión y origen de cambios (H08 §4.1–4.3). Los worklogs en tabla siguen válidos; sin backfill. No reescribir `worklogs/TRANSPLANTE/` ni `INIT-REBUILD/`.
 
 ## Skills
 
-- Core: [skills/](skills/) (`sdaf-gate0`, `sdaf-bootstrap`, `sdaf-upgrade`, …)
+Citar `skill-id@version` en worklogs (H06 §6, H07).
+
+| Prioridad | Skills (core) |
+|-----------|----------------|
+| Alta | `sdaf-gate0`, `sdaf-worklog-handoff`, `sdaf-agent-router`, `sdaf-bootstrap`, `testing-review-pr`, `security-review` |
+| Media | `spec-draft-pbi`, `adr-propose`, `sdaf-upgrade` |
+| Baja | `devops-ci-gate` |
+
+- Core: [skills/](skills/)
 - Pack: `csharp-adr006-slice`, `blazor-bff-slice`, `aspire-local-run`
 - Cursor: `.cursor/skills/<id>` → submodule (misma fuente que `skills/<id>`)
 
+## Gobierno
+
+- Aceptación humana y QG-Review: la identidad de [`CODEOWNERS`](CODEOWNERS) (H10, H13 §2 y §7). El dictamen de un agente no es el merge.
+- Seguridad: [`SECURITY.md`](SECURITY.md) y QG-Sec (H12 §5.2).
+- Git/remoto: solo si **este turno** lo nombra (`.cursor/rules/git-remoto-encargo.mdc`; H06 §7).
+- Fechas nuevas en ISO 8601 con hora y zona (H13 §9).
+- Adopción / upgrade: [sdaf-core/docs/adopcion-y-upgrade.md](sdaf-core/docs/adopcion-y-upgrade.md).
+
 ## Restricciones
 
-No aprobar normas; no saltar Gate 0; no secretos; castellano en artefactos de ingeniería.
+Ningún agente: aprueba handbook/specs por sí solo; salta Gate 0; implementa alcance Out del corte vigente; introduce secretos; altera el remoto ni crea commit local sin petición humana explícita **en este turno** (H06 §7: el historial de la conversación no autoriza); ejecuta force-push, reescribe historia o auto-merge sin orden humana. Castellano en artefactos de ingeniería.
+
+## Historial
+
+| Versión | Fecha | Cambio |
+|---------|--------|--------|
+| 0.2.1 | 2026-09-13 | Fila inicial de historial (cabecera ya publicada) |
+| 0.4.0 | 2026-09-25T11:33+02:00 | Upgrade a sdaf-core v0.4.0 y sdaf-stack-dotnet v0.3.0: plantilla 0.3.3, skills Parte III, `git-remoto-encargo`, CODEOWNERS, SECURITY y worklogs con frontmatter |
