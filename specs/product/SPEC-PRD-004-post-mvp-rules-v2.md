@@ -5,7 +5,7 @@
 | ID | SPEC-PRD-004 |
 | Versión | 0.2.0 |
 | Estado | Draft |
-| Fecha | 2026-09-18 |
+| Fecha | 2026-09-18T23:06+02:00 |
 | Fuentes | Enmienda `post-mvp-rules-v2`, SPEC-PRD-001 (C-RUL), handbook H02/H04 |
 | ADRs relacionados | ADR-009 |
 | Backlog | PBI-016…025 |
@@ -52,5 +52,5 @@ Fairness scoring avanzado, Optimization, IA de escritura, UI avanzada, Complianc
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
-| 0.2.0 | 2026-09-18 | Soft In (SR-01/02, warnings) |
-| 0.1.0 | 2026-09-18 | Draft solo hard |
+| 0.2.0 | 2026-09-18T23:06+02:00 | Soft In (SR-01/02, warnings) |
+| 0.1.0 | 2026-09-18T22:47+02:00 | Draft solo hard |

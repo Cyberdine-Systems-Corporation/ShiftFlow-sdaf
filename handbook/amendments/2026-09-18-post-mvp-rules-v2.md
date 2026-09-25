@@ -2,8 +2,8 @@
 
 | Campo | Valor |
 |--------|--------|
-| **Estado** | Draft (pendiente aprobación humana) |
-| **Fecha** | 2026-09-18 |
+| **Estado** | Draft (pendiente de aceptación humana por CODEOWNERS) |
+| **Fecha** | 2026-09-25T18:42+02:00 |
 | **Norma superior** | [03-mvp-definition.md](../03-mvp-definition.md), [04-product-roadmap.md](../04-product-roadmap.md), [02-product-vision.md](../02-product-vision.md) |
 | **ADR** | [ADR-009](../../architecture/decisions/ADR-009-rule-engine-v2-catalogo-hard.md) (Propuesto) |
 | **Specs** | SPEC-PRD-004, SPEC-DOM-008, SPEC-APP-006, SPEC-ACC-006 (Draft) |
@@ -69,9 +69,19 @@ El MVP `mvp-0.1` está cerrado (backlog PBI-001…015 Hecho; paridad extract fir
 
 ---
 
-## 7. Historial
+## 7. Aceptación
+
+- **Quién acepta:** la identidad de [`CODEOWNERS`](../../CODEOWNERS) (sdaf-core H13 §2; el rol «director técnico» no está definido). Ningún agente acepta esta enmienda ni declara Approved.
+- **Qué acepta:** esta enmienda, [ADR-009](../../architecture/decisions/ADR-009-rule-engine-v2-catalogo-hard.md) (Propuesto → Aceptado, con fila `Aceptación` fechada con hora y zona) y SPEC-PRD-004, SPEC-DOM-008, SPEC-APP-006 y SPEC-ACC-006 (Draft → Approved).
+- **Clase del cambio** (H13 §6): *significado* para la visión y el roadmap de producto (amplía el alcance In tras `mvp-0.1`): bump minor de H02/H04 de producto y fila de historial al aceptar.
+- **Cómo:** revisión y merge del PR por CODEOWNERS (QG-Review, H13 §7); sin auto-merge.
+
+---
+
+## 8. Historial
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
-| 0.2.0 | 2026-09-18 | In: soft + hard en el mismo corte; Out: fairness avanzado / Optimization |
-| 0.1.0 | 2026-09-18 | Draft inicial Fase 0 (solo hard) |
+| 0.2.1 | 2026-09-25T18:42+02:00 | Realineada a sdaf-core 0.4.0 (redacción): §7 Aceptación por CODEOWNERS y clase del cambio (H13 §2, §6); fechas con hora (H13 §9) |
+| 0.2.0 | 2026-09-18T23:06+02:00 | In: soft + hard en el mismo corte; Out: fairness avanzado / Optimization |
+| 0.1.0 | 2026-09-18T22:47+02:00 | Draft inicial Fase 0 (solo hard) |
