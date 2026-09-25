@@ -68,9 +68,9 @@ function Get-LinkTargetRaw {
         if ($null -eq $t) { return $null }
         if ($t -is [System.Array]) {
             if ($t.Length -eq 0) { return $null }
-            return ([string]$t[0]).Trim()
+            return [string]$t[0]
         }
-        return ([string]$t).Trim()
+        return [string]$t
     }
     # Placeholder Git sin symlink OS: archivo de texto con el target relativo
     if (-not $item.PSIsContainer -and $item.Length -gt 0 -and $item.Length -lt 1024) {
@@ -98,6 +98,8 @@ function Test-LinkPointsToExpected {
     )
     $raw = Get-LinkTargetRaw -LinkPath $LinkPath
     if ([string]::IsNullOrWhiteSpace($raw)) { return $false }
+    # Un target con BOM o saltos de línea no resuelve aunque el texto "parezca" correcto.
+    if ($raw -match '[﻿\r\n]') { return $false }
 
     $normalizedRaw = Get-NormalizedTarget -TargetRelative $raw
     $normalizedExpected = Get-NormalizedTarget -TargetRelative $ExpectedRelative
@@ -136,7 +138,11 @@ function Get-IndexSymlinkTarget {
     $hash = $Matches[1]
     $blob = (git -C $RepoRoot cat-file -p $hash 2>$null)
     if (-not $blob) { return $null }
-    return Get-NormalizedTarget -TargetRelative ([string]$blob).Trim()
+    $normalized = Get-NormalizedTarget -TargetRelative ([string]$blob)
+    # Blob con BOM/CRLF u otro relleno: no es canónico, se trata como distinto.
+    $size = [int](git -C $RepoRoot cat-file -s $hash)
+    if ($size -ne [System.Text.Encoding]::UTF8.GetByteCount($normalized)) { return "<no-canonico>$normalized" }
+    return $normalized
 }
 
 function Remove-LinkOrCopy {
@@ -169,7 +175,16 @@ function Set-GitSymlinkIndex {
     if ($current -eq $normalizedTarget) {
         return $false
     }
-    $hash = ($normalizedTarget | git -C $RepoRoot hash-object -w --stdin).Trim()
+    # Blob exacto (UTF-8 sin BOM, sin salto final): el pipe de PS 5.1 añade CRLF/BOM
+    # y deja un target que no resuelve en GitHub ni en Windows.
+    $tmp = [System.IO.Path]::GetTempFileName()
+    try {
+        [System.IO.File]::WriteAllBytes($tmp, (New-Object System.Text.UTF8Encoding($false)).GetBytes($normalizedTarget))
+        $hash = (git -C $RepoRoot hash-object -w -- $tmp | Select-Object -First 1).Trim()
+    }
+    finally {
+        Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+    }
     if (-not $hash) {
         throw "git hash-object falló para '$LinkRelative'"
     }
