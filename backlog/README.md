@@ -24,6 +24,24 @@ Trasplante desde `ShiftFlow-sdaf-extract` (2026-08-27): código y tests en este 
 | 14 | [PBI-014](PBI-014-ef-migrations.md) | Migraciones EF Core | 2–3 | SPEC-PRD-001, ADR-007 | Hecho |
 | 15 | [PBI-015](PBI-015-ux-ia-freeze.md) | Jerarquía UX freeze (Blazor) | 3 | SPEC-PRD-003 | Hecho |
 
+## Post-MVP — `post-mvp-rules-v2` (gobernanza Approved)
+
+Enmienda: [`handbook/amendments/2026-09-18-post-mvp-rules-v2.md`](../handbook/amendments/2026-09-18-post-mvp-rules-v2.md).  
+Gate 0: specs Approved + ADR-009 Aceptado antes de código. **Hard + soft** en el mismo corte.
+
+| Orden | ID | Título | Oleada | Specs / ADR | Estado |
+|------:|----|--------|--------|-------------|--------|
+| 16 | [PBI-016](PBI-016-rule-catalog-ihardrule.md) | Catálogo IHardRule + ISoftRule | Plataforma | DOM-008, APP-006, ACC-006, ADR-009 | Pendiente |
+| 17 | [PBI-017](PBI-017-organization-rule-config.md) | OrganizationRuleConfig + UI mínima | Plataforma | DOM-008, APP-006, ACC-006 | Pendiente |
+| 18 | [PBI-018](PBI-018-hr04-night-parity.md) | HR-04 Noches pares/impares | Hard 1 | DOM-008 §4.2 | Pendiente |
+| 19 | [PBI-019](PBI-019-hr05-monthly-hour-bag.md) | HR-05 Bolsa mensual | Hard 1 | DOM-008 §4.2 | Pendiente |
+| 20 | [PBI-020](PBI-020-hr06-max-consecutive-days.md) | HR-06 Racha máxima | Hard 1 | DOM-008 §4.2 | Pendiente |
+| 21 | [PBI-021](PBI-021-hr07-night-quotas.md) | HR-07 Cuotas nocturnas | Hard 2 | DOM-008 §4.2 | Pendiente |
+| 22 | [PBI-022](PBI-022-hr08-intermonth.md) | HR-08 Intermensual | Hard 2 | DOM-008 §4.2 (bloqueado) | Pendiente |
+| 23 | [PBI-023](PBI-023-soft-warnings-assign-ui.md) | Avisos soft AssignShift/Calendar | Plataforma | APP-006, ACC-006 | Pendiente |
+| 24 | [PBI-024](PBI-024-sr01-weekend-preference.md) | SR-01 Preferencia fin de semana | Soft | DOM-008 §5 | Pendiente |
+| 25 | [PBI-025](PBI-025-sr02-shift-type-preference.md) | SR-02 Preferencia tipología | Soft | DOM-008 §5 | Pendiente |
+
 ## Leyenda
 
 | Estado PBI | Significado |

@@ -2,7 +2,7 @@
 
 ![.NET 10](https://img.shields.io/badge/.NET-10-512BD4) ![Aspire 13.4.6](https://img.shields.io/badge/Aspire-13.4.6-512BD4) ![EF Core 10 (Npgsql)](https://img.shields.io/badge/EF%20Core-10.0%20%28Npgsql%29-512BD4) ![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-4169E1) ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
-[![Producto: mvp-0.1](https://img.shields.io/badge/producto-mvp--0.1-2E7D32)](handbook/03-mvp-definition.md) [![Siguiente corte: post-mvp-rules-v2](https://img.shields.io/badge/siguiente%20corte-post--mvp--rules--v2%20%28Fase%200%29-F9A825)](handbook/04-product-roadmap.md)
+[![Producto: mvp-0.1](https://img.shields.io/badge/producto-mvp--0.1-2E7D32)](handbook/03-mvp-definition.md) [![Siguiente corte: post-mvp-rules-v2 (aprobado)](https://img.shields.io/badge/siguiente%20corte-post--mvp--rules--v2%20%28aprobado%29-1565C0)](handbook/04-product-roadmap.md)
 
 [![validate-sdaf](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf/actions/workflows/validate-sdaf.yml/badge.svg?branch=main)](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf/actions/workflows/validate-sdaf.yml) [![sdaf-core v0.4.0](https://img.shields.io/badge/sdaf--core-v0.4.0-0A66C2)](https://github.com/Cyberdine-Systems-Corporation/sdaf-core/tree/v0.4.0) [![sdaf.version 0.4.0](https://img.shields.io/badge/sdaf.version-0.4.0-0A66C2)](sdaf.config.yaml) [![sdaf-stack-dotnet v0.3.0](https://img.shields.io/badge/sdaf--stack--dotnet-v0.3.0-512BD4)](https://github.com/Cyberdine-Systems-Corporation/sdaf-stack-dotnet/tree/v0.3.0)
 

@@ -83,6 +83,7 @@ Etiqueta **Implementación: diferida (DOCX / Out MVP)**:
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| note | 2026-09-18 | Evolución post-MVP: ver SPEC-DOM-008 (Draft) + ADR-009 (Propuesto); este doc sigue siendo norma v1/MVP |
 | approve | 2026-08-27 | Aprobación batch post-import (contenido validado en extract; Gate 0 documental) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft; citas sdaf-core remapeadas 0.1→0.2 |
 | 0.1.2 | 2026-08-12 | Cross-ref HR-02 → SPEC-DOM-007 / SPEC-ACC-003 (editorial) |

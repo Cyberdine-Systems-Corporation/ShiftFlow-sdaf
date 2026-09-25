@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 |--------|--------|
-| **Versión** | 0.2.0 |
+| **Versión** | 0.3.0 |
 | **Estado** | Approved |
-| **Fecha** | 2026-08-05 |
+| **Fecha** | 2026-09-25T19:35+02:00 |
 | **Parte** | I — Constitución de producto |
 | **Norma superior** | [03-mvp-definition.md](03-mvp-definition.md) |
 | **Deriva hacia** | `backlog/`, planificación de sprints, Parte VI del handbook |
@@ -106,6 +106,19 @@ Orden sugerido tras el 22 ago:
 5. Optimization Engine.
 6. Multitenancy e integraciones.
 
+### 5.1 Primer corte activo: `post-mvp-rules-v2` (Approved)
+
+Enmienda: [`amendments/2026-09-18-post-mvp-rules-v2.md`](amendments/2026-09-18-post-mvp-rules-v2.md).
+
+| Oleada | PBIs | Entrega |
+|--------|------|---------|
+| Plataforma | PBI-016, PBI-017, PBI-023 | Catálogo hard+soft, config, UI mínima + avisos Calendar |
+| Hard nuevas 1 | PBI-018…020 | HR-04 pares/impares, HR-05 bolsa, HR-06 racha |
+| Hard nuevas 2 | PBI-021, PBI-022 | HR-07 cuotas nocturnas, HR-08 intermensual |
+| Soft piloto | PBI-024, PBI-025 | SR-01 fin de semana, SR-02 tipología |
+
+Fairness scoring avanzado y Optimization **no** entran en este corte.
+
 ---
 
 ## 6. Gestión de desvíos
@@ -127,6 +140,9 @@ Orden sugerido tras el 22 ago:
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| 0.3.0 | 2026-09-25T19:35+02:00 | Enmienda `post-mvp-rules-v2` Approved por @mortiz-iadev (CODEOWNERS): §5.1 en vigor (H13 §6, clase significado) |
+| 0.2.2-draft | 2026-09-18T23:06+02:00 | §5.1 incluye soft piloto (PBI-023…025) |
+| 0.2.1-draft | 2026-09-18T22:47+02:00 | §5.1 corte `post-mvp-rules-v2` hard-only (superseded) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft |
 | 0.2.0 | 2026-08-05 | Enmienda Approved: slides + vídeo como cierre del Sprint 3 / hito 22 ago |
 | 0.1.1 | 2026-08-05 | Approved tras revisión humana |

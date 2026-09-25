@@ -9,5 +9,6 @@ Norma: `sdaf-core/handbook/04-specification-standard.md`, `handbook/16-testing-f
 | [SPEC-ACC-003](SPEC-ACC-003-leave-and-hr02.md) | Aceptación Leave y HR-02 (PBI-007) | Approved |
 | [SPEC-ACC-004](SPEC-ACC-004-hr03-min-rest.md) | Aceptación HR-03 descanso mínimo (PBI-006) | Approved |
 | [SPEC-ACC-005](SPEC-ACC-005-rule-explain-stub.md) | Aceptación stub explicación de reglas (PBI-011) | Approved |
+| [SPEC-ACC-006](SPEC-ACC-006-rule-catalog-config.md) | Aceptación catálogo hard/soft y configuración | Approved |
 
 Derivan a tests automatizados; no sustituyen SPEC-PRD-002 (journey completo MVP).
