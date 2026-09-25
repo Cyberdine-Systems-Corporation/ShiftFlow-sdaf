@@ -2,12 +2,12 @@
 
 | Campo | Valor |
 |--------|--------|
-| **Versión** | 0.1.1 |
+| **Versión** | 0.1.2 |
 | **Estado** | Approved |
-| **Fecha** | 2026-08-05 |
+| **Fecha** | 2026-09-25T19:58+02:00 |
 | **Parte** | V — Calidad y entrega |
-| **Norma superior** | [08-specification-standard.md](08-specification-standard.md), [09-development-workflow.md](09-development-workflow.md), [03-mvp-definition.md](03-mvp-definition.md) |
-| **Deriva hacia** | `tests/`, Gate 2–3, [17-code-review-and-quality-gates.md](17-code-review-and-quality-gates.md) |
+| **Norma superior** | [04-specification-standard.md](../sdaf-core/handbook/04-specification-standard.md), [05-development-workflow.md](../sdaf-core/handbook/05-development-workflow.md), [03-mvp-definition.md](03-mvp-definition.md) |
+| **Deriva hacia** | `tests/`, Gate 2–3, [10-code-review-and-quality-gates.md](../sdaf-core/handbook/10-code-review-and-quality-gates.md) |
 
 ---
 
@@ -84,5 +84,6 @@ Nombrar tests según escenario de acceptance (`AssignShift_WhenOverlap_ShouldRej
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft |
+| 0.1.2 | 2026-09-25T19:58+02:00 | Enlaces a la norma del core corregidos (numeración antigua del extract → sdaf-core/handbook 04, 05 y 10); sin cambio de contenido |
 | 0.1.1 | 2026-08-05 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-05 | Borrador inicial (sesión H8) |

@@ -2,11 +2,11 @@
 
 | Campo | Valor |
 |--------|--------|
-| **Versión** | 0.1.1 |
+| **Versión** | 0.1.2 |
 | **Estado** | Approved |
-| **Fecha** | 2026-08-05 |
+| **Fecha** | 2026-09-25T19:58+02:00 |
 | **Parte** | III — Arquitectura |
-| **Norma superior** | [10-solution-architecture.md](10-solution-architecture.md), [08-specification-standard.md](08-specification-standard.md) |
+| **Norma superior** | [10-solution-architecture.md](10-solution-architecture.md), [04-specification-standard.md](../sdaf-core/handbook/04-specification-standard.md) |
 | **Deriva hacia** | `specs/domain/`, `architecture/contexts/`, Domain project |
 
 ---
@@ -124,5 +124,6 @@ Hasta entonces: **modularidad interna**, no partición prematura.
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft |
+| 0.1.2 | 2026-09-25T19:58+02:00 | Enlaces a la norma del core corregidos (numeración antigua del extract → sdaf-core/handbook 04, 05 y 10); sin cambio de contenido |
 | 0.1.1 | 2026-08-05 | Approved tras revisión humana |
 | 0.1.0 | 2026-08-05 | Borrador inicial (sesión H6) |
