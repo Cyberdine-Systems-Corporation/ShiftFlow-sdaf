@@ -1,0 +1,44 @@
+name: validate-sdaf
+
+# Validación de gobernanza SDAF del consumidor (sdaf-core v0.4.0, adopcion-y-upgrade §0.4.0 paso 5).
+# Acciones fijadas por SHA (comentario = versión). El pin de la action coincide con el submódulo sdaf-core.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-sdaf-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sdaf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # diff contra la base: presencia de worklog en PRs
+          submodules: true
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: sdaf.config.yaml contra schema e invariantes (I4 estricto) y presencia de worklog
+        uses: Cyberdine-Systems-Corporation/sdaf-core/.github/actions/validate-sdaf@fa48537704ab84c16349da20ec9f79ad2cb8a395 # v0.4.0
+        with:
+          config-paths: sdaf.config.yaml
+          check-worklog: "true"
+          strict-i4: "true"
+      - name: Worklogs con frontmatter (línea 0.4.0) contra worklog.schema.json
+        shell: bash
+        run: |
+          # Solo worklogs nuevos con frontmatter; los de tabla anteriores siguen válidos sin backfill (H08, adopcion-y-upgrade §0.4.0).
+          shopt -s globstar nullglob
+          files=()
+          for f in worklogs/**/*.md; do
+            if [ "$(head -n 1 "$f" | tr -d '\r')" = "---" ]; then files+=("$f"); fi
+          done
+          if [ ${#files[@]} -gt 0 ]; then python sdaf-core/scripts/validate-worklog.py "${files[@]}"; fi

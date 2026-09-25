@@ -77,8 +77,8 @@ Este repo es un **consumidor** del método SDAF: [`sdaf-core`](sdaf-core/README.
 
 | Componente | Pin |
 |------------|-----|
-| Método | [`sdaf-core`](sdaf-core/README.md) @ v0.2.1 |
-| Pack | [`sdaf-stack-dotnet`](sdaf-stack-dotnet/README.md) @ v0.1.1 |
+| Método | [`sdaf-core`](sdaf-core/README.md) @ v0.4.0 (línea `0.4.0`) |
+| Pack | [`sdaf-stack-dotnet`](sdaf-stack-dotnet/README.md) @ v0.3.0 |
 | Extract (fuente histórica) | [`ShiftFlow-sdaf-extract`](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf-extract) |
 
 Clonado con submódulos (necesario para materializar agentes/prompts vía symlinks):

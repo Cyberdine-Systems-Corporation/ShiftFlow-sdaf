@@ -1,0 +1,7 @@
+# CODEOWNERS
+
+# Identidad nominada para QG-Review y aceptación humana en ShiftFlow
+# (sdaf-core H10 §3.1, H13 §2 y §7). Con un solo mantenedor, esta identidad
+# puede aprobar su propio PR; el auto-merge de un agente sigue prohibido sin
+# orden humana (H06 §7). Un agente no es owner.
+* @mortiz-iadev

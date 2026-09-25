@@ -1,6 +1,6 @@
-﻿# Bootstrap â€” nuevo proyecto desde esta plantilla
+# Bootstrap â€” nuevo proyecto desde esta plantilla
 
-Compatible con **sdaf-core@v0.2.0**. GuÃ­a larga del mÃ©todo: `sdaf-core/docs/adopcion-y-upgrade.md`. Skill: `sdaf-core/skills/sdaf-bootstrap`.
+Compatible con **sdaf-core@v0.4.0** + **sdaf-stack-dotnet@v0.3.0**. GuÃ­a larga del mÃ©todo: `sdaf-core/docs/adopcion-y-upgrade.md`. Skill: `sdaf-core/skills/sdaf-bootstrap`.
 
 ## 1. Renombrar el producto
 
