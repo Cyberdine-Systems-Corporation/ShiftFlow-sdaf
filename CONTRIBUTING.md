@@ -43,10 +43,18 @@ dotnet ef migrations add <Nombre> --project src/ShiftFlow.Infrastructure --start
 
 - Mensajes de commit, títulos y cuerpos de PR/issues: **en castellano**, prosa breve centrada en el porqué. Prefijo opcional (`feat:`, `fix:`, `docs:`, `chore:`).
 - Evitar mensajes solo en inglés tipo "Add X" / "Update Y".
+- El cuerpo del PR declara la **clase del cambio** ([H13 §6](sdaf-core/handbook/13-enmienda-excepciones-ciclo-de-vida.md#6-regla-de-bump-y-commits)): *significado* (cambia una obligación de un artefacto Approved → bump minor + historial) o *redacción* (sin cambio de norma → bump patch).
+- Revisión y merge: la identidad de [`CODEOWNERS`](CODEOWNERS) (QG-Review, H10 / H13 §7). Sin auto-merge ni force-push.
+- Agentes de IA: commit local y cualquier escritura al remoto (push, PR, merge) **solo** si el mensaje humano de ese turno lo pide ([H06 §7](sdaf-core/handbook/06-ai-agent-framework.md#7-restricciones-globales), regla `.cursor/rules/git-remoto-encargo.mdc`).
+- Fechas nuevas en cabeceras, historiales, ADRs y worklogs: ISO 8601 con hora y zona (`AAAA-MM-DDThh:mm±hh:mm`, H13 §9). Las fechas ya publicadas no se completan.
 
 ## 🧾 Worklogs
 
-Los cambios de ingeniería relevantes registran un worklog (recibo de iteración + línea de decisión, [`handbook 08 §4.1–4.2`](sdaf-core/handbook/08-agent-traceability.md)). No reescribir los worklogs de [`worklogs/TRANSPLANTE/`](worklogs/TRANSPLANTE/) ni [`worklogs/INIT-REBUILD/`](worklogs/INIT-REBUILD/) — son histórico.
+Los worklogs **nuevos** usan el frontmatter de [`sdaf-core/templates/worklog.md`](sdaf-core/templates/worklog.md) (`commit`, `pr`, `rama`, `sha` o `null`), con línea de decisión y origen de cambios ([`handbook 08 §4.1–4.3`](sdaf-core/handbook/08-agent-traceability.md)). Los worklogs en tabla siguen válidos; no se reescriben. No reescribir los worklogs de [`worklogs/TRANSPLANTE/`](worklogs/TRANSPLANTE/) ni [`worklogs/INIT-REBUILD/`](worklogs/INIT-REBUILD/) — son histórico.
+
+## 🔐 Seguridad
+
+Reporte de vulnerabilidades y alcance de QG-Sec: [`SECURITY.md`](SECURITY.md).
 
 ## 🔒 Secretos
 
