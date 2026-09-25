@@ -2,9 +2,10 @@
 
 | Campo | Valor |
 |--------|--------|
-| Estado | Propuesto |
-| Fecha | 2026-09-25T18:42+02:00 |
+| Estado | Aceptado |
+| Fecha | 2026-09-25T19:28+02:00 |
 | Decisores | Propone: agente Architecture. Acepta: identidad de [`CODEOWNERS`](../../CODEOWNERS) (sdaf-core H13 §2) |
+| Aceptación | 2026-09-25T19:28+02:00 — @mortiz-iadev (CODEOWNERS), por instrucción humana explícita «Aprueba ADR-009» (sdaf-core H13 §2) |
 | Relacionado | ADR-003, `handbook/amendments/2026-09-18-post-mvp-rules-v2.md`, SPEC-DOM-008, PBI-016…025 |
 
 ---
@@ -70,6 +71,7 @@ ADR-003 permanece válido para el MVP; este ADR lo **extiende** para `post-mvp-r
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| 0.3.0 | 2026-09-25T19:28+02:00 | Aceptado por @mortiz-iadev (CODEOWNERS); sin cambio de decisión respecto a 0.2.1 |
 | 0.2.1 | 2026-09-25T18:42+02:00 | Realineado a sdaf-core 0.4.0 (redacción, sin cambio de decisión): fechas con hora (H13 §9), aceptante = CODEOWNERS (H13 §2); typo en Alternativas |
 | 0.2.0 | 2026-09-18T23:06+02:00 | Incluye soft (`ISoftRule`, warnings); fairness avanzado Out |
 | 0.1.0 | 2026-09-18T22:47+02:00 | Propuesto solo hard |

@@ -16,7 +16,7 @@ Importados desde `ShiftFlow-sdaf-extract`. **Aceptados** en batch 2026-08-27 (al
 | [ADR-005](ADR-005-auth-basica-mvp.md) | Auth básica (Identity + cookie); código en PBI-002 | Aceptado |
 | [ADR-006](ADR-006-coding-standards.md) | Estándares de código (regiones, XML docs, sin `var`) | Aceptado |
 | [ADR-007](ADR-007-ef-migrations.md) | Evolución de esquema con migraciones EF Core | Aceptado |
-| [ADR-009](ADR-009-rule-engine-v2-catalogo-hard.md) | Rule Engine v2: catálogo hard + soft configurable | Propuesto |
+| [ADR-009](ADR-009-rule-engine-v2-catalogo-hard.md) | Rule Engine v2: catálogo hard + soft configurable | Aceptado |
 
 **No importado:** ADR-008 (extracción SDAF al fork extract) — decisión histórica del laboratorio; el consumidor usa submodules pinneados.
 

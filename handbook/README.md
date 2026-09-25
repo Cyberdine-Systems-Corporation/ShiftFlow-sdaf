@@ -46,7 +46,7 @@ Aprobado en batch 2026-08-27 (contenido validado en extract; Gate 0 documental).
 
 | Archivo | Tema | Estado |
 |---------|------|--------|
-| [amendments/2026-09-18-post-mvp-rules-v2.md](amendments/2026-09-18-post-mvp-rules-v2.md) | Rule Engine hard configurable | Draft |
+| [amendments/2026-09-18-post-mvp-rules-v2.md](amendments/2026-09-18-post-mvp-rules-v2.md) | Rule Engine hard + soft configurable | Approved |
 
 ## Método SDAF (submodule, no copiar aquí)
 

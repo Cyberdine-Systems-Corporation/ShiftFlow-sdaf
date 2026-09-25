@@ -24,7 +24,7 @@ Trasplante desde `ShiftFlow-sdaf-extract` (2026-08-27): código y tests en este 
 | 14 | [PBI-014](PBI-014-ef-migrations.md) | Migraciones EF Core | 2–3 | SPEC-PRD-001, ADR-007 | Hecho |
 | 15 | [PBI-015](PBI-015-ux-ia-freeze.md) | Jerarquía UX freeze (Blazor) | 3 | SPEC-PRD-003 | Hecho |
 
-## Post-MVP — `post-mvp-rules-v2` (Draft gobernanza)
+## Post-MVP — `post-mvp-rules-v2` (gobernanza Approved)
 
 Enmienda: [`handbook/amendments/2026-09-18-post-mvp-rules-v2.md`](../handbook/amendments/2026-09-18-post-mvp-rules-v2.md).  
 Gate 0: specs Approved + ADR-009 Aceptado antes de código. **Hard + soft** en el mismo corte.

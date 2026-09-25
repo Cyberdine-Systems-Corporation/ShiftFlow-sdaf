@@ -3,10 +3,10 @@
 | Campo | Valor |
 |--------|--------|
 | ID | SPEC-DOM-008 |
-| Versión | 0.2.0 |
-| Estado | Draft |
-| Fecha | 2026-09-18T23:06+02:00 |
-| Fuentes | SPEC-DOM-006 (Approved), ADR-003, ADR-009 (Propuesto), enmienda `post-mvp-rules-v2`, `knowledge/curated/hard-rules-catalog.md` |
+| Versión | 0.2.1 |
+| Estado | Approved |
+| Fecha | 2026-09-25T19:35+02:00 |
+| Fuentes | SPEC-DOM-006 (Approved), ADR-003, ADR-009 (Aceptado), enmienda `post-mvp-rules-v2`, `knowledge/curated/hard-rules-catalog.md` |
 | ADRs relacionados | ADR-003, ADR-009 |
 | Backlog | PBI-016…PBI-025 |
 | Derivados | SPEC-APP-006, SPEC-ACC-006 |
@@ -121,5 +121,6 @@ Enmienda `post-mvp-rules-v2` §4.
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| 0.2.1 | 2026-09-25T19:35+02:00 | Approved por @mortiz-iadev (CODEOWNERS), instrucción humana explícita «Aprueba la enmienda y las specs» (sdaf-core H13 §2) |
 | 0.2.0 | 2026-09-18T23:06+02:00 | Soft piloto SR-01/02 + `RuleEvaluationResult` |
 | 0.1.0 | 2026-09-18T22:47+02:00 | Draft solo hard |

@@ -2,11 +2,11 @@
 
 | Campo | Valor |
 |--------|--------|
-| **Estado** | Draft (pendiente de aceptación humana por CODEOWNERS) |
-| **Fecha** | 2026-09-25T18:42+02:00 |
+| **Estado** | Approved |
+| **Fecha** | 2026-09-25T19:35+02:00 |
 | **Norma superior** | [03-mvp-definition.md](../03-mvp-definition.md), [04-product-roadmap.md](../04-product-roadmap.md), [02-product-vision.md](../02-product-vision.md) |
-| **ADR** | [ADR-009](../../architecture/decisions/ADR-009-rule-engine-v2-catalogo-hard.md) (Propuesto) |
-| **Specs** | SPEC-PRD-004, SPEC-DOM-008, SPEC-APP-006, SPEC-ACC-006 (Draft) |
+| **ADR** | [ADR-009](../../architecture/decisions/ADR-009-rule-engine-v2-catalogo-hard.md) (Aceptado) |
+| **Specs** | SPEC-PRD-004, SPEC-DOM-008, SPEC-APP-006, SPEC-ACC-006 (Approved) |
 
 ---
 
@@ -82,6 +82,7 @@ El MVP `mvp-0.1` está cerrado (backlog PBI-001…015 Hecho; paridad extract fir
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| 0.2.2 | 2026-09-25T19:35+02:00 | Approved por @mortiz-iadev (CODEOWNERS), instrucción humana explícita «Aprueba la enmienda y las specs» (sdaf-core H13 §2) |
 | 0.2.1 | 2026-09-25T18:42+02:00 | Realineada a sdaf-core 0.4.0 (redacción): §7 Aceptación por CODEOWNERS y clase del cambio (H13 §2, §6); fechas con hora (H13 §9) |
 | 0.2.0 | 2026-09-18T23:06+02:00 | In: soft + hard en el mismo corte; Out: fairness avanzado / Optimization |
 | 0.1.0 | 2026-09-18T22:47+02:00 | Draft inicial Fase 0 (solo hard) |

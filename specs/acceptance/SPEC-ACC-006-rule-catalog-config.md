@@ -3,9 +3,9 @@
 | Campo | Valor |
 |--------|--------|
 | ID | SPEC-ACC-006 |
-| Versión | 0.2.0 |
-| Estado | Draft |
-| Fecha | 2026-09-18T23:06+02:00 |
+| Versión | 0.2.1 |
+| Estado | Approved |
+| Fecha | 2026-09-25T19:35+02:00 |
 | Fuentes | SPEC-DOM-008, SPEC-APP-006, SPEC-DOM-006 |
 | ADRs relacionados | ADR-009 |
 | Backlog | PBI-016, PBI-017, PBI-023 |
@@ -85,5 +85,6 @@ Plataforma Rule Engine v2 (catálogo hard+soft + config + avisos). No sustituye 
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
+| 0.2.1 | 2026-09-25T19:35+02:00 | Approved por @mortiz-iadev (CODEOWNERS), instrucción humana explícita «Aprueba la enmienda y las specs» (sdaf-core H13 §2) |
 | 0.2.0 | 2026-09-18T23:06+02:00 | Escenarios soft ACC-R2-S* |
 | 0.1.0 | 2026-09-18T22:47+02:00 | Draft solo hard |

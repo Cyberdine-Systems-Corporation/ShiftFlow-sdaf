@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 |--------|--------|
-| **Versión** | 0.2.0 |
+| **Versión** | 0.3.0 |
 | **Estado** | Approved |
-| **Fecha** | 2026-08-05 |
+| **Fecha** | 2026-09-25T19:35+02:00 |
 | **Parte** | I — Constitución de producto |
 | **Norma superior** | [03-mvp-definition.md](03-mvp-definition.md) |
 | **Deriva hacia** | `backlog/`, planificación de sprints, Parte VI del handbook |
@@ -106,7 +106,7 @@ Orden sugerido tras el 22 ago:
 5. Optimization Engine.
 6. Multitenancy e integraciones.
 
-### 5.1 Primer corte activo: `post-mvp-rules-v2` (Draft)
+### 5.1 Primer corte activo: `post-mvp-rules-v2` (Approved)
 
 Enmienda: [`amendments/2026-09-18-post-mvp-rules-v2.md`](amendments/2026-09-18-post-mvp-rules-v2.md).
 
@@ -140,8 +140,9 @@ Fairness scoring avanzado y Optimization **no** entran en este corte.
 
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
-| 0.2.2-draft | 2026-09-18 | §5.1 incluye soft piloto (PBI-023…025) |
-| 0.2.1-draft | 2026-09-18 | §5.1 corte `post-mvp-rules-v2` hard-only (superseded) |
+| 0.3.0 | 2026-09-25T19:35+02:00 | Enmienda `post-mvp-rules-v2` Approved por @mortiz-iadev (CODEOWNERS): §5.1 en vigor (H13 §6, clase significado) |
+| 0.2.2-draft | 2026-09-18T23:06+02:00 | §5.1 incluye soft piloto (PBI-023…025) |
+| 0.2.1-draft | 2026-09-18T22:47+02:00 | §5.1 corte `post-mvp-rules-v2` hard-only (superseded) |
 | import | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Draft |
 | 0.2.0 | 2026-08-05 | Enmienda Approved: slides + vídeo como cierre del Sprint 3 / hito 22 ago |
 | 0.1.1 | 2026-08-05 | Approved tras revisión humana |
