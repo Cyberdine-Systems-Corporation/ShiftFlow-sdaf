@@ -66,6 +66,7 @@ Abrir una skill por `skills/<id>/SKILL.md` y por `.cursor/skills/<id>/SKILL.md`;
 2. Si el core o el pack añaden skills o reglas, añadir el par al manifesto de **ambos** scripts (`.ps1` y `.sh`).
 3. Volver a ejecutar el script (`-Force` / `--force` si cambió la estructura de rutas).
 4. Revisar `AGENTS.md` y worklogs si cambió el inventario de agentes.
+5. Actualizar los badges de la cabecera de [`README.md`](../README.md): `sdaf-core`, `sdaf.version` y `sdaf-stack-dotnet` (versión y tag del enlace). Si cambia el stack o el corte de producto, también .NET, Aspire, EF Core, PostgreSQL, `producto` y `siguiente corte`. El badge `validate-sdaf` es dinámico.
 
 Sin Modo desarrollador ni shell elevado, el script alinea el índice (mode `120000`) pero no crea el enlace en disco: `git status` muestra `AD`. El commit es correcto; para ver el contenido en local, repetir `-Force` con permisos de symlink.
 
