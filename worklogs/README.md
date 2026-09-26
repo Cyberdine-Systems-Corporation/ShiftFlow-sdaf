@@ -13,3 +13,4 @@ Desde la línea 0.4.0 del core, los worklogs **nuevos** llevan frontmatter YAML 
 | `POST-MVP-RULES-V2/` | Corte Rule Engine hard + soft configurable (Iteration-003 con frontmatter 0.4.0) |
 | [`UPGRADE-SDAF-0.4/`](UPGRADE-SDAF-0.4/Iteration-002.md) | Upgrade de gobernanza a sdaf-core v0.4.0 + sdaf-stack-dotnet v0.3.0; parche core v0.4.2 y adopción de gentle-ai (Iteration-002) |
 | `FIX-ENLACES/` | Corrección de symlinks con destino corrupto y de enlaces de handbook |
+| [`FIX-BOOTSTRAP/`](FIX-BOOTSTRAP/Iteration-001.md) | `BOOTSTRAP.md` alineado a core v0.4.2 y pack v0.3.0; codificación reparada |
