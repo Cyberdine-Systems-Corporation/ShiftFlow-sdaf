@@ -32,3 +32,6 @@ agents:
   fusions:
     testing-review: [testing, review]
     domain-application: [domain, application]
+
+tooling:
+  gentle_ai: "520ed86e8c598b01f439e28c34d391cd6f1744e3"   # main tras retirar SDD (ADR-004 de sdaf-core; docs/integracion-gentle-ai.md)

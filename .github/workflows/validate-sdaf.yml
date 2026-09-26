@@ -1,6 +1,6 @@
 name: validate-sdaf
 
-# Validación de gobernanza SDAF del consumidor (sdaf-core v0.4.0, adopcion-y-upgrade §0.4.0 paso 5).
+# Validación de gobernanza SDAF del consumidor (sdaf-core v0.4.2, adopcion-y-upgrade §0.4.0 paso 5; §0.4.1 bloque tooling).
 # Acciones fijadas por SHA (comentario = versión). El pin de la action coincide con el submódulo sdaf-core.
 
 on:
@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: sdaf.config.yaml contra schema e invariantes (I4 estricto) y presencia de worklog
-        uses: Cyberdine-Systems-Corporation/sdaf-core/.github/actions/validate-sdaf@fa48537704ab84c16349da20ec9f79ad2cb8a395 # v0.4.0
+        uses: Cyberdine-Systems-Corporation/sdaf-core/.github/actions/validate-sdaf@581d4ee2d6f7a396d48951bb1f560a426c07307c # v0.4.2
         with:
           config-paths: sdaf.config.yaml
           check-worklog: "true"

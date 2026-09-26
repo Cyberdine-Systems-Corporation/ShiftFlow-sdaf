@@ -4,7 +4,7 @@
 
 [![Producto: mvp-0.1](https://img.shields.io/badge/producto-mvp--0.1-2E7D32)](handbook/03-mvp-definition.md) [![Siguiente corte: post-mvp-rules-v2 (aprobado)](https://img.shields.io/badge/siguiente%20corte-post--mvp--rules--v2%20%28aprobado%29-1565C0)](handbook/04-product-roadmap.md)
 
-[![validate-sdaf](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf/actions/workflows/validate-sdaf.yml/badge.svg?branch=main)](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf/actions/workflows/validate-sdaf.yml) [![sdaf-core v0.4.0](https://img.shields.io/badge/sdaf--core-v0.4.0-0A66C2)](https://github.com/Cyberdine-Systems-Corporation/sdaf-core/tree/v0.4.0) [![sdaf.version 0.4.0](https://img.shields.io/badge/sdaf.version-0.4.0-0A66C2)](sdaf.config.yaml) [![sdaf-stack-dotnet v0.3.0](https://img.shields.io/badge/sdaf--stack--dotnet-v0.3.0-512BD4)](https://github.com/Cyberdine-Systems-Corporation/sdaf-stack-dotnet/tree/v0.3.0)
+[![validate-sdaf](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf/actions/workflows/validate-sdaf.yml/badge.svg?branch=main)](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf/actions/workflows/validate-sdaf.yml) [![sdaf-core v0.4.2](https://img.shields.io/badge/sdaf--core-v0.4.2-0A66C2)](https://github.com/Cyberdine-Systems-Corporation/sdaf-core/tree/v0.4.2) [![sdaf.version 0.4.0](https://img.shields.io/badge/sdaf.version-0.4.0-0A66C2)](sdaf.config.yaml) [![sdaf-stack-dotnet v0.3.0](https://img.shields.io/badge/sdaf--stack--dotnet-v0.3.0-512BD4)](https://github.com/Cyberdine-Systems-Corporation/sdaf-stack-dotnet/tree/v0.3.0) [![gentle-ai 520ed86](https://img.shields.io/badge/gentle--ai-520ed86-6F42C1)](https://github.com/Gentleman-Programming/gentle-ai/tree/520ed86e8c598b01f439e28c34d391cd6f1744e3)
 
 **ShiftFlow** es una aplicación de planificación de turnos: organizaciones, departamentos, empleados, tipos de turno, calendario de asignaciones y ausencias, con un motor de reglas que bloquea asignaciones inválidas (solapes, ausencias activas, descanso mínimo).
 
@@ -81,7 +81,7 @@ Este repo es un **consumidor** del método SDAF: [`sdaf-core`](sdaf-core/README.
 
 | Componente | Pin |
 |------------|-----|
-| Método | [`sdaf-core`](sdaf-core/README.md) @ v0.4.0 (línea `0.4.0`) |
+| Método | [`sdaf-core`](sdaf-core/README.md) @ v0.4.2 (línea `0.4.0`) |
 | Pack | [`sdaf-stack-dotnet`](sdaf-stack-dotnet/README.md) @ v0.3.0 |
 | Extract (fuente histórica) | [`ShiftFlow-sdaf-extract`](https://github.com/Cyberdine-Systems-Corporation/ShiftFlow-sdaf-extract) |
 
