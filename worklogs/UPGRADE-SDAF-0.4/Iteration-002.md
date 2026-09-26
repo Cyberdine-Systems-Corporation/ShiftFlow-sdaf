@@ -25,15 +25,15 @@ coste:
   moneda: EUR
   tokens: null
   fuente: "N/D: sesión de Claude Code por suscripción; sin contador de tokens por iteración"
-observaciones: "Instalación de gentle-ai pendiente del humano (go install fijado al SHA, gentle-ai install --preset custom sin sdd, --scope global, para claude-code y cursor; review mode disable). Tras instalar, confirmar con skill-registry list que sigue los symlinks de skills/ y qué rutas escribe en el repo. BOOTSTRAP.md:55 cita sdaf-stack-dotnet@0.1.0 (obsoleto, fuera de alcance)."
-pruebas_ejecutadas: validate-config.py sdaf.config.yaml --strict-i4 --consumer-root .; validate-worklog.py sobre este worklog
+observaciones: "Instalación de gentle-ai hecha por el humano (2026-09-27): binario 3.0.0-20260925022543-520ed86e8c59 (= tooling.gentle_ai); install --preset custom (engram, skills, context7, permissions), --persona neutral, --scope global, para claude-code y cursor; RDD off. El binario se autoactualizó una vez a main@464fba4 y se reinstaló el SHA declarado; GENTLE_AI_NO_SELF_UPDATE=1 evita la deriva. Requiere Node.js (instalado LTS 24.19.0). doctor: solo falla tool:gga (no adoptado, irrelevante según integracion-gentle-ai). skill-registry indexa las 10 skills del core y las 3 del pack vía los symlinks de skills/. En el repo solo escribe .atl/ (ignorado). Configuración global revisada contra el backup previo: el componente permissions añade la lista deny (se conserva) pero cambia permissions.defaultMode de default a bypassPermissions en ~/.claude/settings.json (contrario a H12 y H06 §7; revertido a default por el humano el 2026-09-27, lista deny intacta con 24 reglas) e instala hooks (review stop-hook inactivo con RDD off, telemetría, skill-registry refresh --no-gitignore). Telemetría desactivada (gentle-ai telemetry disable). ~/.claude/CLAUDE.md y ~/.cursor/rules/gentle-ai.mdc imponen ODD con commit por tarea: aquí lo neutralizan AGENTS.md (Tooling externo) y git-remoto-encargo; no editarlos a mano porque gentle-ai sync los reescribe. Revisar settings.json tras cada sync, upgrade o reinstalación. BOOTSTRAP.md:55 cita sdaf-stack-dotnet@0.1.0 (obsoleto, fuera de alcance)."
+pruebas_ejecutadas: validate-config.py sdaf.config.yaml --strict-i4 --consumer-root .; validate-worklog.py sobre este worklog; gentle-ai doctor; gentle-ai review mode status; gentle-ai skill-registry list; ausencia de skills sdd-* en ~/.claude/skills y ~/.cursor/skills
 estado: hecho
-siguiente_agente: humano (instalación de gentle-ai y revisión por CODEOWNERS)
+siguiente_agente: humano (revisión del PR por CODEOWNERS)
 commit: null
-pr: null
+pr: 15
 rama: chore/sdaf-core-0.4.2-gentle-ai
 sha: null
-resumen_acumulado: "sdaf-upgrade@0.2.0 — core v0.4.0→v0.4.2 y adopción de gentle-ai (tooling.gentle_ai); rama chore/sdaf-core-0.4.2-gentle-ai; commit, PR y SHA ausentes"
+resumen_acumulado: "sdaf-upgrade@0.2.0 — core v0.4.0→v0.4.2 y adopción de gentle-ai (tooling.gentle_ai); rama chore/sdaf-core-0.4.2-gentle-ai; PR 15; commit y SHA ausentes"
 ---
 
 # UPGRADE-SDAF-0.4 / Iteration-002
