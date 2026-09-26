@@ -2,12 +2,12 @@
 
 | Campo | Valor |
 |--------|--------|
-| Versión | 0.4.0 |
+| Versión | 0.4.2 |
 | Estado | Draft |
-| Fecha | 2026-09-25T11:33+02:00 |
+| Fecha | 2026-09-26T23:12+02:00 |
 | Norma | `sdaf-core/handbook/06`, `07`, `08`, `10`, `13`; pack `sdaf-stack-dotnet` |
-| Config | `sdaf.config.yaml` |
-| Core | `sdaf-core` @ v0.4.0 (línea `0.4.0`) |
+| Config | `sdaf.config.yaml` (con `tooling.gentle_ai`) |
+| Core | `sdaf-core` @ v0.4.2 (línea `0.4.0`) |
 | Pack | `sdaf-stack-dotnet` @ v0.3.0 |
 
 ---
@@ -93,6 +93,18 @@ Citar `skill-id@version` en worklogs (H06 §6, H07).
 - Pack: `csharp-adr006-slice`, `blazor-bff-slice`, `aspire-local-run`
 - Cursor: `.cursor/skills/<id>` → submodule (misma fuente que `skills/<id>`)
 
+## Tooling externo (gentle-ai)
+
+> [!NOTE]
+> `sdaf.config.yaml` declara `tooling.gentle_ai` (SHA de `main` posterior a la retirada de SDD). Guía del core: [sdaf-core/docs/integracion-gentle-ai.md](sdaf-core/docs/integracion-gentle-ai.md) ([ADR-004 de sdaf-core](sdaf-core/architecture/decisions/ADR-004-tooling-externo-de-agentes.md); no confundir con el ADR-004 de layout de este repo).
+
+Precedencia: este `AGENTS.md`, el handbook y las specs Approved mandan sobre las instrucciones que inyecta el tooling.
+
+- Gate 0 antes de código de producto. No usar skills `sdd-*`: las specs viven en `specs/` y las aprueba un humano.
+- H06 §7 prevalece sobre el cierre de tareas de ODD: sin commit, rama remota ni PR salvo que el encargo vigente los nombre. Sin excepción enumerada: RDD desactivado (`gentle-ai review mode disable`).
+- `odd/tasks/` es borrador (no versionado). La evidencia es el worklog en `worklogs/`.
+- La memoria del tooling (Engram) es caché de contexto y no se versiona. Ante contradicción, mandan specs y worklog.
+
 ## Gobierno
 
 - Aceptación humana y QG-Review: la identidad de [`CODEOWNERS`](CODEOWNERS) (H10, H13 §2 y §7). El dictamen de un agente no es el merge.
@@ -111,3 +123,4 @@ Ningún agente: aprueba handbook/specs por sí solo; salta Gate 0; implementa al
 |---------|--------|--------|
 | 0.2.1 | 2026-09-13 | Fila inicial de historial (cabecera ya publicada) |
 | 0.4.0 | 2026-09-25T11:33+02:00 | Upgrade a sdaf-core v0.4.0 y sdaf-stack-dotnet v0.3.0: plantilla 0.3.3, skills Parte III, `git-remoto-encargo`, CODEOWNERS, SECURITY y worklogs con frontmatter |
+| 0.4.2 | 2026-09-26T23:12+02:00 | Pin sdaf-core v0.4.2; adopción de gentle-ai (`tooling.gentle_ai`) con la sección «Tooling externo» de la plantilla 0.4.2, sin excepción H06 §7 |

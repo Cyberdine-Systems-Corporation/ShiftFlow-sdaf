@@ -28,3 +28,7 @@ appsettings.*.local.json
 # OS
 # Local tooling (no publicar)
 tools/VarRewriter/
+# gentle-ai (ADR-004 de sdaf-core): memoria Engram, borradores ODD e índice de skills no son evidencia
+.engram/
+odd/
+.atl/
