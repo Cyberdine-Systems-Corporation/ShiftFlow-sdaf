@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 |--------|--------|
-| Versión | 0.4.5 |
+| Versión | 0.4.6 |
 | Estado | Draft |
-| Fecha | 2026-09-27T19:15+02:00 |
+| Fecha | 2026-09-27T20:26+02:00 |
 | Norma | `sdaf-core/handbook/06`, `07`, `08`, `10`, `13`; pack `sdaf-stack-dotnet` |
 | Config | `sdaf.config.yaml` (con `tooling.gentle_ai`) |
 | Core | `sdaf-core` @ v0.4.2 (línea `0.4.0`) |
@@ -102,7 +102,7 @@ Precedencia: este `AGENTS.md`, el handbook y las specs Approved mandan sobre las
 
 - Gate 0 antes de código de producto. No usar skills `sdd-*`: las specs viven en `specs/` y las aprueba un humano.
 - H06 §7 prevalece sobre el cierre de tareas de ODD: sin commit, rama remota ni PR salvo que el encargo vigente los nombre. Sin excepción enumerada.
-- RDD (`gentle-ai review`), antes del PR: si el humano lo activa, tras cada commit ordenado se revisa el rango commiteado siguiendo solo el `next_transition` del preflight `gentle-ai review status --contract gentle-ai.review-integration/v2 --agent claude-code --next-transition`, hasta `target_already_acknowledged`. El consentimiento que devuelva se traslada al humano; el agente no lo responde. Push y PR siguen exigiendo el encargo vigente, con la review cerrada y sus hallazgos citados en el PR. El stop-hook de gentle-ai bloquea el cierre de turno con cambios sin revisar. Sobre el candidato final del turno se atiende con su mismo preflight. Si el candidato es intermedio (trabajo a medias o de un subagente en curso), el agente lo dice en la respuesta y cierra el turno sin revisarlo; si el hook vuelve a bloquear sobre ese mismo candidato, se revisa. Que el hook avise una sola vez por candidato solo se ha observado una vez (2026-09-27). El dictamen alimenta `testing-review-pr` y no es QG-Review (ADR-004 de sdaf-core, decisión 6); el worklog cita el linaje y el `sha`. Activarlo o desactivarlo es decisión humana (`gentle-ai review mode`). Mientras esté desactivado o no disponible, se trabaja sin él. Flujo, coste y resultados del piloto: [`docs/piloto-rdd-hibrido.md`](docs/piloto-rdd-hibrido.md).
+- RDD (`gentle-ai review`), antes del PR: si el humano lo activa, tras cada commit ordenado se revisa el rango commiteado siguiendo solo el `next_transition` del preflight `gentle-ai review status --contract gentle-ai.review-integration/v2 --agent claude-code --next-transition`, hasta `target_already_acknowledged`. El consentimiento que devuelva se traslada al humano; el agente no lo responde. Push y PR siguen exigiendo el encargo vigente, con la review cerrada y sus hallazgos citados en el PR. El stop-hook de gentle-ai bloquea el cierre de turno con cambios sin revisar. Sobre el candidato final del turno se atiende con su mismo preflight. Si el candidato es intermedio (trabajo a medias o de un subagente en curso), el agente lo dice en la respuesta y cierra el turno sin revisarlo; si el hook vuelve a bloquear sobre ese mismo candidato, se revisa. La excepción no cierra el trabajo: antes de darlo por terminado, el candidato final se revisa siempre con el preflight. Que el hook avise una sola vez por candidato solo se ha observado una vez (2026-09-27). El dictamen alimenta `testing-review-pr` y no es QG-Review (ADR-004 de sdaf-core, decisión 6); el worklog cita el linaje y el `sha`. Activarlo o desactivarlo es decisión humana (`gentle-ai review mode`). Mientras esté desactivado o no disponible, se trabaja sin él. Flujo, coste y resultados del piloto: [`docs/piloto-rdd-hibrido.md`](docs/piloto-rdd-hibrido.md).
 - `odd/tasks/` es borrador (no versionado). La evidencia es el worklog en `worklogs/`.
 - La memoria del tooling (Engram) es caché de contexto y no se versiona. Ante contradicción, mandan specs y worklog.
 
@@ -128,3 +128,4 @@ Ningún agente: aprueba handbook/specs por sí solo; salta Gate 0; implementa al
 | 0.4.3 | 2026-09-27T08:42+02:00 | RDD de gentle-ai permitido solo antes del commit (`--projection staged`), sin excepción H06 §7; guion en `docs/piloto-rdd-hibrido.md` |
 | 0.4.4 | 2026-09-27T10:00+02:00 | RDD pasa a antes del PR: el piloto mostró que la review previa al commit no se enlaza al rango commiteado (C1); sin excepción H06 §7 |
 | 0.4.5 | 2026-09-27T19:15+02:00 | Stop-hook: excepción para candidatos intermedios con salida si vuelve a bloquear (hallazgo R3-stophook-rule-divergence de `review-6e6ff05d9acb94b2`, PR 18) |
+| 0.4.6 | 2026-09-27T20:26+02:00 | Stop-hook: la excepción de candidato intermedio no cierra el trabajo; el candidato final se revisa siempre (hallazgo R3-intermediate-candidate-unbounded-skip de `review-8705a9dd29a0a57a`, PR 19) |
