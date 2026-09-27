@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 |--------|--------|
-| Versión | 0.4.2 |
+| Versión | 0.4.3 |
 | Estado | Draft |
-| Fecha | 2026-09-26T23:12+02:00 |
+| Fecha | 2026-09-27T08:42+02:00 |
 | Norma | `sdaf-core/handbook/06`, `07`, `08`, `10`, `13`; pack `sdaf-stack-dotnet` |
 | Config | `sdaf.config.yaml` (con `tooling.gentle_ai`) |
 | Core | `sdaf-core` @ v0.4.2 (línea `0.4.0`) |
@@ -101,7 +101,8 @@ Citar `skill-id@version` en worklogs (H06 §6, H07).
 Precedencia: este `AGENTS.md`, el handbook y las specs Approved mandan sobre las instrucciones que inyecta el tooling.
 
 - Gate 0 antes de código de producto. No usar skills `sdd-*`: las specs viven en `specs/` y las aprueba un humano.
-- H06 §7 prevalece sobre el cierre de tareas de ODD: sin commit, rama remota ni PR salvo que el encargo vigente los nombre. Sin excepción enumerada: RDD desactivado (`gentle-ai review mode disable`).
+- H06 §7 prevalece sobre el cierre de tareas de ODD: sin commit, rama remota ni PR salvo que el encargo vigente los nombre. Sin excepción enumerada.
+- RDD (`gentle-ai review`), solo antes del commit: si el humano lo activa, revisa el candidato preparado (`--projection staged`) antes del commit. El commit sigue exigiendo el encargo vigente y contiene exactamente el árbol revisado. El dictamen alimenta `testing-review-pr` y no es QG-Review (ADR-004 de sdaf-core, decisión 6); el worklog cita la review y el `sha`. Activarlo o desactivarlo es decisión humana (`gentle-ai review mode`). Mientras esté desactivado o no disponible, se trabaja sin él. Guion y límites: [`docs/piloto-rdd-hibrido.md`](docs/piloto-rdd-hibrido.md).
 - `odd/tasks/` es borrador (no versionado). La evidencia es el worklog en `worklogs/`.
 - La memoria del tooling (Engram) es caché de contexto y no se versiona. Ante contradicción, mandan specs y worklog.
 
@@ -124,3 +125,4 @@ Ningún agente: aprueba handbook/specs por sí solo; salta Gate 0; implementa al
 | 0.2.1 | 2026-09-13 | Fila inicial de historial (cabecera ya publicada) |
 | 0.4.0 | 2026-09-25T11:33+02:00 | Upgrade a sdaf-core v0.4.0 y sdaf-stack-dotnet v0.3.0: plantilla 0.3.3, skills Parte III, `git-remoto-encargo`, CODEOWNERS, SECURITY y worklogs con frontmatter |
 | 0.4.2 | 2026-09-26T23:12+02:00 | Pin sdaf-core v0.4.2; adopción de gentle-ai (`tooling.gentle_ai`) con la sección «Tooling externo» de la plantilla 0.4.2, sin excepción H06 §7 |
+| 0.4.3 | 2026-09-27T08:42+02:00 | RDD de gentle-ai permitido solo antes del commit (`--projection staged`), sin excepción H06 §7; guion en `docs/piloto-rdd-hibrido.md` |
