@@ -30,10 +30,10 @@ pruebas_ejecutadas: lectura de --help de gentle-ai review, review mode, review a
 estado: hecho
 siguiente_agente: humano (piloto de RDD y revisión por CODEOWNERS)
 commit: null
-pr: null
+pr: 17
 rama: chore/gentle-ai-rdd-hibrido
-sha: null
-resumen_acumulado: "Encargo directo — RDD híbrido (review pre-commit con --projection staged) en AGENTS.md 0.4.3 y guion de piloto; rama chore/gentle-ai-rdd-hibrido; commit, PR y SHA ausentes"
+sha: 625744f1ffa5f8d3c09b1a878d4b9e283bbf37ab
+resumen_acumulado: "Encargo directo — RDD híbrido (review pre-commit con --projection staged) en AGENTS.md 0.4.3 y guion de piloto; rama chore/gentle-ai-rdd-hibrido; PR 17; SHA 625744f"
 ---
 
 # GENTLE-AI-RDD / Iteration-001
