@@ -15,3 +15,4 @@ Desde la línea 0.4.0 del core, los worklogs **nuevos** llevan frontmatter YAML 
 | `FIX-ENLACES/` | Corrección de symlinks con destino corrupto y de enlaces de handbook |
 | [`FIX-BOOTSTRAP/`](FIX-BOOTSTRAP/Iteration-001.md) | `BOOTSTRAP.md` alineado a core v0.4.2 y pack v0.3.0; codificación reparada |
 | [`GENTLE-AI-RDD/`](GENTLE-AI-RDD/Iteration-004.md) | RDD antes del PR, sin excepción H06 §7; piloto (Iteration-002): la review previa al commit no se enlaza al commit; `AGENTS.md` 0.4.4 y flujo operativo; Iteration-003: hallazgos de la review del PR 18 corregidos; `AGENTS.md` 0.4.5; Iteration-004: hallazgos de la review del PR 19 corregidos; `AGENTS.md` 0.4.6 |
+| [`DOCS-BADGE-GENTLE-AI/`](DOCS-BADGE-GENTLE-AI/Iteration-001.md) | Distintivo «Built with Gentle-AI» en la cabecera del README, acotado al tooling de agentes |
