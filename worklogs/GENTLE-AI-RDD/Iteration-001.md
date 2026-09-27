@@ -29,7 +29,7 @@ observaciones: "Hallazgos del --help de gentle-ai main@520ed86e8: review mode ap
 pruebas_ejecutadas: lectura de --help de gentle-ai review, review mode, review assess, review start, review status, review stop-hook y review store-reset; gentle-ai review mode status; validate-worklog.py sobre este worklog
 estado: hecho
 siguiente_agente: humano (piloto de RDD y revisión por CODEOWNERS)
-commit: null
+commit: "625744f"
 pr: 17
 rama: chore/gentle-ai-rdd-hibrido
 sha: 625744f1ffa5f8d3c09b1a878d4b9e283bbf37ab
