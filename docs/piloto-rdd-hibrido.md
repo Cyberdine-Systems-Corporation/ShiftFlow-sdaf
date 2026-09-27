@@ -93,7 +93,7 @@ Los hooks `SessionStart` y `Stop` de gentle-ai están instalados en `~/.claude/s
 
 | Qué hace | Detalle observado en el piloto |
 |----------|--------------------------------|
-| **Bloquea** | Llega a Claude Code como error de hook bloqueante: el turno no se cierra hasta atenderlo. Según su texto, avisa una vez por sesión y candidato. |
+| **Bloquea** | Llega a Claude Code como error de hook bloqueante: el turno no se cierra hasta atenderlo. Según su texto, avisa una vez por sesión y candidato; en el piloto se observó una sola vez. |
 | Usa el preflight sin selector | `gentle-ai review status --cwd <repo> --contract gentle-ai.review-integration/v2 --agent claude-code --next-transition`. Con cambios sin commit revisa `current-changes`; con el árbol limpio, el rango `base-diff`. |
 | No reconoce reviews de otro tipo de candidato | Una review `staged` del mismo árbol no le basta: exige otra `workspace`. |
 | Se dispara con trabajo a medias | Salta en cada cierre de turno con cambios sin commit, aunque el trabajo esté a medias o lo esté haciendo un subagente en segundo plano (observado el 2026-09-27T10:00+02:00). |
@@ -101,7 +101,7 @@ Los hooks `SessionStart` y `Stop` de gentle-ai están instalados en `~/.claude/s
 Cómo atenderlo:
 
 - Sigue su preflight y ejecuta verbatim la transición que devuelva, como en los [pasos 4–6](#pasos). Si devuelve un sobre de consentimiento, se traslada al humano.
-- **No revises candidatos intermedios.** Un candidato a medias cambiará en cuanto termine el trabajo y su review no servirá. Si el hook bloquea sobre un candidato intermedio (p. ej. con un subagente aún trabajando), di en la respuesta que no se revisa por ser intermedio y cierra el turno: el hook avisa una vez por candidato y no vuelve a bloquear ese mismo (observado el 2026-09-27T10:00+02:00). Al terminar el trabajo, pasa el preflight sobre el **candidato final** antes de darlo por terminado.
+- **No revises candidatos intermedios.** Un candidato a medias cambiará en cuanto termine el trabajo y su review no servirá. Si el hook bloquea sobre un candidato intermedio (p. ej. con un subagente aún trabajando), di en la respuesta que no se revisa por ser intermedio y cierra el turno: el hook avisa una vez por candidato y no volvió a bloquear ese mismo (observado una sola vez, el 2026-09-27T10:00+02:00). **Si vuelve a bloquear sobre el mismo candidato, revísalo** siguiendo su preflight, para no dejar el turno bloqueado. Al terminar el trabajo, pasa el preflight sobre el **candidato final** antes de darlo por terminado. Es la regla de [`AGENTS.md`](../AGENTS.md#tooling-externo-gentle-ai), que prevalece sobre este guion.
 - **Ficheros nuevos sin seguimiento.** Si el candidato incluye ficheros sin `git add`, el preflight devuelve `intended_untracked_selection_required` (transición `collect`) con `eligible_paths_json` y `expected_untracked_inventory`. Declara los que forman parte del cambio repitiendo el preflight con `--projection workspace --untracked-scope select --intended-untracked <ruta> --expected-untracked-inventory <sha256>`; después ejecuta verbatim el `start` que devuelva.
 
 ## Coste: una o dos reviews por cambio
@@ -138,11 +138,13 @@ Tres reviews para un único cambio:
 | `review-7f2aa92d5834cf19` | `current-changes`, `workspace` (contrato v2) | 1.er disparo del stop-hook, antes del commit | `passive`, aprobada, confirmada |
 | `review-0f025da387926c33` | `base-diff`, rango `437d745..819c5f5` | 2.º disparo del stop-hook, tras el commit | `passive`, aprobada, confirmada; `target_already_acknowledged` |
 
-Review con lentes (cambio de la Opción 1, antes del commit):
+Reviews con lentes del cambio de la Opción 1 (las dos primeras antes del commit; la tercera, del rango commiteado antes del PR 18):
 
 | Linaje | Candidato | Resultado |
 |--------|-----------|-----------|
 | `review-e3475e7f33d2f7da` | `current-changes`, `workspace`, 4 ficheros y 296 líneas, con `Iteration-002.md` declarado como sin seguimiento | Riesgo `medium` (`executable_change` en `AGENTS.md`), consentimiento `granted`, lente `review-reliability` lanzada por `capture-result --agent claude-code` (59 s). Aprobada con 3 hallazgos no bloqueantes (2 `WARNING`, 1 `SUGGESTION`), corregidos después como cambio aparte; confirmada. |
+| `review-049d46d453de68c4` | `current-changes`, `workspace`, 4 ficheros y 303 líneas (el anterior más sus correcciones) | Riesgo `medium`, consentimiento `granted`, lente `review-reliability` (46 s). Aprobada con 3 hallazgos no bloqueantes (1 `WARNING`, 2 `SUGGESTION`), corregidos junto al commit `d89be93`; confirmada. |
+| `review-6e6ff05d9acb94b2` | `base-diff`, rango `437d745..d89be93` (2 commits, 5 ficheros y 309 líneas), `--committed-only` | Riesgo `medium`, consentimiento `granted`, lente `review-reliability` (73 s). Aprobada con 4 hallazgos no bloqueantes (1 `WARNING`, 3 `SUGGESTION`) citados en el PR 18 y corregidos en `GENTLE-AI-RDD/Iteration-003`; confirmada. Es la review que cuenta para la entrega. |
 
 Otros hallazgos:
 
