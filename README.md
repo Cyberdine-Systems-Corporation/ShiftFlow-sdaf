@@ -10,6 +10,12 @@
 
 Este repositorio es además un caso de estudio de **SDAF** (*Spec-Driven Agentic Framework*): todo el producto se construyó bajo especificaciones aprobadas, ADRs y Gate 0 antes de escribir código. Si solo te interesa el producto, puedes ignorar esa capa por completo — está aislada en [`specs/`](specs/README.md), [`architecture/`](architecture/decisions/README.md), [`handbook/`](handbook/README.md) y [`agents/`](AGENTS.md).
 
+Desde sdaf-core v0.4.2 los agentes trabajan con [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) como tooling de entorno (memoria, skills y review RDD antes de cada PR), subordinado a SDAF: ver [`AGENTS.md`](AGENTS.md#tooling-externo-gentle-ai) y [`docs/piloto-rdd-hibrido.md`](docs/piloto-rdd-hibrido.md).
+
+<a href="https://github.com/Gentleman-Programming/gentle-ai">
+  <img width="220" src="https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/docs/assets/brand/built-with-gentle-ai.png" alt="Built with Gentle-AI" />
+</a>
+
 ---
 
 ## 🧩 Qué hace
