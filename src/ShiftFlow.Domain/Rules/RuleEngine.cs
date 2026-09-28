@@ -1,135 +1,94 @@
-using ShiftFlow.Domain.Leaves;
-using ShiftFlow.Domain.ShiftAssignments;
-
 namespace ShiftFlow.Domain.Rules;
 
 /// <summary>
-/// Rule Engine v1: evalúa hard rules que bloquean asignaciones (ADR-003 / SPEC-DOM-006).
+/// Rule Engine v2: orquesta el catálogo de hard rules (bloquean) y soft rules (avisan)
+/// dentro del BC WorkforceScheduling (ADR-009 / SPEC-DOM-008; extiende ADR-003 / SPEC-DOM-006).
 /// </summary>
 public sealed class RuleEngine
 {
+    private readonly IReadOnlyList<IHardRule> _hardRules;
+    private readonly IReadOnlyList<ISoftRule> _softRules;
+
     /// <summary>
-    /// Evalúa las hard rules activas sobre un candidato (<c>HR-01</c> solape, <c>HR-02</c> leave, <c>HR-03</c> descanso).
+    /// Crea el motor con el catálogo por defecto (<see cref="RuleCatalog"/>).
     /// </summary>
-    /// <param name="candidate">Asignación candidata (aún no persistida o no confirmada).</param>
-    /// <param name="existingAssigned">Asignaciones <see cref="ShiftAssignmentStatus.Assigned"/> del mismo empleado.</param>
-    /// <param name="activeLeaves">Leaves <see cref="LeaveStatus.Active"/> del mismo empleado (vacío si no hay).</param>
-    /// <param name="minimumRest">Umbral de descanso mínimo (HR-03); <c>null</c> o cero no aplica la regla.</param>
-    /// <returns>Lista vacía si no hay violaciones; en caso contrario una o más <see cref="RuleViolation"/>.</returns>
-    public IReadOnlyList<RuleViolation> Evaluate(
-        ShiftAssignment candidate,
-        IReadOnlyList<ShiftAssignment> existingAssigned,
-        IReadOnlyList<Leave>? activeLeaves = null,
-        TimeSpan? minimumRest = null)
+    public RuleEngine()
+        : this(RuleCatalog.HardRules, RuleCatalog.SoftRules)
     {
+    }
+
+    /// <summary>
+    /// Crea el motor con un catálogo explícito; el orden de cada lista es el orden de evaluación.
+    /// </summary>
+    /// <param name="hardRules">Hard rules del catálogo.</param>
+    /// <param name="softRules">Soft rules del catálogo.</param>
+    /// <exception cref="ArgumentException">Si dos reglas comparten código (códigos estables, SPEC-DOM-008 §6.5).</exception>
+    public RuleEngine(IEnumerable<IHardRule> hardRules, IEnumerable<ISoftRule> softRules)
+    {
+        ArgumentNullException.ThrowIfNull(hardRules);
+        ArgumentNullException.ThrowIfNull(softRules);
+
+        _hardRules = hardRules.ToArray();
+        _softRules = softRules.ToArray();
+
+        HashSet<string> codes = new HashSet<string>(StringComparer.Ordinal);
+        foreach (string code in _hardRules.Select(r => r.Code).Concat(_softRules.Select(r => r.Code)))
+        {
+            if (!codes.Add(code))
+            {
+                throw new ArgumentException($"Código de regla duplicado en el catálogo: {code}.");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Evalúa las hard rules activas (mandatory o enabled) y las soft rules enabled sobre el candidato del contexto.
+    /// </summary>
+    /// <param name="context">Contexto compartido con candidato, ventana cargada y overrides de <c>Enabled</c>.</param>
+    /// <returns>
+    /// Violaciones hard en orden de catálogo (lista vacía si ninguna) y avisos soft. Las soft se evalúan
+    /// aunque haya violaciones hard; el caller decide si las expone (SPEC-APP-006 §5.5).
+    /// </returns>
+    public RuleEvaluationResult Evaluate(RuleEvaluationContext context)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
         List<RuleViolation> violations = new List<RuleViolation>();
-
-        // HR-01: intervalos semiabiertos [StartAt, EndAt); el borde exacto no solapa.
-        foreach (ShiftAssignment existing in existingAssigned)
+        foreach (IHardRule rule in _hardRules)
         {
-            if (existing.EmployeeId != candidate.EmployeeId)
+            if (!rule.IsMandatory && !IsEnabled(rule.Code, context, defaultEnabled: true))
             {
                 continue;
             }
 
-            if (existing.Status != ShiftAssignmentStatus.Assigned)
+            if (rule.Evaluate(context) is { } violation)
+            {
+                violations.Add(violation);
+            }
+        }
+
+        List<RuleWarning> warnings = new List<RuleWarning>();
+        foreach (ISoftRule rule in _softRules)
+        {
+            if (!IsEnabled(rule.Code, context, defaultEnabled: false))
             {
                 continue;
             }
 
-            if (Overlaps(candidate.StartAt, candidate.EndAt, existing.StartAt, existing.EndAt))
+            if (rule.Evaluate(context) is { } warning)
             {
-                violations.Add(new RuleViolation(
-                    "HR-01",
-                    "Violación de solape: la misma persona ya tiene un turno Assigned en un intervalo solapado."));
-                break;
+                warnings.Add(warning);
             }
         }
 
-        // HR-02: Leave Active cuya cobertura intersecta el intervalo candidato.
-        if (activeLeaves is { Count: > 0 })
-        {
-            foreach (Leave leave in activeLeaves)
-            {
-                if (leave.EmployeeId != candidate.EmployeeId)
-                {
-                    continue;
-                }
-
-                if (leave.Status != LeaveStatus.Active)
-                {
-                    continue;
-                }
-
-                if (leave.CoversInterval(candidate.StartAt, candidate.EndAt))
-                {
-                    violations.Add(new RuleViolation(
-                        "HR-02",
-                        "Violación por ausencia: el empleado tiene un Leave activo que cubre el intervalo del turno."));
-                    break;
-                }
-            }
-        }
-
-        // HR-03: gap entre turnos Assigned no solapados < umbral de Organization.
-        if (minimumRest is { } rest && rest > TimeSpan.Zero)
-        {
-            foreach (ShiftAssignment existing in existingAssigned)
-            {
-                if (existing.EmployeeId != candidate.EmployeeId
-                    || existing.Status != ShiftAssignmentStatus.Assigned)
-                {
-                    continue;
-                }
-
-                if (Overlaps(candidate.StartAt, candidate.EndAt, existing.StartAt, existing.EndAt))
-                {
-                    continue;
-                }
-
-                TimeSpan gap = GapBetween(candidate.StartAt, candidate.EndAt, existing.StartAt, existing.EndAt);
-                if (gap < rest)
-                {
-                    violations.Add(new RuleViolation(
-                        "HR-03",
-                        "Violación de descanso mínimo: el intervalo respecto a otro turno Assigned es inferior al umbral de la organización."));
-                    break;
-                }
-            }
-        }
-
-        return violations;
+        return new RuleEvaluationResult(violations, warnings);
     }
 
     /// <summary>
-    /// Determina si dos intervalos semiabiertos se solapan.
+    /// Resuelve <c>Enabled</c>: el override del contexto si existe; si no, el default del catálogo (SPEC-DOM-008 §3).
     /// </summary>
-    internal static bool Overlaps(
-        DateTimeOffset startA,
-        DateTimeOffset endA,
-        DateTimeOffset startB,
-        DateTimeOffset endB) =>
-        startA < endB && startB < endA;
-
-    /// <summary>
-    /// Tiempo entre el fin de un intervalo y el inicio del otro (sin solape).
-    /// </summary>
-    internal static TimeSpan GapBetween(
-        DateTimeOffset startA,
-        DateTimeOffset endA,
-        DateTimeOffset startB,
-        DateTimeOffset endB)
-    {
-        if (endA <= startB)
-        {
-            return startB - endA;
-        }
-
-        if (endB <= startA)
-        {
-            return startA - endB;
-        }
-
-        return TimeSpan.Zero;
-    }
+    private static bool IsEnabled(string code, RuleEvaluationContext context, bool defaultEnabled) =>
+        context.EnabledOverrides is { } overrides && overrides.TryGetValue(code, out bool enabled)
+            ? enabled
+            : defaultEnabled;
 }
