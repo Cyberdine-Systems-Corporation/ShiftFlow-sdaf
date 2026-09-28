@@ -151,6 +151,60 @@ public class RuleEngineCatalogTests
         act.Should().Throw<ArgumentException>().WithMessage("*HR-01*");
     }
 
+    // Los null! simulan un caller sin nullable habilitado: es justo el caso que cubren las guardas.
+    [Fact]
+    public void Rechaza_catalogo_hard_nulo()
+    {
+        Action act = () => _ = new RuleEngine(null!, RuleCatalog.SoftRules);
+
+        act.Should().ThrowExactly<ArgumentNullException>().WithParameterName("hardRules");
+    }
+
+    [Fact]
+    public void Rechaza_catalogo_soft_nulo()
+    {
+        Action act = () => _ = new RuleEngine(RuleCatalog.HardRules, null!);
+
+        act.Should().ThrowExactly<ArgumentNullException>().WithParameterName("softRules");
+    }
+
+    [Fact]
+    public void Rechaza_hard_rule_nula_en_el_catalogo()
+    {
+        Action act = () => _ = new RuleEngine([null!], RuleCatalog.SoftRules);
+
+        act.Should().ThrowExactly<ArgumentException>().WithParameterName("hardRules");
+    }
+
+    [Fact]
+    public void Rechaza_soft_rule_nula_en_el_catalogo()
+    {
+        Action act = () => _ = new RuleEngine(RuleCatalog.HardRules, [null!]);
+
+        act.Should().ThrowExactly<ArgumentException>().WithParameterName("softRules");
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("  ")]
+    public void Rechaza_regla_sin_codigo(string? code)
+    {
+        Action act = () => _ = new RuleEngine(RuleCatalog.HardRules, [new AlwaysWarnSoftRule(code!)]);
+
+        act.Should().ThrowExactly<ArgumentException>().WithMessage("*sin código*");
+    }
+
+    [Fact]
+    public void Evaluate_rechaza_contexto_nulo()
+    {
+        RuleEngine engine = new RuleEngine();
+
+        Action act = () => _ = engine.Evaluate(null!);
+
+        act.Should().ThrowExactly<ArgumentNullException>().WithParameterName("context");
+    }
+
     private static ShiftAssignment CreateAssigned(int startHour, int endHour) =>
         ShiftAssignment.Create(
             OrgId,
