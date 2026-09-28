@@ -84,7 +84,7 @@ public class ShiftAssignmentAndRulesTests
         ShiftAssignment? candidate = CreateAssigned(12, 16);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(candidate, [existing]);
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(candidate, [existing])).HardViolations;
 
         violations.Should().ContainSingle(v => v.Code == "HR-01");
     }
@@ -96,7 +96,7 @@ public class ShiftAssignmentAndRulesTests
         ShiftAssignment? candidate = CreateAssigned(14, 18);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(candidate, [existing]);
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(candidate, [existing])).HardViolations;
 
         violations.Should().BeEmpty();
     }
@@ -108,10 +108,10 @@ public class ShiftAssignmentAndRulesTests
         ShiftAssignment? candidate = CreateAssigned(16, 20);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(
             candidate,
             [existing],
-            minimumRest: TimeSpan.FromMinutes(660));
+            MinimumRest: TimeSpan.FromMinutes(660))).HardViolations;
 
         violations.Should().ContainSingle(v => v.Code == "HR-03");
     }
@@ -142,10 +142,10 @@ public class ShiftAssignmentAndRulesTests
             day.AddHours(16).AddMinutes(660 + 240));
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(
             candidate,
             [existing],
-            minimumRest: TimeSpan.FromMinutes(660));
+            MinimumRest: TimeSpan.FromMinutes(660))).HardViolations;
 
         violations.Should().BeEmpty();
     }
@@ -157,10 +157,10 @@ public class ShiftAssignmentAndRulesTests
         ShiftAssignment? candidate = CreateAssigned(14, 18);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(
             candidate,
             [existing],
-            minimumRest: TimeSpan.Zero);
+            MinimumRest: TimeSpan.Zero)).HardViolations;
 
         violations.Should().BeEmpty();
     }

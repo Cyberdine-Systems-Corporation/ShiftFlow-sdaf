@@ -92,16 +92,18 @@ public sealed class AssignShiftHandler(
             request.StartAt,
             request.EndAt);
 
-        // ADR-003: Evaluate antes de persistir (HR-01/HR-02/HR-03).
+        // ADR-003 / ADR-009: Evaluate antes de persistir (HR-01/HR-02/HR-03; catálogo por defecto).
         IReadOnlyList<ShiftAssignment>? existing = await assignments.ListAssignedByEmployeeAsync(employee.Id, cancellationToken);
         IReadOnlyList<Leave>? activeLeaves = await leaves.ListActiveByEmployeeAsync(employee.Id, cancellationToken);
         TimeSpan? minimumRest = organization.MinimumRestMinutes > 0
             ? TimeSpan.FromMinutes(organization.MinimumRestMinutes)
             : null;
-        IReadOnlyList<RuleViolation>? violations = _ruleEngine.Evaluate(candidate, existing, activeLeaves, minimumRest);
-        if (violations.Count > 0)
+        RuleEvaluationResult evaluation = _ruleEngine.Evaluate(
+            new RuleEvaluationContext(candidate, existing, activeLeaves, minimumRest));
+        // SoftWarnings aún no se exponen en la respuesta (PBI-023); con el catálogo por defecto las soft están desactivadas.
+        if (evaluation.HardViolations.Count > 0)
         {
-            RuleViolation first = violations[0];
+            RuleViolation first = evaluation.HardViolations[0];
             // SPEC-APP-005 §4: adjuntar explicación del stub; no persiste ni bypassea Evaluate.
             RuleExplanation explanation = explanations.Explain(
                 new RuleExplanationRequest(

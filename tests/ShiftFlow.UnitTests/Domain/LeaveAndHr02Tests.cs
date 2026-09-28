@@ -72,7 +72,7 @@ public class LeaveAndHr02Tests
         ShiftAssignment? candidate = CreateAssigned(2026, 8, 15, 10, 14);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(candidate, [], [leave]);
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(candidate, [], [leave])).HardViolations;
 
         violations.Should().ContainSingle(v => v.Code == "HR-02");
     }
@@ -91,7 +91,7 @@ public class LeaveAndHr02Tests
         ShiftAssignment? candidate = CreateAssigned(2026, 8, 16, 10, 14);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(candidate, [], [leave]);
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(candidate, [], [leave])).HardViolations;
 
         violations.Should().BeEmpty();
     }
@@ -111,7 +111,7 @@ public class LeaveAndHr02Tests
         ShiftAssignment? candidate = CreateAssigned(2026, 8, 15, 10, 14);
         RuleEngine engine = new RuleEngine();
 
-        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(candidate, [], [leave]);
+        IReadOnlyList<RuleViolation>? violations = engine.Evaluate(new RuleEvaluationContext(candidate, [], [leave])).HardViolations;
 
         violations.Should().BeEmpty();
     }
@@ -131,8 +131,10 @@ public class LeaveAndHr02Tests
             new DateOnly(2026, 8, 15));
         ShiftAssignment? leaveCandidate = CreateAssigned(2026, 8, 15, 10, 14);
 
-        engine.Evaluate(overlapCandidate, [existing], []).Should().ContainSingle(v => v.Code == "HR-01");
-        engine.Evaluate(leaveCandidate, [], [leave]).Should().ContainSingle(v => v.Code == "HR-02");
+        engine.Evaluate(new RuleEvaluationContext(overlapCandidate, [existing], []))
+            .HardViolations.Should().ContainSingle(v => v.Code == "HR-01");
+        engine.Evaluate(new RuleEvaluationContext(leaveCandidate, [], [leave]))
+            .HardViolations.Should().ContainSingle(v => v.Code == "HR-02");
     }
 
     private static ShiftAssignment CreateAssigned(int year, int month, int day, int startHour, int endHour) =>
