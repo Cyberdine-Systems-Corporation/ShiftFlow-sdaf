@@ -31,7 +31,7 @@ Gate 0: specs Approved + ADR-009 Aceptado antes de código. **Hard + soft** en e
 
 | Orden | ID | Título | Oleada | Specs / ADR | Estado |
 |------:|----|--------|--------|-------------|--------|
-| 16 | [PBI-016](PBI-016-rule-catalog-ihardrule.md) | Catálogo IHardRule + ISoftRule | Plataforma | DOM-008, APP-006, ACC-006, ADR-009 | Pendiente |
+| 16 | [PBI-016](PBI-016-rule-catalog-ihardrule.md) | Catálogo IHardRule + ISoftRule | Plataforma | DOM-008, APP-006, ACC-006, ADR-009 | Hecho (PR 22) |
 | 17 | [PBI-017](PBI-017-organization-rule-config.md) | OrganizationRuleConfig + UI mínima | Plataforma | DOM-008, APP-006, ACC-006 | Pendiente |
 | 18 | [PBI-018](PBI-018-hr04-night-parity.md) | HR-04 Noches pares/impares | Hard 1 | DOM-008 §4.2 | Pendiente |
 | 19 | [PBI-019](PBI-019-hr05-monthly-hour-bag.md) | HR-05 Bolsa mensual | Hard 1 | DOM-008 §4.2 | Pendiente |
