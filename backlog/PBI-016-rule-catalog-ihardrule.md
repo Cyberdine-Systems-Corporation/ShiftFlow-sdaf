@@ -6,7 +6,7 @@
 | Prioridad | 16 |
 | Specs | SPEC-DOM-008 **Approved**; SPEC-APP-006 **Approved**; SPEC-ACC-006 **Approved**; ADR-009 **Aceptado** |
 | DoD | HR-01/02/03 como `IHardRule`; stubs/`ISoftRule` en catálogo; `RuleEvaluationResult`; AssignShift hard sin cambio observable; soft disabled por defecto; unit tests verdes |
-| Estado | Pendiente (Gate 0: Approved + ADR Aceptado) |
+| Estado | Hecho (PR 22; Gate 0 PASS; RDD aprobada) |
 
 ## Descripción
 

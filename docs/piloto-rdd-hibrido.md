@@ -146,11 +146,19 @@ Reviews con lentes del cambio de la Opción 1 (las dos primeras antes del commit
 | `review-049d46d453de68c4` | `current-changes`, `workspace`, 4 ficheros y 303 líneas (el anterior más sus correcciones) | Riesgo `medium`, consentimiento `granted`, lente `review-reliability` (46 s). Aprobada con 3 hallazgos no bloqueantes (1 `WARNING`, 2 `SUGGESTION`), corregidos junto al commit `d89be93`; confirmada. |
 | `review-6e6ff05d9acb94b2` | `base-diff`, rango `437d745..d89be93` (2 commits, 5 ficheros y 309 líneas), `--committed-only` | Riesgo `medium`, consentimiento `granted`, lente `review-reliability` (73 s). Aprobada con 4 hallazgos no bloqueantes (1 `WARNING`, 3 `SUGGESTION`) citados en el PR 18 y corregidos en `GENTLE-AI-RDD/Iteration-003`; confirmada. Es la review que cuenta para la entrega. |
 
+Reviews con lentes sobre código de producto (PBI-016, rango commiteado antes del PR 22):
+
+| Linaje | Candidato | Resultado |
+|--------|-----------|-----------|
+| `review-31c2f1d7457d3848` | `base-diff`, rango `db7b63f..6eb0b72` (1 commit, 19 ficheros y 977 líneas), `--committed-only` | Riesgo `medium` (`executable_change` en `AssignShift.cs`), consentimiento `granted`, lente `review-reliability` (52 s). Aprobada con 2 hallazgos `SUGGESTION` no bloqueantes (`R3-unknown-override-keys`, `R3-null-rule-element`); confirmada. |
+| `review-60a97d93c2f7901c` | `base-diff`, rango `db7b63f..767f5bf` (el anterior más el commit del worklog) | Riesgo `medium`, consentimiento `granted` otra vez, lente `review-reliability` (50 s). Aprobada con los mismos 2 hallazgos; confirmada. Es la review que cuenta para la entrega. |
+
 Otros hallazgos:
 
 - El `review start --projection staged --agent claude-code` del guion anterior fallaba: `start --agent` exige `--contract`, y un start negociado exige además `--target` y `--projection`. Por eso el flujo actual solo ejecuta lo que devuelve el preflight.
 - `status --gate pre-commit` tras la review `staged` devolvió `approved_acknowledgement_required`; el `acknowledge-approved` devuelto quemó la autoridad y dejó `target_already_acknowledged`.
-- RDD trata `AGENTS.md` como cambio ejecutable: todo cambio de gobierno sale `medium` y pide consentimiento.
+- RDD trata `AGENTS.md` como cambio ejecutable: todo cambio de gobierno sale `medium` y pide consentimiento. Pasa lo mismo con el backlog: el cierre documental de PBI-016 (4 `.md`, 19 líneas, sin código) salió `medium` por «an executable change in backlog/PBI-016-rule-catalog-ihardrule.md» y pidió consentimiento (`review-4dcd3d4ade4dfeeb`). Que un cambio sea solo Markdown no garantiza `passive`: depende de qué rutas clasifica gentle-ai como ejecutables (un worklog solo salió `passive` en el piloto).
+- **Un commit tras una review aprobada reabre el rango completo.** El preflight sin selector toma siempre la base en el merge-base con `main` (`base-diff`), así que el commit del worklog con el linaje (PBI-016, `767f5bf`) generó un `target_identity` nuevo, volvió a pedir consentimiento y repitió la review de todo el código ya aprobado (~50 s). Para no pagarlo dos veces, anota linaje y SHA de la review en el worklog del paso siguiente (o del cierre tras el merge), no en un commit extra del mismo PR.
 - Con lentes, `capture-result --agent claude-code` lanza el revisor por su cuenta (`--materialize` no está disponible para `claude-code`) y devuelve el `acknowledge-approved` si la review queda aprobada. Los hallazgos no bloqueantes no reabren la review: se tratan como trabajo aparte, que es un candidato nuevo.
 
 ## Lo que queda por probar
@@ -158,7 +166,6 @@ Otros hallazgos:
 | Qué | Cómo |
 |-----|------|
 | C4: consentimiento en castellano | El `start` emitido no lleva `--locale es`; ver si gentle-ai permite fijarlo o si se acepta en inglés |
-| Review con lentes sobre código | Un cambio de código con orden humana de commit; con Gate 0 si toca producto (la única review con lentes fue sobre gobierno y documentación) |
 | Hallazgos bloqueantes | Transición de corrección (`correction_budget`) con una review que no salga aprobada |
 | Coste real del caso de 2 reviews con lentes | El mismo cambio, cerrando un turno antes del commit |
 
