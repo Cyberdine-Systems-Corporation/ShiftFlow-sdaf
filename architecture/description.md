@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 |--------|--------|
-| Versión | 0.1.0 |
+| Versión | 0.1.1 |
 | Estado | Draft |
-| Fecha | 2026-10-31T11:38+01:00 |
+| Fecha | 2026-10-31T12:00+01:00 |
 | Norma | `sdaf-core/handbook/14-architecture-description.md` |
 
 > Línea base construida a partir de los ADRs vigentes del consumidor (H14 §9). No reescribe ningún ADR: enlaza cada afirmación a su decisión y escribe `N/A: <motivo>` en lo que ningún ADR establece. Solo un humano la pasa a Approved; mientras sea Draft, G0.6 hace STOP.
@@ -54,6 +54,8 @@ N/A: los proyectos de pruebas no se declaran como unidades arquitectónicas.
 
 Fuente: [ADR-004](decisions/ADR-004-layout-solucion.md). N/A: ningún ADR declara una verificación automática; queda como manual hasta que se decida un test de arquitectura.
 
+Discrepancia conocida con el código: `ShiftFlow.Web` referencia por proyecto a `ShiftFlow.Application`, algo que las reglas de arriba no permiten; véase el riesgo correspondiente en la sección 7.
+
 ---
 
 ## 4. Integraciones y contratos
@@ -98,6 +100,7 @@ Todos están Aceptados y ninguno consta como sustituido. No existe ADR-008: la n
 | Separación Api / Web revisable tras el MVP | Api, Web | [ADR-004](decisions/ADR-004-layout-solucion.md): revisable si la experiencia de desarrollo lo exige |
 | Las reglas de dependencia solo se verifican a mano | Todas | Decidir un test de arquitectura en un ADR; hasta entonces, QG-Arch es manual |
 | Hueco en la numeración de ADRs (no hay ADR-008) | Decisiones | Documentarlo o cubrirlo en el índice de ADRs |
+| `ShiftFlow.Web` referencia por proyecto a `ShiftFlow.Application` (`ShiftFlow.Web.csproj`) y recibe `Domain` y `MediatR` por transitividad, lo que contradice las dependencias permitidas de [ADR-004](decisions/ADR-004-layout-solucion.md); Web usa de Application 9 DTOs y 2 clases de constantes | Web, Application | Pendiente de ADR: extraer un proyecto de contratos compartido por Api y Web mediante un ADR que enmiende ADR-004; hasta entonces la desviación no tiene excepción ni enmienda registradas |
 
 ---
 
@@ -106,3 +109,4 @@ Todos están Aceptados y ninguno consta como sustituido. No existe ADR-008: la n
 | Versión | Fecha | Cambio |
 |---------|--------|--------|
 | 0.1.0 | 2026-10-31T11:38+01:00 | Borrador inicial construido desde los ADRs vigentes (H14 §9) en la adopción de la línea 0.5.0; redacción del agente, pendiente de revisión y aprobación humanas |
+| 0.1.1 | 2026-10-31T12:00+01:00 | Se anota como riesgo la discrepancia conocida Web → Application (ADR-004) tras contrastar las reglas con los `ProjectReference`; corrección de redacción en un borrador sin aprobar, sin cambio de reglas; redacción del agente, pendiente de revisión y aprobación humanas |
