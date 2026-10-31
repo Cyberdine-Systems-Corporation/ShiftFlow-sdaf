@@ -1,6 +1,6 @@
 name: validate-sdaf
 
-# Validación de gobernanza SDAF del consumidor (sdaf-core v0.4.2, adopcion-y-upgrade §0.4.0 paso 5; §0.4.1 bloque tooling).
+# Validación de gobernanza SDAF del consumidor (sdaf-core v0.5.3, adopcion-y-upgrade §0.4.0 paso 5; §0.4.1 bloque tooling; «Validar los ADRs del consumidor»).
 # Acciones fijadas por SHA (comentario = versión). El pin de la action coincide con el submódulo sdaf-core.
 
 on:
@@ -26,13 +26,15 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-      - name: sdaf.config.yaml contra schema e invariantes (I4 estricto) y presencia de worklog
-        uses: Cyberdine-Systems-Corporation/sdaf-core/.github/actions/validate-sdaf@581d4ee2d6f7a396d48951bb1f560a426c07307c # v0.4.2
+      - name: sdaf.config.yaml contra schema e invariantes (I4 estricto), presencia de worklog y ADRs del consumidor
+        uses: Cyberdine-Systems-Corporation/sdaf-core/.github/actions/validate-sdaf@75933a46a5ef604c2bb8f4d000ebb49de3928d00 # v0.5.3
         with:
           config-paths: sdaf.config.yaml
           check-worklog: "true"
           strict-i4: "true"
-      - name: Worklogs con frontmatter (línea 0.4.0) contra worklog.schema.json
+          check-adrs: "true"
+          adrs-legacy-up-to: "7" # ADR-001…007 son anteriores a la adopción (formato antiguo); lo fija el humano
+      - name: Worklogs con frontmatter (líneas 0.4.0 y 0.5.0) contra worklog.schema.json
         shell: bash
         run: |
           # Solo worklogs nuevos con frontmatter; los de tabla anteriores siguen válidos sin backfill (H08, adopcion-y-upgrade §0.4.0).

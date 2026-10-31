@@ -1,6 +1,6 @@
 # Bootstrap — nuevo proyecto desde esta plantilla
 
-Compatible con **sdaf-core@v0.4.2** + **sdaf-stack-dotnet@v0.3.0**. Guía larga del método: `sdaf-core/docs/adopcion-y-upgrade.md`. Skill: `sdaf-core/skills/sdaf-bootstrap`.
+Compatible con **sdaf-core@v0.5.3** + **sdaf-stack-dotnet@v0.3.0**. Guía larga del método: `sdaf-core/docs/adopcion-y-upgrade.md`. Skill: `sdaf-core/skills/sdaf-bootstrap`.
 
 ## 1. Renombrar el producto
 
@@ -12,7 +12,7 @@ Compatible con **sdaf-core@v0.4.2** + **sdaf-stack-dotnet@v0.3.0**. Guía larga 
 
 ```powershell
 git submodule status
-# Debe mostrar sdaf-core (v0.4.2)
+# Debe mostrar sdaf-core (v0.5.3)
 ```
 
 Si el submodule está vacío:
@@ -20,7 +20,7 @@ Si el submodule está vacío:
 ```powershell
 git submodule update --init --recursive
 cd sdaf-core
-git checkout v0.4.2
+git checkout v0.5.3
 cd ..
 ```
 
@@ -40,7 +40,7 @@ Antes de código en `src/`:
 
 ```text
 Abrir sdaf-core/skills/sdaf-gate0/SKILL.md
-Aplicar G0.1–G0.5 al PBI
+Aplicar G0.1–G0.6 al PBI
 ```
 
 En Cursor: *“Aplica sdaf-core/skills/sdaf-gate0 al PBI-…; no implementes si falla.”*
@@ -66,10 +66,10 @@ Solo tras Gate 0. Los agentes de UI/implementación .NET los aporta el pack o co
 ```powershell
 cd sdaf-core
 git fetch --tags
-git checkout v0.4.x   # último parche de la línea 0.4
+git checkout v0.5.x   # último parche de la línea 0.5
 cd ..
 git add sdaf-core
-git commit -m "chore: actualizar sdaf-core a v0.4.x."
+git commit -m "chore: actualizar sdaf-core a v0.5.x."
 ```
 
 O aplicar la skill `sdaf-core/skills/sdaf-upgrade`. Detalle: `sdaf-core/docs/adopcion-y-upgrade.md`.
