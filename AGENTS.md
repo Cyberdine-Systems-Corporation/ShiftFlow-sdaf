@@ -2,12 +2,12 @@
 
 | Campo | Valor |
 |--------|--------|
-| Versión | 0.4.6 |
+| Versión | 0.5.0 |
 | Estado | Draft |
-| Fecha | 2026-09-27T20:26+02:00 |
-| Norma | `sdaf-core/handbook/06`, `07`, `08`, `10`, `13`; pack `sdaf-stack-dotnet` |
+| Fecha | 2026-10-31T11:36+01:00 |
+| Norma | `sdaf-core/handbook/06`, `07`, `08`, `10`, `13`, `14`; pack `sdaf-stack-dotnet` |
 | Config | `sdaf.config.yaml` (con `tooling.gentle_ai`) |
-| Core | `sdaf-core` @ v0.4.2 (línea `0.4.0`) |
+| Core | `sdaf-core` @ v0.5.3 (línea `0.5.0`) |
 | Pack | `sdaf-stack-dotnet` @ v0.3.0 |
 
 ---
@@ -111,6 +111,8 @@ Precedencia: este `AGENTS.md`, el handbook y las specs Approved mandan sobre las
 - Aceptación humana y QG-Review: la identidad de [`CODEOWNERS`](CODEOWNERS) (H10, H13 §2 y §7). El dictamen de un agente no es el merge.
 - Seguridad: [`SECURITY.md`](SECURITY.md) y QG-Sec (H12 §5.2).
 - Git/remoto: solo si **este turno** lo nombra (`.cursor/rules/git-remoto-encargo.mdc`; H06 §7).
+- Precedencia ante conflicto: manda el handbook del core Approved; después el handbook de producto Approved; después la línea base ([`architecture/description.md`](architecture/description.md), H14) y los ADRs vigentes **junto con** las specs Approved (un conflicto entre ambos es **STOP** y se enmienda uno de los dos); después los packs y el backlog. Detalle: [sdaf-core/handbook/01-sdaf-framework.md](sdaf-core/handbook/01-sdaf-framework.md) §3.2
+- La línea base arquitectónica la aprueba un humano; mientras esté en Draft, G0.6 hace STOP ([H14 §5 y §7](sdaf-core/handbook/14-architecture-description.md)).
 - Fechas nuevas en ISO 8601 con hora y zona (H13 §9).
 - Adopción / upgrade: [sdaf-core/docs/adopcion-y-upgrade.md](sdaf-core/docs/adopcion-y-upgrade.md).
 
@@ -129,3 +131,4 @@ Ningún agente: aprueba handbook/specs por sí solo; salta Gate 0; implementa al
 | 0.4.4 | 2026-09-27T10:00+02:00 | RDD pasa a antes del PR: el piloto mostró que la review previa al commit no se enlaza al rango commiteado (C1); sin excepción H06 §7 |
 | 0.4.5 | 2026-09-27T19:15+02:00 | Stop-hook: excepción para candidatos intermedios con salida si vuelve a bloquear (hallazgo R3-stophook-rule-divergence de `review-6e6ff05d9acb94b2`, PR 18) |
 | 0.4.6 | 2026-09-27T20:26+02:00 | Stop-hook: la excepción de candidato intermedio no cierra el trabajo; el candidato final se revisa siempre (hallazgo R3-intermediate-candidate-unbounded-skip de `review-8705a9dd29a0a57a`, PR 19) |
+| 0.5.0 | 2026-10-31T11:36+01:00 | Adopción de la línea `0.5.0` con pin sdaf-core v0.5.3: norma H14 y precedencia única (H01 §3.2) en «Gobierno» desde `AGENTS.md.template` 0.5.0; línea base `architecture/description.md` en Draft. No se incorpora de la plantilla 0.5.1 la skill opcional `sdaf-adopt-existing` ni se cambia el resto |

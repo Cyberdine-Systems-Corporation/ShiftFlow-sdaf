@@ -62,7 +62,7 @@ Abrir una skill por `skills/<id>/SKILL.md` y por `.cursor/skills/<id>/SKILL.md`;
 
 ## Upgrade de pack o core
 
-1. Actualizar submodule al nuevo tag (pin vigente: `sdaf-core` `v0.4.2`, `sdaf-stack-dotnet` `v0.3.0`).
+1. Actualizar submodule al nuevo tag (pin vigente: `sdaf-core` `v0.5.3`, `sdaf-stack-dotnet` `v0.3.0`).
 2. Si el core o el pack añaden skills o reglas, añadir el par al manifesto de **ambos** scripts (`.ps1` y `.sh`).
 3. Volver a ejecutar el script (`-Force` / `--force` si cambió la estructura de rutas).
 4. Revisar `AGENTS.md` y worklogs si cambió el inventario de agentes.
