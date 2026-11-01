@@ -17,6 +17,7 @@ Importados desde `ShiftFlow-sdaf-extract`. **Aceptados** en batch 2026-08-27 (al
 | [ADR-006](ADR-006-coding-standards.md) | Estándares de código (regiones, XML docs, sin `var`) | Aceptado |
 | [ADR-007](ADR-007-ef-migrations.md) | Evolución de esquema con migraciones EF Core | Aceptado |
 | [ADR-009](ADR-009-rule-engine-v2-catalogo-hard.md) | Rule Engine v2: catálogo hard + soft configurable | Aceptado |
+| [ADR-010](ADR-010-proyecto-de-contratos.md) | Proyecto de contratos compartidos entre Api y Web (enmienda ADR-004) | Aceptado |
 
 **No importado:** ADR-008 (extracción SDAF al fork extract) — decisión histórica del laboratorio; el consumidor usa submodules pinneados.
 

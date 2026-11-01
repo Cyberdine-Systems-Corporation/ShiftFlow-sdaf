@@ -6,6 +6,7 @@
 | Fecha | 2026-08-07 |
 | Decisores | Architecture Agent / Director técnico |
 | Relacionado | ADR-001, ADR-002, `handbook/10-solution-architecture.md`, PBI-001 |
+| Enmendado por | [ADR-010](ADR-010-proyecto-de-contratos.md) (grafo de «Dependencias permitidas» y separación Api / Web; el texto de abajo no se reescribe) |
 
 ---
 
@@ -102,5 +103,6 @@ AppHost → Api, Web (proyectos ejecutables)
 
 | Versión / fecha | Cambio |
 |-----------------|--------|
+| 2026-11-01T11:06+01:00 | Enmendado por ADR-010 (proyecto de contratos compartido por Api y Web): el grafo de dependencias permitidas pasa a incluir la unidad Contracts. Se anota la enmienda sin reescribir el texto original; la ejecución es un PBI posterior |
 | 2026-08-27 | Aprobación batch post-import (alineado sdaf-core@0.2.0 + pack@0.1.0) |
 | 2026-08-25 | Import desde ShiftFlow-sdaf-extract; estado revertido a Propuesto; revisar alineación con sdaf-core@0.2.0 y pack@0.1.0 |
