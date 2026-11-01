@@ -3,8 +3,8 @@
 | Campo | Valor |
 |--------|--------|
 | Versión | 0.1.2 |
-| Estado | Draft |
-| Fecha | 2026-11-01T10:45+01:00 |
+| Estado | Approved |
+| Fecha | 2026-11-01T10:51+01:00 |
 | Norma | `sdaf-core/handbook/14-architecture-description.md` |
 
 > Línea base construida a partir de los ADRs vigentes del consumidor (H14 §9). No reescribe ningún ADR: enlaza cada afirmación a su decisión y escribe `N/A: <motivo>` en lo que ningún ADR establece. Solo un humano la pasa a Approved; mientras sea Draft, G0.6 hace STOP.
@@ -111,3 +111,4 @@ Todos están Aceptados y ninguno consta como sustituido. No existe ADR-008: la n
 | 0.1.0 | 2026-10-31T11:38+01:00 | Borrador inicial construido desde los ADRs vigentes (H14 §9) en la adopción de la línea 0.5.0; redacción del agente, pendiente de revisión y aprobación humanas |
 | 0.1.1 | 2026-10-31T12:00+01:00 | Se anota como riesgo la discrepancia conocida Web → Application (ADR-004) tras contrastar las reglas con los `ProjectReference`; corrección de redacción en un borrador sin aprobar, sin cambio de reglas; redacción del agente, pendiente de revisión y aprobación humanas |
 | 0.1.2 | 2026-11-01T10:45+01:00 | Corrección de citas tras contrastar cada afirmación con el texto de los ADRs, sin cambio de reglas: la base de datos ya no se describe como «accedida solo desde Infrastructure» (ADR-001 y ADR-007 dicen que EF Core vive en Infrastructure, no que sea el único acceso); el sistema descrito cita ADR-003 para la planificación y ADR-001 solo para el stack; el puerto de explicación se describe como lo dice ADR-009, sin «sin mutar el calendario», que ningún ADR afirma; redacción del agente, pendiente de revisión y aprobación humanas |
+| 0.1.2 | 2026-11-01T10:51+01:00 | Aprobada (Estado Approved) por @mortiz-iadev (CODEOWNERS), por instrucción humana explícita «Confirma el commit, aprueba en un segundo commit y borra la rama remota de adopcion 0.5.3» (H14 §5, sdaf-core H00 §3.3); transcripción del agente. Se aprueba con la desviación `ShiftFlow.Web` → `ShiftFlow.Application` registrada como riesgo en la sección 7 y sin ADR que la enmiende todavía; la versión con la unidad de contratos exigirá un ADR Aceptado y una versión nueva (H14 §6) |
